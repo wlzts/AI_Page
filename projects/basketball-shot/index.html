@@ -1,9 +1,9 @@
-basketball_shot<!doctype html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>3D 单人甩投挑战 - 真实力度</title>
+<title>投🏀挑战</title>
 
 <style>
 :root{
@@ -1673,6 +1673,3146 @@ button.primary{
   touch-action:none;
 }
 
+
+/* ==========================================================
+   SIMPLE / MOBILE-FRIENDLY SHOOT HUD
+   ========================================================== */
+
+/* Global compact HUD tone */
+#shotPanelUI{
+  backdrop-filter:blur(12px) saturate(1.02);
+}
+#shotPanelUI.compact-ui{
+  border-radius:14px !important;
+  padding:8px 9px !important;
+  background:rgba(9,11,15,.82) !important;
+  border:1px solid rgba(255,255,255,.08) !important;
+  box-shadow:0 10px 26px rgba(0,0,0,.22) !important;
+  min-width:220px !important;
+  max-width:none !important;
+}
+#shotPanelUI.compact-ui .shot-mini-head{
+  padding:0 0 5px !important;
+  margin-bottom:6px !important;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+#shotPanelUI.compact-ui .panel-title{
+  font-size:10px !important;
+  letter-spacing:.04em;
+}
+#shotPanelUI.compact-ui .release-chip{
+  padding:2px 6px !important;
+  font-size:8px !important;
+}
+#shotPanelUI.compact-ui .panel-toggle{
+  padding:4px 8px !important;
+  min-width:44px !important;
+  font-size:9px !important;
+}
+#shotPanelUI.compact-ui .shot-body{
+  gap:6px !important;
+  overflow:auto !important;
+}
+
+/* Remove bulky controls */
+#shotPanelUI.compact-ui .mouse-values,
+#shotPanelUI.compact-ui .triple-bars,
+#shotPanelUI.compact-ui .dock-layout,
+#shotPanelUI.compact-ui .shot-instruction,
+#shotPanelUI.compact-ui .arc-track-wrap,
+#shotPanelUI.compact-ui .arc-helper{
+  display:none !important;
+}
+
+/* Compact shot pad */
+#shotPanelUI.compact-ui .shot-pad{
+  height:110px !important;
+  border-radius:12px !important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.00)),
+    rgba(13,16,21,.88) !important;
+  border:1px solid rgba(255,255,255,.07) !important;
+}
+#shotPanelUI.compact-ui .flick-hint{
+  font-size:9px !important;
+  line-height:1.35;
+  color:#b6bdc8;
+}
+#shotPanelUI.compact-ui .flick-hint b{
+  color:#fff;
+}
+#shotPanelUI.compact-ui .flick-start{
+  width:28px !important;
+  height:28px !important;
+  bottom:11px !important;
+  font-size:13px !important;
+  box-shadow:0 0 0 4px rgba(243,191,61,.10) !important;
+}
+
+/* Compact arc block: only value + presets */
+#shotPanelUI.compact-ui .arc-control{
+  margin-top:0 !important;
+  padding:7px 8px !important;
+  border-radius:12px !important;
+  background:rgba(255,255,255,.026) !important;
+  border:1px solid rgba(255,255,255,.06) !important;
+}
+#shotPanelUI.compact-ui .control-kicker{
+  font-size:8px !important;
+}
+#shotPanelUI.compact-ui .arc-top{
+  margin-bottom:6px !important;
+}
+#shotPanelUI.compact-ui .arc-value-row{
+  gap:6px;
+}
+#shotPanelUI.compact-ui .arc-big-value{
+  font-size:16px !important;
+  min-width:44px !important;
+}
+#shotPanelUI.compact-ui .arc-nudge{
+  width:22px !important;
+  height:22px !important;
+  border-radius:8px !important;
+  font-size:14px !important;
+}
+#shotPanelUI.compact-ui .arc-profile{
+  font-size:8px !important;
+  padding:3px 6px !important;
+}
+#shotPanelUI.compact-ui .arc-presets{
+  margin-top:0 !important;
+  gap:4px !important;
+}
+#shotPanelUI.compact-ui .arc-preset{
+  padding:5px 4px !important;
+  border-radius:9px !important;
+}
+#shotPanelUI.compact-ui .arc-preset span{
+  font-size:8px !important;
+}
+#shotPanelUI.compact-ui .arc-preset b{
+  font-size:9px !important;
+}
+
+/* Compact power status */
+#shotPanelUI.compact-ui .power-wrap{
+  margin-top:0 !important;
+  padding:7px 8px !important;
+  border-radius:12px !important;
+  background:rgba(255,255,255,.026) !important;
+  border:1px solid rgba(255,255,255,.06) !important;
+}
+#shotPanelUI.compact-ui .power-head{
+  margin-bottom:5px !important;
+  font-size:9px !important;
+}
+#shotPanelUI.compact-ui .power-head span:first-child{
+  color:#9ba3ae;
+}
+#shotPanelUI.compact-ui .power-head span:last-child{
+  color:#f2f5f7;
+}
+#shotPanelUI.compact-ui .power-track{
+  height:10px !important;
+}
+
+/* Resizer stays but smaller */
+#shotPanelUI.compact-ui .panel-resizer{
+  width:14px !important;
+  height:14px !important;
+  right:6px !important;
+  bottom:6px !important;
+}
+
+/* Compact top chips */
+.stats{
+  background:rgba(9,11,15,.78) !important;
+}
+.spots{
+  background:rgba(9,11,15,.78) !important;
+}
+.spot-btn{
+  padding:6px 9px !important;
+  font-size:10px !important;
+}
+
+/* Mobile-first layout */
+@media(max-width:700px){
+  body{
+    overflow:hidden;
+  }
+
+  /* Keep the play area visible */
+  #shotPanelUI.compact-ui{
+    min-width:200px !important;
+    max-width:260px !important;
+    padding:7px 8px !important;
+  }
+
+  #shotPanelUI.compact-ui .shot-pad{
+    height:96px !important;
+  }
+
+  #shotPanelUI.compact-ui .arc-nudge{
+    width:20px !important;
+    height:20px !important;
+  }
+
+  #shotPanelUI.compact-ui .arc-big-value{
+    font-size:15px !important;
+  }
+
+  /* Top status compact bar */
+  .stats{
+    top:8px !important;
+    left:8px !important;
+    right:8px !important;
+    width:auto !important;
+    display:grid !important;
+    grid-template-columns:repeat(3,1fr);
+    gap:6px !important;
+    padding:7px !important;
+  }
+  .stats .stat{
+    padding:7px 6px !important;
+    min-width:0 !important;
+  }
+  .stats .stat .k{
+    font-size:8px !important;
+  }
+  .stats .stat .v{
+    font-size:16px !important;
+  }
+
+  /* Spot row under top bar */
+  .spots{
+    top:66px !important;
+    left:8px !important;
+    right:8px !important;
+    transform:none !important;
+    max-width:none !important;
+    padding:6px 8px !important;
+    overflow-x:auto !important;
+  }
+  .spots-label{
+    font-size:9px !important;
+  }
+  #spots{
+    flex-wrap:nowrap !important;
+    overflow-x:auto !important;
+    justify-content:flex-start !important;
+  }
+
+  /* Control dock bottom-left by default, away from hoop */
+  #shotPanelUI{
+    z-index:34;
+  }
+
+  /* Hide extra panels on phone to reduce clutter */
+  #helpPanel,
+  .leaderboard,
+  .player-custom{
+    display:none !important;
+  }
+
+  /* Keep mode panel tiny and collapsed */
+  .mode-panel{
+    left:auto !important;
+    right:8px !important;
+    bottom:58px !important;
+    width:128px !important;
+    top:auto !important;
+    padding:8px 9px !important;
+  }
+
+  /* Bottom buttons centered and compact */
+  .gamebar{
+    left:50% !important;
+    transform:translateX(-50%) !important;
+    right:auto !important;
+    bottom:24px !important;
+    width:calc(100vw - 150px) !important;
+    max-width:310px;
+    padding:7px !important;
+    gap:6px !important;
+  }
+  .gamebar button{
+    font-size:10px !important;
+    padding:8px 8px !important;
+    flex:1 1 0;
+  }
+
+  /* Timer stays bottom, thin, not blocking */
+  .time-meter{
+    bottom:7px !important;
+    left:50% !important;
+    right:auto !important;
+    transform:translateX(-50%) !important;
+    width:calc(100vw - 18px) !important;
+    max-width:none !important;
+    height:5px !important;
+  }
+
+  /* Smaller banners on mobile */
+  .banner{
+    top:108px !important;
+    font-size:20px !important;
+    padding:8px 14px !important;
+  }
+}
+
+
+/* ==========================================================
+   MINIMAL SMALL CONTROL UI
+   ========================================================== */
+#shotPanelUI.compact-ui{
+  width:var(--panel-width,252px) !important;
+  height:var(--panel-height,228px) !important;
+  min-width:200px !important;
+  max-width:none !important;
+  padding:7px 8px !important;
+  border-radius:14px !important;
+  background:rgba(9,11,15,.76) !important;
+  border:1px solid rgba(255,255,255,.08) !important;
+  box-shadow:0 10px 24px rgba(0,0,0,.18) !important;
+  backdrop-filter:blur(14px) saturate(1.02);
+}
+#shotPanelUI.compact-ui .shot-mini-head{
+  padding:0 0 5px !important;
+  margin-bottom:6px !important;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+#shotPanelUI.compact-ui .panel-title{
+  font-size:10px !important;
+  letter-spacing:.04em;
+}
+#shotPanelUI.compact-ui .release-chip{
+  padding:2px 6px !important;
+  font-size:8px !important;
+}
+#shotPanelUI.compact-ui .panel-toggle{
+  min-width:42px !important;
+  padding:4px 8px !important;
+  font-size:8px !important;
+}
+#shotPanelUI.compact-ui .shot-body{
+  gap:6px !important;
+  max-height:calc(var(--panel-height,228px) - 44px) !important;
+  overflow:auto !important;
+}
+#shotPanelUI.compact-ui .mouse-values,
+#shotPanelUI.compact-ui .triple-bars,
+#shotPanelUI.compact-ui .dock-layout,
+#shotPanelUI.compact-ui .shot-instruction{
+  display:none !important;
+}
+#shotPanelUI.compact-ui .shot-pad{
+  height:88px !important;
+  border-radius:12px !important;
+  border:1px solid rgba(255,255,255,.07) !important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.018),rgba(255,255,255,.0)),
+    rgba(12,14,18,.86) !important;
+}
+#shotPanelUI.compact-ui .flick-hint{
+  font-size:9px !important;
+  line-height:1.3 !important;
+  color:#b3bac4 !important;
+}
+#shotPanelUI.compact-ui .flick-hint b{
+  color:#fff !important;
+}
+#shotPanelUI.compact-ui .flick-start{
+  width:26px !important;
+  height:26px !important;
+  bottom:10px !important;
+  font-size:12px !important;
+  box-shadow:0 0 0 4px rgba(243,191,61,.08) !important;
+}
+#shotPanelUI.compact-ui .mini-readout{
+  display:grid !important;
+  grid-template-columns:repeat(3,1fr);
+  gap:5px;
+}
+#shotPanelUI.compact-ui .mini-pill{
+  padding:5px 4px;
+  border-radius:9px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.05);
+  text-align:center;
+}
+#shotPanelUI.compact-ui .mini-pill span{
+  display:block;
+  font-size:8px;
+  color:#8f98a4;
+  line-height:1.1;
+}
+#shotPanelUI.compact-ui .mini-pill strong{
+  display:block;
+  margin-top:2px;
+  color:#fff;
+  font-size:10px;
+  font-weight:800;
+}
+#shotPanelUI.compact-ui .arc-control,
+#shotPanelUI.compact-ui .power-wrap{
+  margin-top:0 !important;
+  padding:7px 8px !important;
+  border-radius:11px !important;
+  background:rgba(255,255,255,.028) !important;
+  border:1px solid rgba(255,255,255,.055) !important;
+}
+#shotPanelUI.compact-ui .mini-control-top,
+#shotPanelUI.compact-ui .mini-power-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:6px;
+}
+#shotPanelUI.compact-ui .mini-control-title{
+  font-size:8px;
+  color:#8f98a4;
+  letter-spacing:.04em;
+}
+#shotPanelUI.compact-ui .mini-control-value{
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
+#shotPanelUI.compact-ui .arc-big-value{
+  min-width:40px !important;
+  font-size:15px !important;
+  text-align:center;
+}
+#shotPanelUI.compact-ui .arc-nudge{
+  width:20px !important;
+  height:20px !important;
+  border-radius:7px !important;
+  font-size:14px !important;
+  background:rgba(255,255,255,.03) !important;
+  border:1px solid rgba(255,255,255,.06) !important;
+}
+#shotPanelUI.compact-ui .arc-presets{
+  margin-top:6px !important;
+  gap:4px !important;
+}
+#shotPanelUI.compact-ui .arc-preset{
+  padding:5px 4px !important;
+  border-radius:9px !important;
+  background:rgba(255,255,255,.02) !important;
+  border:1px solid rgba(255,255,255,.05) !important;
+}
+#shotPanelUI.compact-ui .arc-preset span{
+  font-size:8px !important;
+}
+#shotPanelUI.compact-ui .arc-preset b{
+  font-size:9px !important;
+}
+#shotPanelUI.compact-ui .mini-arc-meta{
+  margin-top:5px;
+  display:flex;
+  justify-content:flex-end;
+}
+#shotPanelUI.compact-ui .arc-profile{
+  padding:2px 6px !important;
+  font-size:8px !important;
+  border-radius:999px;
+  background:rgba(93,165,255,.08);
+  color:#c3dfff !important;
+}
+#shotPanelUI.compact-ui .compact-hidden{
+  display:none !important;
+}
+#shotPanelUI.compact-ui .mini-power-row{
+  margin-bottom:5px;
+}
+#shotPanelUI.compact-ui .mini-power-row span{
+  font-size:8px;
+  color:#a2aab5;
+}
+#shotPanelUI.compact-ui .mini-power-row b{
+  color:#fff;
+  font-size:10px;
+}
+#shotPanelUI.compact-ui .mini-note{
+  color:#d7dce2 !important;
+}
+#shotPanelUI.compact-ui .power-track{
+  height:8px !important;
+  border-radius:999px !important;
+}
+#shotPanelUI.compact-ui .panel-resizer{
+  width:12px !important;
+  height:12px !important;
+  right:5px !important;
+  bottom:5px !important;
+  box-shadow:0 0 0 2px rgba(114,199,255,.06) !important;
+}
+#shotPanelUI.compact-ui .panel-resizer::after{
+  inset:3px !important;
+}
+@media(max-width:700px){
+  #shotPanelUI.compact-ui{
+    width:var(--panel-width,220px) !important;
+    height:var(--panel-height,214px) !important;
+    min-width:180px !important;
+    padding:7px !important;
+  }
+  #shotPanelUI.compact-ui .shot-body{
+    max-height:calc(var(--panel-height,214px) - 42px) !important;
+  }
+  #shotPanelUI.compact-ui .shot-pad{
+    height:82px !important;
+  }
+  #shotPanelUI.compact-ui .mini-readout{
+    gap:4px;
+  }
+  #shotPanelUI.compact-ui .mini-pill{
+    padding:4px 3px;
+  }
+  #shotPanelUI.compact-ui .mini-pill strong{
+    font-size:9px;
+  }
+}
+
+
+/* ==========================================================
+   FORMAL MOBILE GAME UI STYLE
+   ========================================================== */
+#shotPanelUI.compact-ui{
+  width:var(--panel-width,268px) !important;
+  height:var(--panel-height,244px) !important;
+  padding:8px !important;
+  border-radius:18px !important;
+  background:
+    linear-gradient(180deg,rgba(30,40,58,.96),rgba(12,16,22,.94) 78%),
+    rgba(12,16,22,.94) !important;
+  border:1px solid rgba(120,170,255,.16) !important;
+  box-shadow:
+    0 18px 40px rgba(0,0,0,.30),
+    inset 0 1px 0 rgba(255,255,255,.05),
+    inset 0 0 0 1px rgba(255,255,255,.02) !important;
+  backdrop-filter:blur(14px) saturate(1.06);
+}
+
+#shotPanelUI.compact-ui .shot-mini-head{
+  padding:2px 2px 7px !important;
+  margin-bottom:7px !important;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+#shotPanelUI.compact-ui .shot-title{
+  gap:7px;
+}
+
+#shotPanelUI.compact-ui .panel-title{
+  font-size:10px !important;
+  letter-spacing:.12em;
+  font-weight:900;
+  color:#eef5ff !important;
+  text-transform:uppercase;
+}
+
+#shotPanelUI.compact-ui .release-chip{
+  padding:3px 7px !important;
+  border-radius:999px !important;
+  font-size:8px !important;
+  font-weight:800;
+  color:#eaf4ff !important;
+  background:
+    linear-gradient(180deg,rgba(92,132,255,.30),rgba(54,87,175,.20)) !important;
+  border:1px solid rgba(140,182,255,.22) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.10);
+}
+
+#shotPanelUI.compact-ui .panel-toggle{
+  min-width:44px !important;
+  padding:4px 8px !important;
+  border-radius:999px !important;
+  font-size:8px !important;
+  font-weight:800;
+  color:#dbe8f6 !important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03)) !important;
+  border:1px solid rgba(255,255,255,.08) !important;
+}
+
+#shotPanelUI.compact-ui .shot-body{
+  gap:7px !important;
+  max-height:calc(var(--panel-height,244px) - 48px) !important;
+  overflow:auto !important;
+}
+
+/* Swipe area */
+#shotPanelUI.compact-ui .shot-pad{
+  position:relative;
+  height:94px !important;
+  border-radius:16px !important;
+  border:1px solid rgba(124,171,255,.14) !important;
+  background:
+    radial-gradient(circle at 50% 76%,rgba(255,181,51,.12),transparent 24%),
+    linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.008)),
+    linear-gradient(180deg,rgba(17,24,34,.96),rgba(11,14,20,.95)) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.04),
+    inset 0 0 30px rgba(84,126,218,.05);
+}
+#shotPanelUI.compact-ui .shot-pad::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:12px;
+  width:46px;
+  height:46px;
+  transform:translateX(-50%);
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.05);
+  background:radial-gradient(circle,rgba(255,255,255,.03),transparent 72%);
+  pointer-events:none;
+}
+#shotPanelUI.compact-ui .flick-hint{
+  font-size:9px !important;
+  line-height:1.35 !important;
+  color:#b8c4d5 !important;
+}
+#shotPanelUI.compact-ui .flick-hint b{
+  color:#ffffff !important;
+  font-weight:900;
+}
+#shotPanelUI.compact-ui .flick-start{
+  width:28px !important;
+  height:28px !important;
+  bottom:10px !important;
+  font-size:12px !important;
+  color:#fff8e8 !important;
+  background:
+    radial-gradient(circle at 35% 30%,#ffe69a,#ffb338 68%,#dc7f10 100%) !important;
+  border:1px solid rgba(255,214,131,.32) !important;
+  box-shadow:
+    0 0 0 4px rgba(255,190,77,.08),
+    0 4px 12px rgba(255,162,0,.22);
+}
+
+/* Readout cards */
+#shotPanelUI.compact-ui .mini-readout{
+  display:grid !important;
+  grid-template-columns:repeat(3,1fr);
+  gap:6px;
+}
+#shotPanelUI.compact-ui .mini-pill{
+  padding:5px 4px !important;
+  border-radius:11px !important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015)) !important;
+  border:1px solid rgba(255,255,255,.06) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.03);
+  text-align:center;
+}
+#shotPanelUI.compact-ui .mini-pill span{
+  display:block;
+  font-size:8px !important;
+  color:#8e9aad !important;
+  line-height:1.1;
+  letter-spacing:.04em;
+}
+#shotPanelUI.compact-ui .mini-pill strong{
+  display:block;
+  margin-top:2px;
+  color:#f2f6fb !important;
+  font-size:10px !important;
+  font-weight:900;
+}
+
+/* Inner cards */
+#shotPanelUI.compact-ui .arc-control,
+#shotPanelUI.compact-ui .power-wrap{
+  padding:8px !important;
+  border-radius:14px !important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.034),rgba(255,255,255,.015)) !important;
+  border:1px solid rgba(255,255,255,.06) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.03),
+    0 4px 12px rgba(0,0,0,.08);
+}
+
+#shotPanelUI.compact-ui .mini-control-top,
+#shotPanelUI.compact-ui .mini-power-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:6px;
+}
+#shotPanelUI.compact-ui .mini-control-title{
+  font-size:8px !important;
+  font-weight:800;
+  letter-spacing:.05em;
+  color:#96a3b7 !important;
+}
+#shotPanelUI.compact-ui .mini-control-value{
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
+#shotPanelUI.compact-ui .arc-big-value{
+  min-width:42px !important;
+  text-align:center;
+  font-size:15px !important;
+  font-weight:900;
+  color:#f4f8fd !important;
+}
+#shotPanelUI.compact-ui .arc-nudge{
+  width:21px !important;
+  height:21px !important;
+  border-radius:8px !important;
+  font-size:14px !important;
+  color:#f1f5fb !important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03)) !important;
+  border:1px solid rgba(255,255,255,.08) !important;
+}
+#shotPanelUI.compact-ui .arc-presets{
+  margin-top:7px !important;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:5px !important;
+}
+#shotPanelUI.compact-ui .arc-preset{
+  padding:5px 2px !important;
+  border-radius:10px !important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012)) !important;
+  border:1px solid rgba(255,255,255,.06) !important;
+  color:#d6e2f1 !important;
+}
+#shotPanelUI.compact-ui .arc-preset.active{
+  background:
+    linear-gradient(180deg,rgba(88,130,232,.34),rgba(53,84,168,.18)) !important;
+  border-color:rgba(140,183,255,.24) !important;
+  box-shadow:0 0 0 1px rgba(140,183,255,.08) inset;
+}
+#shotPanelUI.compact-ui .arc-preset span{
+  font-size:8px !important;
+  color:inherit !important;
+}
+#shotPanelUI.compact-ui .arc-preset b{
+  font-size:9px !important;
+  color:#fff !important;
+  font-weight:900;
+}
+#shotPanelUI.compact-ui .mini-arc-meta{
+  margin-top:6px;
+  display:flex;
+  justify-content:flex-end;
+}
+#shotPanelUI.compact-ui .arc-profile{
+  padding:2px 6px !important;
+  border-radius:999px !important;
+  font-size:8px !important;
+  color:#beddff !important;
+  background:rgba(77,124,232,.12) !important;
+  border:1px solid rgba(125,177,255,.12) !important;
+}
+#shotPanelUI.compact-ui .compact-hidden{
+  display:none !important;
+}
+
+/* Power bar */
+#shotPanelUI.compact-ui .mini-power-row{
+  margin-bottom:6px;
+}
+#shotPanelUI.compact-ui .mini-power-row span{
+  font-size:8px !important;
+  color:#9ca8bb !important;
+}
+#shotPanelUI.compact-ui .mini-power-row b{
+  color:#f6f8fb !important;
+  font-size:10px !important;
+  font-weight:900;
+}
+#shotPanelUI.compact-ui .mini-note{
+  color:#d5e0f1 !important;
+}
+#shotPanelUI.compact-ui .power-track{
+  position:relative;
+  height:8px !important;
+  border-radius:999px !important;
+  background:rgba(255,255,255,.05) !important;
+  overflow:hidden;
+  box-shadow:inset 0 1px 2px rgba(0,0,0,.22);
+}
+#shotPanelUI.compact-ui .power-fill{
+  background:linear-gradient(90deg,#66a6ff,#90c7ff) !important;
+}
+#shotPanelUI.compact-ui .ideal-zone{
+  background:rgba(255,193,79,.28) !important;
+  border:1px solid rgba(255,204,112,.32);
+}
+#shotPanelUI.compact-ui .power-cursor{
+  width:8px !important;
+  border-radius:999px !important;
+  background:#fff4d0 !important;
+  box-shadow:0 0 10px rgba(255,215,128,.24);
+}
+
+/* Tiny resize dot */
+#shotPanelUI.compact-ui .panel-resizer{
+  width:12px !important;
+  height:12px !important;
+  right:5px !important;
+  bottom:5px !important;
+  border-radius:50% !important;
+  background:linear-gradient(180deg,#79b7ff,#4f7cf0) !important;
+  box-shadow:0 0 0 2px rgba(98,153,255,.08) !important;
+}
+#shotPanelUI.compact-ui .panel-resizer::after{
+  inset:3px !important;
+  border-right:2px solid rgba(255,255,255,.62) !important;
+  border-bottom:2px solid rgba(255,255,255,.62) !important;
+}
+
+/* Top scoreboard + spot row look a bit more like mobile game HUD */
+.stats{
+  background:
+    linear-gradient(180deg,rgba(24,33,49,.92),rgba(12,16,24,.92)) !important;
+  border:1px solid rgba(120,170,255,.12) !important;
+  box-shadow:0 10px 24px rgba(0,0,0,.18) !important;
+}
+.stats .stat{
+  background:rgba(255,255,255,.02);
+  border:1px solid rgba(255,255,255,.04);
+  border-radius:12px;
+}
+.stats .stat .k{
+  color:#9aa6b7 !important;
+}
+.stats .stat .v{
+  color:#f4f8fd !important;
+}
+
+.spots{
+  background:
+    linear-gradient(180deg,rgba(24,33,49,.90),rgba(12,16,24,.90)) !important;
+  border:1px solid rgba(120,170,255,.12) !important;
+  box-shadow:0 10px 24px rgba(0,0,0,.18) !important;
+}
+.spots-label{
+  color:#97a5b8 !important;
+}
+.spot-btn{
+  border-radius:999px !important;
+  background:rgba(255,255,255,.03) !important;
+  border:1px solid rgba(255,255,255,.06) !important;
+  color:#dce7f3 !important;
+}
+.spot-btn.active{
+  background:
+    linear-gradient(180deg,rgba(88,130,232,.34),rgba(53,84,168,.18)) !important;
+  border-color:rgba(140,183,255,.24) !important;
+  color:#fff !important;
+}
+
+/* Mobile */
+@media(max-width:700px){
+  #shotPanelUI.compact-ui{
+    width:var(--panel-width,236px) !important;
+    height:var(--panel-height,224px) !important;
+    min-width:184px !important;
+    padding:7px !important;
+    border-radius:16px !important;
+  }
+  #shotPanelUI.compact-ui .shot-body{
+    max-height:calc(var(--panel-height,224px) - 45px) !important;
+  }
+  #shotPanelUI.compact-ui .shot-pad{
+    height:86px !important;
+  }
+  #shotPanelUI.compact-ui .mini-pill{
+    padding:4px 3px !important;
+  }
+  #shotPanelUI.compact-ui .mini-pill strong{
+    font-size:9px !important;
+  }
+  #shotPanelUI.compact-ui .arc-big-value{
+    font-size:14px !important;
+  }
+  #shotPanelUI.compact-ui .arc-preset{
+    padding:4px 2px !important;
+  }
+}
+
+
+/* ==========================================================
+   2K-STYLE REALISTIC PREMIUM HUD
+   ========================================================== */
+
+:root{
+  --hud-bg-1:rgba(20,23,29,.94);
+  --hud-bg-2:rgba(9,11,15,.96);
+  --hud-line:rgba(255,255,255,.08);
+  --hud-soft-line:rgba(255,255,255,.04);
+  --hud-gold:#d8b56a;
+  --hud-gold-2:#8f6b32;
+  --hud-ice:#dfe8f2;
+  --hud-mute:#8792a0;
+  --hud-blue:#8ab4ff;
+  --hud-blue-2:#436eb5;
+}
+
+/* Main control HUD */
+#shotPanelUI.compact-ui{
+  width:var(--panel-width,272px) !important;
+  height:var(--panel-height,248px) !important;
+  border-radius:12px !important;
+  padding:7px !important;
+  background:
+    linear-gradient(180deg,rgba(36,41,51,.98),rgba(17,20,25,.97) 26%,rgba(11,13,17,.98) 100%) !important;
+  border:1px solid rgba(255,255,255,.08) !important;
+  box-shadow:
+    0 18px 34px rgba(0,0,0,.34),
+    inset 0 1px 0 rgba(255,255,255,.05),
+    inset 0 -1px 0 rgba(0,0,0,.55) !important;
+  backdrop-filter:blur(10px) saturate(1.04);
+  position:relative;
+  overflow:hidden;
+}
+#shotPanelUI.compact-ui::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.035),transparent 24%),
+    linear-gradient(90deg,rgba(216,181,106,.06),transparent 24%,transparent 76%,rgba(216,181,106,.04));
+  border-radius:inherit;
+}
+#shotPanelUI.compact-ui::after{
+  content:"";
+  position:absolute;
+  inset:1px;
+  pointer-events:none;
+  border-radius:11px;
+  border:1px solid rgba(255,255,255,.03);
+}
+
+#shotPanelUI.compact-ui .shot-mini-head{
+  position:relative;
+  padding:2px 3px 7px !important;
+  margin-bottom:7px !important;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+#shotPanelUI.compact-ui .shot-mini-head::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:-1px;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(216,181,106,.42),transparent);
+}
+
+#shotPanelUI.compact-ui .panel-title{
+  position:relative;
+  font-size:10px !important;
+  font-weight:900;
+  letter-spacing:.14em;
+  color:#f3f6fb !important;
+  text-transform:uppercase;
+}
+#shotPanelUI.compact-ui .panel-title::before{
+  content:"PRO HUD";
+  display:block;
+  margin-bottom:1px;
+  font-size:7px;
+  letter-spacing:.18em;
+  color:rgba(216,181,106,.84);
+  font-weight:800;
+}
+
+#shotPanelUI.compact-ui .release-chip{
+  padding:3px 7px !important;
+  border-radius:4px !important;
+  font-size:8px !important;
+  font-weight:900;
+  letter-spacing:.08em;
+  color:#fff7e3 !important;
+  background:
+    linear-gradient(180deg,rgba(125,98,50,.55),rgba(75,56,25,.62)) !important;
+  border:1px solid rgba(216,181,106,.24) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.08),
+    0 0 10px rgba(216,181,106,.07);
+}
+
+#shotPanelUI.compact-ui .panel-toggle{
+  min-width:42px !important;
+  padding:4px 8px !important;
+  border-radius:4px !important;
+  font-size:8px !important;
+  font-weight:900;
+  letter-spacing:.04em;
+  color:#e1e7ef !important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03)) !important;
+  border:1px solid rgba(255,255,255,.08) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+#shotPanelUI.compact-ui .shot-body{
+  gap:6px !important;
+  max-height:calc(var(--panel-height,248px) - 46px) !important;
+  overflow:auto !important;
+  position:relative;
+  z-index:1;
+}
+
+/* Swipe zone resembles a premium "shot stick" zone */
+#shotPanelUI.compact-ui .shot-pad{
+  height:92px !important;
+  border-radius:8px !important;
+  background:
+    radial-gradient(circle at 50% 78%,rgba(216,181,106,.10),transparent 22%),
+    linear-gradient(180deg,rgba(44,51,61,.96),rgba(18,21,26,.98)) !important;
+  border:1px solid rgba(255,255,255,.08) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.03),
+    inset 0 -18px 30px rgba(0,0,0,.18);
+}
+#shotPanelUI.compact-ui .shot-pad::before{
+  content:"SHOT STICK";
+  position:absolute;
+  top:8px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:.18em;
+  color:rgba(216,181,106,.76);
+}
+#shotPanelUI.compact-ui .shot-pad::after{
+  content:"";
+  position:absolute;
+  left:10px;
+  right:10px;
+  bottom:14px;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);
+}
+
+#shotPanelUI.compact-ui .flick-hint{
+  font-size:8px !important;
+  line-height:1.35 !important;
+  color:#b2bcc8 !important;
+}
+#shotPanelUI.compact-ui .flick-hint b{
+  color:#ffffff !important;
+  font-weight:900;
+}
+#shotPanelUI.compact-ui .flick-start{
+  width:27px !important;
+  height:27px !important;
+  bottom:9px !important;
+  font-size:12px !important;
+  color:#fff8ec !important;
+  background:
+    radial-gradient(circle at 30% 30%,#f8dda0,#d8a954 66%,#88632d 100%) !important;
+  border:1px solid rgba(255,224,164,.24) !important;
+  box-shadow:
+    0 0 0 4px rgba(216,181,106,.08),
+    0 6px 12px rgba(0,0,0,.18);
+}
+
+/* Readout cards */
+#shotPanelUI.compact-ui .mini-readout{
+  display:grid !important;
+  grid-template-columns:repeat(3,1fr);
+  gap:5px;
+}
+#shotPanelUI.compact-ui .mini-pill{
+  padding:5px 4px !important;
+  border-radius:6px !important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.012)) !important;
+  border:1px solid rgba(255,255,255,.06) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.02),
+    inset 0 -1px 0 rgba(0,0,0,.22);
+}
+#shotPanelUI.compact-ui .mini-pill span{
+  display:block;
+  font-size:7px !important;
+  letter-spacing:.06em;
+  color:#8894a5 !important;
+}
+#shotPanelUI.compact-ui .mini-pill strong{
+  display:block;
+  margin-top:2px;
+  font-size:10px !important;
+  font-weight:900;
+  color:#f4f7fb !important;
+}
+
+/* Inner sections styled like realistic broadcast/game modules */
+#shotPanelUI.compact-ui .arc-control,
+#shotPanelUI.compact-ui .power-wrap{
+  padding:7px !important;
+  border-radius:8px !important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.012)) !important;
+  border:1px solid rgba(255,255,255,.06) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.02),
+    inset 0 -1px 0 rgba(0,0,0,.18);
+}
+
+#shotPanelUI.compact-ui .mini-control-title{
+  font-size:7px !important;
+  font-weight:900;
+  letter-spacing:.1em;
+  color:#8f9bad !important;
+  text-transform:uppercase;
+}
+#shotPanelUI.compact-ui .mini-control-value{
+  display:flex;
+  align-items:center;
+  gap:4px;
+}
+#shotPanelUI.compact-ui .arc-big-value{
+  min-width:40px !important;
+  text-align:center;
+  font-size:15px !important;
+  font-weight:900;
+  color:#f4f7fb !important;
+}
+#shotPanelUI.compact-ui .arc-nudge{
+  width:20px !important;
+  height:20px !important;
+  border-radius:4px !important;
+  font-size:13px !important;
+  color:#eef4fb !important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03)) !important;
+  border:1px solid rgba(255,255,255,.08) !important;
+}
+#shotPanelUI.compact-ui .arc-presets{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:4px !important;
+  margin-top:6px !important;
+}
+#shotPanelUI.compact-ui .arc-preset{
+  padding:5px 2px !important;
+  border-radius:5px !important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015)) !important;
+  border:1px solid rgba(255,255,255,.06) !important;
+  color:#d3deec !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.02);
+}
+#shotPanelUI.compact-ui .arc-preset.active{
+  background:
+    linear-gradient(180deg,rgba(121,102,62,.70),rgba(66,49,23,.75)) !important;
+  border-color:rgba(216,181,106,.28) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.07),
+    0 0 8px rgba(216,181,106,.05);
+}
+#shotPanelUI.compact-ui .arc-preset span{
+  font-size:7px !important;
+  color:inherit !important;
+}
+#shotPanelUI.compact-ui .arc-preset b{
+  font-size:9px !important;
+  font-weight:900;
+  color:#fff !important;
+}
+#shotPanelUI.compact-ui .mini-arc-meta{
+  margin-top:5px;
+  display:flex;
+  justify-content:flex-end;
+}
+#shotPanelUI.compact-ui .arc-profile{
+  padding:2px 6px !important;
+  border-radius:999px !important;
+  font-size:7px !important;
+  color:#d5e6ff !important;
+  background:rgba(71,95,140,.20) !important;
+  border:1px solid rgba(138,180,255,.10) !important;
+}
+
+/* Power track feels more "simulation" / broadcast */
+#shotPanelUI.compact-ui .mini-power-row{
+  margin-bottom:5px;
+}
+#shotPanelUI.compact-ui .mini-power-row span{
+  font-size:7px !important;
+  color:#9aa6b7 !important;
+}
+#shotPanelUI.compact-ui .mini-power-row b{
+  font-size:10px !important;
+  font-weight:900;
+  color:#f5f8fc !important;
+}
+#shotPanelUI.compact-ui .mini-note{
+  color:#d9e3ef !important;
+}
+#shotPanelUI.compact-ui .power-track{
+  position:relative;
+  height:7px !important;
+  border-radius:999px !important;
+  background:rgba(255,255,255,.05) !important;
+  overflow:hidden;
+  box-shadow:
+    inset 0 1px 2px rgba(0,0,0,.32),
+    inset 0 0 0 1px rgba(255,255,255,.02);
+}
+#shotPanelUI.compact-ui .power-fill{
+  background:
+    linear-gradient(90deg,#3d6db2 0%,#7ca7e8 38%,#d7b36b 70%,#f0cf89 100%) !important;
+  box-shadow:0 0 8px rgba(124,167,232,.14);
+}
+#shotPanelUI.compact-ui .ideal-zone{
+  background:rgba(216,181,106,.24) !important;
+  border:1px solid rgba(216,181,106,.22);
+}
+#shotPanelUI.compact-ui .power-cursor{
+  width:8px !important;
+  border-radius:999px !important;
+  background:#fff5db !important;
+  box-shadow:0 0 10px rgba(255,228,176,.18);
+}
+
+/* Resize handle understated */
+#shotPanelUI.compact-ui .panel-resizer{
+  width:11px !important;
+  height:11px !important;
+  right:4px !important;
+  bottom:4px !important;
+  border-radius:2px !important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.05)) !important;
+  border:1px solid rgba(255,255,255,.08) !important;
+  box-shadow:none !important;
+}
+#shotPanelUI.compact-ui .panel-resizer::after{
+  inset:2px !important;
+  border-right:2px solid rgba(216,181,106,.72) !important;
+  border-bottom:2px solid rgba(216,181,106,.72) !important;
+}
+
+/* Top score card / position row */
+.stats{
+  background:
+    linear-gradient(180deg,rgba(33,38,47,.96),rgba(13,15,19,.97)) !important;
+  border:1px solid rgba(255,255,255,.08) !important;
+  box-shadow:
+    0 14px 26px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.04) !important;
+}
+.stats .stat{
+  border-radius:8px !important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.01)) !important;
+  border:1px solid rgba(255,255,255,.05) !important;
+}
+.stats .stat .k{
+  color:#9ba7b7 !important;
+  letter-spacing:.08em;
+}
+.stats .stat .v{
+  color:#f4f8fc !important;
+  text-shadow:0 1px 0 rgba(0,0,0,.3);
+}
+
+.spots{
+  background:
+    linear-gradient(180deg,rgba(33,38,47,.94),rgba(13,15,19,.95)) !important;
+  border:1px solid rgba(255,255,255,.08) !important;
+  box-shadow:
+    0 14px 26px rgba(0,0,0,.24),
+    inset 0 1px 0 rgba(255,255,255,.04) !important;
+}
+.spots-label{
+  color:#99a6b7 !important;
+  letter-spacing:.06em;
+}
+.spot-btn{
+  border-radius:4px !important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015)) !important;
+  border:1px solid rgba(255,255,255,.06) !important;
+  color:#dce4ee !important;
+}
+.spot-btn.active{
+  background:
+    linear-gradient(180deg,rgba(121,102,62,.70),rgba(66,49,23,.76)) !important;
+  border-color:rgba(216,181,106,.28) !important;
+  color:#fff6e5 !important;
+}
+
+/* Buttons / mode cards also inherit more premium look */
+.mode-panel,
+.player-custom,
+.leaderboard,
+.help{
+  background:
+    linear-gradient(180deg,rgba(32,37,46,.94),rgba(11,13,17,.96)) !important;
+  border:1px solid rgba(255,255,255,.08) !important;
+  box-shadow:
+    0 12px 24px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.03) !important;
+}
+.mode-btn,
+.gamebar button,
+.arc-nudge,
+.arc-preset,
+.panel-toggle{
+  transition:transform .12s ease, filter .12s ease, background .18s ease;
+}
+.mode-btn:hover,
+.gamebar button:hover,
+.arc-nudge:hover,
+.arc-preset:hover,
+.panel-toggle:hover{
+  filter:brightness(1.06);
+  transform:translateY(-1px);
+}
+.gamebar{
+  background:
+    linear-gradient(180deg,rgba(33,38,47,.96),rgba(13,15,19,.96)) !important;
+  border:1px solid rgba(255,255,255,.08) !important;
+}
+.gamebar button{
+  border-radius:5px !important;
+  font-weight:900 !important;
+  letter-spacing:.04em;
+}
+.gamebar .primary{
+  background:
+    linear-gradient(180deg,rgba(121,102,62,.76),rgba(66,49,23,.82)) !important;
+  border-color:rgba(216,181,106,.28) !important;
+  color:#fff6e5 !important;
+}
+
+/* Timer bar gets more realistic subdued style */
+.time-meter{
+  background:rgba(255,255,255,.06) !important;
+  box-shadow:
+    0 6px 18px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.04) !important;
+}
+.time-meter > div{
+  background:
+    linear-gradient(90deg,#5a7ead 0%,#7ea3d1 42%,#d2ac63 78%,#efc979 100%) !important;
+  box-shadow:0 0 12px rgba(124,167,232,.14);
+}
+
+/* Mobile keeps the same DNA */
+@media(max-width:700px){
+  #shotPanelUI.compact-ui{
+    width:var(--panel-width,236px) !important;
+    height:var(--panel-height,226px) !important;
+    min-width:184px !important;
+    border-radius:10px !important;
+  }
+  #shotPanelUI.compact-ui .shot-body{
+    max-height:calc(var(--panel-height,226px) - 46px) !important;
+  }
+  #shotPanelUI.compact-ui .shot-pad{
+    height:84px !important;
+  }
+  #shotPanelUI.compact-ui .mini-pill{
+    padding:4px 3px !important;
+  }
+  #shotPanelUI.compact-ui .mini-pill strong{
+    font-size:9px !important;
+  }
+  #shotPanelUI.compact-ui .arc-big-value{
+    font-size:14px !important;
+  }
+}
+
+
+/* ==========================================================
+   SHOT CONTROL VISIBILITY / SAFE VIEWPORT FIX
+   ========================================================== */
+#shotPanelUI{
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  z-index:120 !important;
+}
+
+#shotPanelUI.compact-ui{
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+}
+
+/* Free position must beat every old layout rule. */
+#shotPanelUI.free-position{
+  left:var(--panel-left,10px) !important;
+  top:var(--panel-top,10px) !important;
+  right:auto !important;
+  bottom:auto !important;
+  transform:none !important;
+}
+
+/* Keep the contents visible even if a previously chosen height is small. */
+#shotPanelUI:not(.collapsed) .panel-body{
+  display:grid !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  min-height:160px;
+}
+
+/* A collapsed control is only header-height, never display:none. */
+#shotPanelUI.collapsed{
+  height:auto !important;
+}
+#shotPanelUI.collapsed .panel-body{
+  min-height:0 !important;
+}
+
+/* Mobile safe area */
+@media(max-width:700px){
+  #shotPanelUI{
+    z-index:120 !important;
+  }
+  #shotPanelUI.free-position{
+    max-width:calc(100vw - 16px) !important;
+  }
+}
+
+
+/* ==========================================================
+   ISOLATED SHOT CONTROL HUD — independent from all legacy CSS
+   ========================================================== */
+#shotPanelUI.shot-control-hud{
+  position:fixed !important;
+  left:var(--panel-left,10px) !important;
+  top:var(--panel-top,10px) !important;
+  right:auto !important;
+  bottom:auto !important;
+  transform:none !important;
+
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  pointer-events:auto !important;
+  z-index:10000 !important;
+
+  width:var(--panel-width,272px) !important;
+  height:var(--panel-height,248px) !important;
+  min-width:184px !important;
+  min-height:128px !important;
+  max-width:min(640px,calc(100vw - 16px)) !important;
+  max-height:calc(100vh - 16px) !important;
+
+  color:#edf3fa !important;
+  padding:7px !important;
+  margin:0 !important;
+  overflow:hidden !important;
+
+  border-radius:12px !important;
+  border:1px solid rgba(255,255,255,.10) !important;
+  background:
+    linear-gradient(180deg,rgba(36,41,51,.985),rgba(17,20,25,.98) 27%,rgba(10,12,16,.99) 100%) !important;
+  box-shadow:
+    0 18px 38px rgba(0,0,0,.40),
+    inset 0 1px 0 rgba(255,255,255,.055),
+    inset 0 -1px 0 rgba(0,0,0,.58) !important;
+  backdrop-filter:blur(10px) saturate(1.04) !important;
+}
+
+#shotPanelUI.shot-control-hud::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  border-radius:inherit;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.025),transparent 23%),
+    linear-gradient(90deg,rgba(216,181,106,.05),transparent 28%,transparent 75%,rgba(216,181,106,.035));
+}
+
+#shotPanelUI.shot-control-hud > *{
+  position:relative;
+  z-index:1;
+}
+
+/* The title is the drag handle. */
+#shotPanelUI.shot-control-hud .shot-mini-head{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:8px !important;
+
+  min-height:31px !important;
+  padding:2px 3px 7px !important;
+  margin:0 0 7px !important;
+  border-bottom:1px solid rgba(255,255,255,.065) !important;
+
+  cursor:grab !important;
+  touch-action:none !important;
+  user-select:none !important;
+}
+#shotPanelUI.shot-control-hud.drag-moving .shot-mini-head{
+  cursor:grabbing !important;
+}
+
+#shotPanelUI.shot-control-hud .shot-title{
+  display:flex !important;
+  align-items:center !important;
+  gap:7px !important;
+  margin:0 !important;
+}
+#shotPanelUI.shot-control-hud .panel-title{
+  display:block !important;
+  color:#f3f6fb !important;
+  font-size:10px !important;
+  font-weight:900 !important;
+  letter-spacing:.12em !important;
+}
+#shotPanelUI.shot-control-hud .panel-title::before{
+  content:"PRO HUD";
+  display:block;
+  margin-bottom:1px;
+  color:#d8b56a;
+  font-size:7px;
+  line-height:1;
+  letter-spacing:.16em;
+}
+
+#shotPanelUI.shot-control-hud .release-chip{
+  display:inline-flex !important;
+  align-items:center;
+  justify-content:center;
+  padding:3px 7px !important;
+  border-radius:4px !important;
+  color:#fff3d7 !important;
+  background:linear-gradient(180deg,rgba(126,98,48,.62),rgba(68,50,22,.72)) !important;
+  border:1px solid rgba(216,181,106,.28) !important;
+  font-size:8px !important;
+  font-weight:900 !important;
+}
+
+#shotPanelUI.shot-control-hud .panel-toggle{
+  display:block !important;
+  min-width:42px !important;
+  padding:4px 8px !important;
+  border-radius:4px !important;
+  color:#e3e9f0 !important;
+  background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03)) !important;
+  border:1px solid rgba(255,255,255,.08) !important;
+  font-size:8px !important;
+  font-weight:900 !important;
+}
+
+/* This is deliberately NOT tied to .collapsible-panel. */
+#shotPanelUI.shot-control-hud .panel-body{
+  display:grid !important;
+  grid-template-columns:1fr !important;
+  gap:6px !important;
+
+  height:calc(100% - 39px) !important;
+  min-height:0 !important;
+  max-height:none !important;
+
+  opacity:1 !important;
+  visibility:visible !important;
+  overflow:auto !important;
+  margin:0 !important;
+  padding:0 !important;
+}
+
+#shotPanelUI.shot-control-hud.collapsed{
+  height:42px !important;
+  min-height:42px !important;
+}
+#shotPanelUI.shot-control-hud.collapsed .panel-body{
+  display:none !important;
+}
+#shotPanelUI.shot-control-hud.collapsed .shot-mini-head{
+  margin-bottom:0 !important;
+  border-bottom:0 !important;
+}
+
+/* Old hidden/advanced controls remain hidden intentionally. */
+#shotPanelUI.shot-control-hud .triple-bars,
+#shotPanelUI.shot-control-hud .dock-layout,
+#shotPanelUI.shot-control-hud .shot-instruction,
+#shotPanelUI.shot-control-hud .compact-hidden{
+  display:none !important;
+}
+
+/* Main swipe area */
+#shotPanelUI.shot-control-hud .shot-pad{
+  position:relative !important;
+  display:block !important;
+  width:100% !important;
+  height:88px !important;
+  min-height:72px !important;
+
+  margin:0 !important;
+  border-radius:8px !important;
+  overflow:hidden !important;
+
+  touch-action:none !important;
+  user-select:none !important;
+  cursor:crosshair !important;
+
+  background:
+    radial-gradient(circle at 50% 78%,rgba(216,181,106,.10),transparent 22%),
+    linear-gradient(180deg,rgba(44,51,61,.96),rgba(18,21,26,.98)) !important;
+  border:1px solid rgba(255,255,255,.08) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.03),
+    inset 0 -18px 30px rgba(0,0,0,.18) !important;
+}
+#shotPanelUI.shot-control-hud .shot-pad::before{
+  content:"SHOT STICK" !important;
+  position:absolute !important;
+  left:50% !important;
+  top:7px !important;
+  right:auto !important;
+  bottom:auto !important;
+  width:auto !important;
+  height:auto !important;
+  transform:translateX(-50%) !important;
+  background:none !important;
+  color:rgba(216,181,106,.80) !important;
+  font-size:7px !important;
+  font-weight:900 !important;
+  letter-spacing:.16em !important;
+  pointer-events:none !important;
+}
+#shotPanelUI.shot-control-hud .shot-pad::after{
+  content:"" !important;
+  position:absolute !important;
+  left:10px !important;
+  right:10px !important;
+  top:auto !important;
+  bottom:13px !important;
+  width:auto !important;
+  height:1px !important;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent) !important;
+  pointer-events:none !important;
+}
+
+#shotPanelUI.shot-control-hud .flick-hint{
+  display:block !important;
+  position:absolute !important;
+  inset:auto 0 39px 0 !important;
+  text-align:center !important;
+  color:#b2bcc8 !important;
+  font-size:8px !important;
+  line-height:1.35 !important;
+  pointer-events:none !important;
+}
+#shotPanelUI.shot-control-hud .flick-hint b{
+  color:#fff !important;
+  font-weight:900 !important;
+}
+#shotPanelUI.shot-control-hud .flick-start{
+  display:grid !important;
+  place-items:center !important;
+  position:absolute !important;
+  left:50% !important;
+  bottom:8px !important;
+  transform:translateX(-50%) !important;
+  width:27px !important;
+  height:27px !important;
+  border-radius:50% !important;
+  color:#fff8ec !important;
+  background:radial-gradient(circle at 30% 30%,#f8dda0,#d8a954 66%,#88632d 100%) !important;
+  border:1px solid rgba(255,224,164,.25) !important;
+  box-shadow:0 0 0 4px rgba(216,181,106,.08),0 6px 12px rgba(0,0,0,.18) !important;
+  z-index:3 !important;
+}
+
+/* Current values */
+#shotPanelUI.shot-control-hud .mini-readout{
+  display:grid !important;
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  gap:5px !important;
+}
+#shotPanelUI.shot-control-hud .mini-pill{
+  display:block !important;
+  min-width:0 !important;
+  padding:5px 3px !important;
+  border-radius:6px !important;
+  text-align:center !important;
+  background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.012)) !important;
+  border:1px solid rgba(255,255,255,.06) !important;
+}
+#shotPanelUI.shot-control-hud .mini-pill span{
+  display:block !important;
+  color:#8793a4 !important;
+  font-size:7px !important;
+}
+#shotPanelUI.shot-control-hud .mini-pill strong{
+  display:block !important;
+  margin-top:2px !important;
+  color:#f4f7fb !important;
+  font-size:10px !important;
+  font-weight:900 !important;
+}
+
+/* Arc */
+#shotPanelUI.shot-control-hud .arc-control,
+#shotPanelUI.shot-control-hud .power-wrap{
+  display:block !important;
+  margin:0 !important;
+  padding:7px !important;
+  border-radius:8px !important;
+  background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.012)) !important;
+  border:1px solid rgba(255,255,255,.06) !important;
+}
+#shotPanelUI.shot-control-hud .mini-control-top,
+#shotPanelUI.shot-control-hud .mini-power-row{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:6px !important;
+}
+#shotPanelUI.shot-control-hud .mini-control-title{
+  color:#8f9bad !important;
+  font-size:7px !important;
+  font-weight:900 !important;
+  letter-spacing:.08em !important;
+}
+#shotPanelUI.shot-control-hud .mini-control-value{
+  display:flex !important;
+  align-items:center !important;
+  gap:4px !important;
+}
+#shotPanelUI.shot-control-hud .arc-big-value{
+  display:block !important;
+  min-width:40px !important;
+  text-align:center !important;
+  color:#f4f7fb !important;
+  font-size:14px !important;
+  font-weight:900 !important;
+}
+#shotPanelUI.shot-control-hud .arc-nudge{
+  display:grid !important;
+  place-items:center !important;
+  width:20px !important;
+  height:20px !important;
+  padding:0 !important;
+  border-radius:4px !important;
+  color:#edf3fa !important;
+  background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03)) !important;
+  border:1px solid rgba(255,255,255,.08) !important;
+}
+
+#shotPanelUI.shot-control-hud .arc-presets{
+  display:grid !important;
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  gap:4px !important;
+  margin:6px 0 0 !important;
+}
+#shotPanelUI.shot-control-hud .arc-preset{
+  display:block !important;
+  min-width:0 !important;
+  padding:4px 2px !important;
+  border-radius:5px !important;
+  color:#d6dfeb !important;
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015)) !important;
+  border:1px solid rgba(255,255,255,.06) !important;
+}
+#shotPanelUI.shot-control-hud .arc-preset.active{
+  color:#fff6e5 !important;
+  background:linear-gradient(180deg,rgba(121,102,62,.70),rgba(66,49,23,.76)) !important;
+  border-color:rgba(216,181,106,.28) !important;
+}
+#shotPanelUI.shot-control-hud .arc-preset span{
+  display:block !important;
+  font-size:7px !important;
+}
+#shotPanelUI.shot-control-hud .arc-preset b{
+  display:block !important;
+  margin-top:1px !important;
+  font-size:9px !important;
+  color:inherit !important;
+}
+#shotPanelUI.shot-control-hud .mini-arc-meta{
+  display:flex !important;
+  justify-content:flex-end !important;
+  margin-top:4px !important;
+}
+#shotPanelUI.shot-control-hud .arc-profile{
+  display:inline-block !important;
+  padding:2px 5px !important;
+  border-radius:999px !important;
+  color:#d5e6ff !important;
+  background:rgba(71,95,140,.20) !important;
+  border:1px solid rgba(138,180,255,.10) !important;
+  font-size:7px !important;
+}
+
+/* Power */
+#shotPanelUI.shot-control-hud .mini-power-row{
+  margin-bottom:5px !important;
+}
+#shotPanelUI.shot-control-hud .mini-power-row span{
+  color:#9aa6b7 !important;
+  font-size:7px !important;
+}
+#shotPanelUI.shot-control-hud .mini-power-row b{
+  color:#f5f8fc !important;
+  font-size:10px !important;
+  font-weight:900 !important;
+}
+#shotPanelUI.shot-control-hud .mini-note{
+  color:#d9e3ef !important;
+}
+#shotPanelUI.shot-control-hud .power-track{
+  display:block !important;
+  position:relative !important;
+  height:7px !important;
+  overflow:hidden !important;
+  border-radius:999px !important;
+  background:rgba(255,255,255,.05) !important;
+}
+#shotPanelUI.shot-control-hud .power-fill{
+  display:block !important;
+  height:100% !important;
+  background:linear-gradient(90deg,#3d6db2 0%,#7ca7e8 38%,#d7b36b 70%,#f0cf89 100%) !important;
+}
+#shotPanelUI.shot-control-hud .ideal-zone,
+#shotPanelUI.shot-control-hud .power-cursor{
+  display:block !important;
+}
+
+/* Resize handle */
+#shotPanelUI.shot-control-hud .panel-resizer{
+  display:block !important;
+  position:absolute !important;
+  right:4px !important;
+  bottom:4px !important;
+  width:12px !important;
+  height:12px !important;
+  cursor:nwse-resize !important;
+  z-index:10 !important;
+  border-radius:2px !important;
+  background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.05)) !important;
+  border:1px solid rgba(255,255,255,.08) !important;
+}
+#shotPanelUI.shot-control-hud .panel-resizer::after{
+  content:"";
+  position:absolute;
+  inset:2px;
+  border-right:2px solid rgba(216,181,106,.72);
+  border-bottom:2px solid rgba(216,181,106,.72);
+}
+
+/* Mobile safe fallback — visible even before JS runs. */
+@media(max-width:700px){
+  #shotPanelUI.shot-control-hud{
+    left:8px !important;
+    top:auto !important;
+    bottom:58px !important;
+    right:auto !important;
+
+    width:min(226px,calc(100vw - 16px)) !important;
+    height:224px !important;
+    max-height:calc(100vh - 74px) !important;
+  }
+
+  #shotPanelUI.shot-control-hud.free-position{
+    left:var(--panel-left,8px) !important;
+    top:var(--panel-top,116px) !important;
+    bottom:auto !important;
+  }
+
+  #shotPanelUI.shot-control-hud .shot-pad{
+    height:82px !important;
+  }
+}
+
+
+/* ==========================================================
+   REMOVE OLD SHOT CONTROL PANEL
+   ========================================================== */
+#shotPanelUI{
+  display:none !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+
+
+/* ==========================================================
+   SIDE SHOOT BARS HUD
+   ========================================================== */
+.side-shot-hud{
+  position:fixed;
+  left:50%;
+  bottom:94px;
+  transform:translateX(-50%);
+  width:min(520px,calc(100vw - 28px));
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  pointer-events:none;
+  z-index:220;
+}
+
+.side-bar{
+  pointer-events:auto;
+  width:88px;
+  color:#eef3f9;
+  user-select:none;
+}
+
+.side-bar-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:6px;
+  margin-bottom:8px;
+  padding:6px 8px;
+  border-radius:8px;
+  background:
+    linear-gradient(180deg,rgba(34,39,48,.95),rgba(13,15,19,.96));
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:
+    0 10px 18px rgba(0,0,0,.24),
+    inset 0 1px 0 rgba(255,255,255,.04);
+}
+.side-bar-head span{
+  color:#9ba8b8;
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:.12em;
+}
+.side-bar-head strong{
+  color:#fff4dc;
+  font-size:12px;
+  font-weight:900;
+}
+
+.side-bar-foot{
+  margin-top:8px;
+  text-align:center;
+  color:#94a0b1;
+  font-size:8px;
+  letter-spacing:.04em;
+  text-shadow:0 1px 0 rgba(0,0,0,.3);
+}
+
+/* Left arc bar */
+.side-arc-bar{
+  position:relative;
+  width:74px;
+  height:224px;
+  margin:0 auto;
+  border-radius:18px;
+  overflow:hidden;
+  touch-action:none;
+  cursor:ns-resize;
+  background:
+    linear-gradient(180deg,rgba(35,40,49,.98),rgba(12,14,18,.98));
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:
+    0 14px 26px rgba(0,0,0,.26),
+    inset 0 1px 0 rgba(255,255,255,.03);
+}
+.side-arc-track{
+  position:absolute;
+  left:50%;
+  top:14px;
+  bottom:14px;
+  width:6px;
+  transform:translateX(-50%);
+  border-radius:999px;
+  background:rgba(255,255,255,.05);
+}
+.side-arc-fill{
+  position:absolute;
+  left:50%;
+  bottom:14px;
+  width:6px;
+  transform:translateX(-50%);
+  border-radius:999px;
+  background:linear-gradient(180deg,#9bc0ff,#d5b26e);
+  height:50%;
+  box-shadow:0 0 12px rgba(156,192,255,.14);
+}
+.side-arc-thumb{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:30px;
+  height:30px;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 30% 30%,#f8dda0,#d8a954 66%,#88632d 100%);
+  border:1px solid rgba(255,225,166,.24);
+  box-shadow:
+    0 0 0 4px rgba(216,181,106,.08),
+    0 6px 12px rgba(0,0,0,.18);
+  z-index:2;
+}
+.side-arc-bar::before{
+  content:"高弧";
+  position:absolute;
+  top:10px;
+  left:50%;
+  transform:translateX(-50%);
+  color:#90a0b1;
+  font-size:8px;
+  font-weight:700;
+}
+.side-arc-bar::after{
+  content:"低弧";
+  position:absolute;
+  bottom:8px;
+  left:50%;
+  transform:translateX(-50%);
+  color:#90a0b1;
+  font-size:8px;
+  font-weight:700;
+}
+
+/* Right aim / power bar */
+.side-aim-wrap{
+  width:108px;
+}
+.side-aim-bar{
+  position:relative;
+  width:96px;
+  height:224px;
+  margin:0 auto;
+  border-radius:18px;
+  overflow:hidden;
+  touch-action:none;
+  cursor:crosshair;
+  background:
+    linear-gradient(180deg,rgba(35,40,49,.98),rgba(12,14,18,.98));
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:
+    0 14px 26px rgba(0,0,0,.26),
+    inset 0 1px 0 rgba(255,255,255,.03);
+}
+.side-aim-track{
+  position:absolute;
+  left:18px;
+  right:18px;
+  top:14px;
+  bottom:14px;
+  border-radius:16px;
+  background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.012));
+  border:1px solid rgba(255,255,255,.04);
+}
+.side-aim-center{
+  position:absolute;
+  left:50%;
+  top:18px;
+  bottom:18px;
+  width:1px;
+  transform:translateX(-50%);
+  background:linear-gradient(180deg,transparent,rgba(255,255,255,.10),transparent);
+}
+.side-ideal-band{
+  position:absolute;
+  left:24px;
+  right:24px;
+  bottom:44%;
+  height:14px;
+  border-radius:999px;
+  background:rgba(216,181,106,.22);
+  border:1px solid rgba(216,181,106,.20);
+}
+.side-power-fill{
+  position:absolute;
+  left:24px;
+  right:24px;
+  bottom:18px;
+  height:50%;
+  border-radius:999px;
+  background:linear-gradient(180deg,#d7b36b 0%,#7ca7e8 55%,#3d6db2 100%);
+  opacity:.34;
+}
+.side-aim-thumb{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:28px;
+  height:28px;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  background:linear-gradient(180deg,#f5f8fc,#c7d3e4);
+  border:1px solid rgba(255,255,255,.30);
+  box-shadow:
+    0 0 0 4px rgba(140,180,255,.08),
+    0 6px 12px rgba(0,0,0,.18);
+  z-index:2;
+}
+.side-aim-hint{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:16px;
+  text-align:center;
+  color:#b6c1cf;
+  font-size:8px;
+  line-height:1.35;
+  pointer-events:none;
+}
+.side-aim-hint b{
+  color:#fff;
+  font-weight:900;
+}
+.side-aim-readout{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:6px;
+  margin-top:8px;
+  padding:6px 8px;
+  border-radius:8px;
+  background:
+    linear-gradient(180deg,rgba(34,39,48,.95),rgba(13,15,19,.96));
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:
+    0 10px 18px rgba(0,0,0,.24),
+    inset 0 1px 0 rgba(255,255,255,.04);
+}
+.side-aim-readout span{
+  color:#eef3f9;
+  font-size:8px;
+  font-weight:800;
+}
+#sideShotStatus{
+  color:#fff4dc;
+  letter-spacing:.06em;
+}
+
+@media(max-width:900px){
+  .side-shot-hud{
+    width:min(420px,calc(100vw - 20px));
+  }
+  .side-arc-bar{
+    width:66px;
+    height:198px;
+  }
+  .side-aim-bar{
+    width:88px;
+    height:198px;
+  }
+}
+
+@media(max-width:700px){
+  .side-shot-hud{
+    bottom:86px;
+    width:calc(100vw - 16px);
+    padding:0 6px;
+  }
+  .side-bar{
+    width:80px;
+  }
+  .side-aim-wrap{
+    width:96px;
+  }
+  .side-arc-bar{
+    width:60px;
+    height:184px;
+  }
+  .side-aim-bar{
+    width:80px;
+    height:184px;
+  }
+  .side-bar-head{
+    padding:5px 7px;
+  }
+  .side-bar-head strong{
+    font-size:11px;
+  }
+  .side-aim-readout{
+    padding:5px 7px;
+    gap:4px;
+  }
+  .side-aim-readout span,
+  .side-bar-foot,
+  .side-bar-head span,
+  .side-arc-bar::before,
+  .side-arc-bar::after,
+  .side-aim-hint{
+    font-size:7px;
+  }
+}
+
+@media(max-width:480px){
+  .side-shot-hud{
+    bottom:82px;
+  }
+}
+
+
+/* ==========================================================
+   SIDE BARS NARROW + DRAGGABLE
+   ========================================================== */
+.side-shot-hud{
+  position:fixed !important;
+  left:var(--side-hud-left,50%) !important;
+  top:var(--side-hud-top,calc(100vh - 340px)) !important;
+  bottom:auto !important;
+  transform:none !important;
+
+  width:300px !important;
+  max-width:calc(100vw - 20px) !important;
+  display:flex !important;
+  justify-content:space-between !important;
+  align-items:flex-end !important;
+  gap:10px !important;
+
+  pointer-events:none !important;
+  z-index:260 !important;
+}
+.side-bar{
+  pointer-events:auto !important;
+  width:58px !important;
+  flex:0 0 auto !important;
+}
+.side-aim-wrap{
+  width:72px !important;
+}
+.side-bar-head{
+  cursor:grab !important;
+  touch-action:none !important;
+  margin-bottom:6px !important;
+  padding:5px 6px !important;
+  border-radius:7px !important;
+}
+.side-shot-hud.dragging .side-bar-head{
+  cursor:grabbing !important;
+}
+.side-bar-head span{
+  font-size:7px !important;
+}
+.side-bar-head strong{
+  font-size:10px !important;
+}
+.side-bar-foot{
+  margin-top:6px !important;
+  font-size:7px !important;
+}
+.side-arc-bar{
+  width:54px !important;
+  height:196px !important;
+  border-radius:16px !important;
+}
+.side-aim-bar{
+  width:68px !important;
+  height:196px !important;
+  border-radius:16px !important;
+}
+.side-arc-thumb{
+  width:24px !important;
+  height:24px !important;
+}
+.side-aim-thumb{
+  width:22px !important;
+  height:22px !important;
+}
+.side-aim-readout{
+  margin-top:6px !important;
+  padding:5px 6px !important;
+  border-radius:7px !important;
+}
+.side-aim-readout span{
+  font-size:7px !important;
+}
+.side-aim-hint,
+.side-arc-bar::before,
+.side-arc-bar::after{
+  font-size:7px !important;
+}
+@media(max-width:900px){
+  .side-shot-hud{
+    width:276px !important;
+    gap:8px !important;
+  }
+  .side-bar{
+    width:54px !important;
+  }
+  .side-aim-wrap{
+    width:68px !important;
+  }
+  .side-arc-bar{
+    width:50px !important;
+    height:182px !important;
+  }
+  .side-aim-bar{
+    width:64px !important;
+    height:182px !important;
+  }
+}
+@media(max-width:700px){
+  .side-shot-hud{
+    width:244px !important;
+    max-width:calc(100vw - 14px) !important;
+    top:var(--side-hud-top,calc(100vh - 296px)) !important;
+    gap:7px !important;
+  }
+  .side-bar{
+    width:50px !important;
+  }
+  .side-aim-wrap{
+    width:64px !important;
+  }
+  .side-arc-bar{
+    width:46px !important;
+    height:166px !important;
+  }
+  .side-aim-bar{
+    width:60px !important;
+    height:166px !important;
+  }
+  .side-bar-head{
+    padding:4px 5px !important;
+  }
+  .side-bar-head strong{
+    font-size:9px !important;
+  }
+  .side-aim-readout{
+    padding:4px 5px !important;
+  }
+}
+
+
+/* ==========================================================
+   2K-LIKE FLOATING VERTICAL SIDE HUD
+   ========================================================== */
+.side-shot-hud{
+  position:fixed !important;
+  inset:0 !important;
+  width:100vw !important;
+  height:100vh !important;
+  max-width:none !important;
+  pointer-events:none !important;
+  z-index:280 !important;
+}
+
+.side-bar{
+  position:absolute !important;
+  top:var(--side-hud-top,180px) !important;
+  width:42px !important;
+  pointer-events:auto !important;
+  color:#eef4fb !important;
+}
+
+.side-arc-wrap{
+  left:var(--side-arc-left,32px) !important;
+}
+.side-aim-wrap{
+  left:var(--side-aim-left,92px) !important;
+  width:46px !important;
+}
+
+.side-bar-head{
+  margin:0 0 6px !important;
+  padding:4px 5px !important;
+  border-radius:999px !important;
+  cursor:default !important;
+  touch-action:none !important;
+  background:rgba(20,24,30,.46) !important;
+  border:1px solid rgba(255,255,255,.10) !important;
+  box-shadow:
+    0 8px 18px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.04) !important;
+  backdrop-filter:blur(10px) saturate(1.04) !important;
+}
+.side-bar-head span{
+  font-size:6px !important;
+  letter-spacing:.10em !important;
+  color:#95a2b4 !important;
+}
+.side-bar-head strong{
+  font-size:9px !important;
+  color:#fff3da !important;
+  font-weight:900 !important;
+}
+.side-bar-foot{
+  display:none !important;
+}
+
+.side-arc-bar,
+.side-aim-bar{
+  position:relative !important;
+  width:100% !important;
+  height:168px !important;
+  margin:0 auto !important;
+  border-radius:999px !important;
+  overflow:hidden !important;
+  touch-action:none !important;
+  background:
+    linear-gradient(180deg,rgba(27,32,40,.26),rgba(11,14,18,.26)) !important;
+  border:1px solid rgba(255,255,255,.09) !important;
+  box-shadow:
+    0 10px 24px rgba(0,0,0,.16),
+    inset 0 1px 0 rgba(255,255,255,.03) !important;
+  backdrop-filter:blur(10px) saturate(1.05) !important;
+}
+
+/* Left slim arc bar */
+.side-arc-track{
+  position:absolute !important;
+  left:50% !important;
+  top:10px !important;
+  bottom:10px !important;
+  width:4px !important;
+  transform:translateX(-50%) !important;
+  border-radius:999px !important;
+  background:rgba(255,255,255,.08) !important;
+}
+.side-arc-fill{
+  position:absolute !important;
+  left:50% !important;
+  bottom:10px !important;
+  width:4px !important;
+  transform:translateX(-50%) !important;
+  border-radius:999px !important;
+  background:linear-gradient(180deg,#78a9ee,#d6b26c) !important;
+  box-shadow:0 0 10px rgba(120,169,238,.18) !important;
+}
+.side-arc-thumb{
+  position:absolute !important;
+  left:50% !important;
+  width:18px !important;
+  height:18px !important;
+  transform:translate(-50%,-50%) !important;
+  border-radius:50% !important;
+  background:radial-gradient(circle at 32% 28%,#fff1c9,#d5a859 68%,#7f5b28 100%) !important;
+  border:1px solid rgba(255,231,183,.24) !important;
+  box-shadow:0 0 0 3px rgba(216,181,106,.10),0 4px 10px rgba(0,0,0,.15) !important;
+}
+.side-arc-bar::before,
+.side-arc-bar::after{
+  display:none !important;
+}
+
+/* Right slim aim/power bar */
+.side-aim-track{
+  position:absolute !important;
+  inset:10px !important;
+  border-radius:999px !important;
+  background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015)) !important;
+  border:1px solid rgba(255,255,255,.05) !important;
+}
+.side-aim-center{
+  position:absolute !important;
+  left:50% !important;
+  top:14px !important;
+  bottom:14px !important;
+  width:1px !important;
+  transform:translateX(-50%) !important;
+  background:linear-gradient(180deg,transparent,rgba(255,255,255,.14),transparent) !important;
+}
+.side-ideal-band{
+  position:absolute !important;
+  left:8px !important;
+  right:8px !important;
+  border-radius:999px !important;
+  background:rgba(216,181,106,.18) !important;
+  border:1px solid rgba(216,181,106,.22) !important;
+}
+.side-power-fill{
+  position:absolute !important;
+  left:8px !important;
+  right:8px !important;
+  bottom:10px !important;
+  border-radius:999px !important;
+  background:linear-gradient(180deg,#d6b36d 0%,#7ca7e8 54%,#466cae 100%) !important;
+  opacity:.36 !important;
+}
+.side-aim-thumb{
+  position:absolute !important;
+  width:18px !important;
+  height:18px !important;
+  transform:translate(-50%,-50%) !important;
+  border-radius:50% !important;
+  background:linear-gradient(180deg,#f7f9fc,#d2dbe7) !important;
+  border:1px solid rgba(255,255,255,.26) !important;
+  box-shadow:0 0 0 3px rgba(142,181,255,.10),0 4px 10px rgba(0,0,0,.14) !important;
+}
+.side-aim-hint{
+  left:50% !important;
+  right:auto !important;
+  bottom:12px !important;
+  transform:translateX(-50%) !important;
+  width:84px !important;
+  font-size:6px !important;
+  line-height:1.25 !important;
+  color:#b6c2d0 !important;
+  text-align:center !important;
+}
+.side-aim-hint b{
+  color:#fff !important;
+}
+
+/* Bottom mini readout becomes a compact floating chip */
+.side-aim-readout{
+  margin-top:6px !important;
+  padding:4px 5px !important;
+  border-radius:999px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:4px !important;
+  background:rgba(20,24,30,.46) !important;
+  border:1px solid rgba(255,255,255,.10) !important;
+  box-shadow:
+    0 8px 18px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.04) !important;
+  backdrop-filter:blur(10px) saturate(1.04) !important;
+}
+.side-aim-readout span{
+  font-size:6px !important;
+  font-weight:900 !important;
+}
+#sideAimValue{
+  color:#edf2f8 !important;
+}
+#sideShotStatus{
+  color:#fff3da !important;
+  letter-spacing:.06em !important;
+}
+
+/* Mobile tuning */
+@media(max-width:700px){
+  .side-bar{
+    width:36px !important;
+  }
+  .side-aim-wrap{
+    width:40px !important;
+  }
+  .side-arc-bar,
+  .side-aim-bar{
+    height:144px !important;
+  }
+  .side-arc-thumb,
+  .side-aim-thumb{
+    width:16px !important;
+    height:16px !important;
+  }
+  .side-bar-head{
+    padding:3px 4px !important;
+  }
+  .side-bar-head strong{
+    font-size:8px !important;
+  }
+  .side-aim-hint{
+    width:72px !important;
+    font-size:6px !important;
+  }
+}
+
+
+/* ==========================================================
+   NBA 2K STYLE SHOT METER REFINEMENT
+   ========================================================== */
+.side-shot-hud{
+  z-index:285 !important;
+}
+
+/* Global meter tone: slimmer, cleaner, closer to player */
+.side-bar{
+  width:30px !important;
+}
+.side-aim-wrap{
+  width:34px !important;
+}
+
+.side-bar-head{
+  margin:0 0 5px !important;
+  padding:3px 4px !important;
+  background:rgba(16,20,26,.34) !important;
+  border:1px solid rgba(255,255,255,.08) !important;
+  box-shadow:
+    0 8px 16px rgba(0,0,0,.14),
+    inset 0 1px 0 rgba(255,255,255,.03) !important;
+}
+.side-bar-head span{
+  font-size:5px !important;
+  letter-spacing:.12em !important;
+}
+.side-bar-head strong{
+  font-size:8px !important;
+}
+
+/* Slimmer meter tracks */
+.side-arc-bar,
+.side-aim-bar{
+  height:154px !important;
+  border-radius:999px !important;
+  background:
+    linear-gradient(180deg,rgba(18,22,28,.22),rgba(8,10,14,.22)) !important;
+  border:1px solid rgba(255,255,255,.08) !important;
+  box-shadow:
+    0 8px 16px rgba(0,0,0,.12),
+    inset 0 1px 0 rgba(255,255,255,.025) !important;
+}
+
+/* 2K-like subtle tick segmentation */
+.side-arc-bar::before,
+.side-aim-bar::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:10px;
+  bottom:10px;
+  width:16px;
+  transform:translateX(-50%);
+  pointer-events:none;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,.05) 0 1px,
+      transparent 1px 18px
+    );
+  opacity:.55;
+  mask-image:linear-gradient(180deg,transparent,black 12%,black 88%,transparent);
+}
+
+.side-arc-track{
+  width:3px !important;
+  top:9px !important;
+  bottom:9px !important;
+  background:rgba(255,255,255,.09) !important;
+}
+.side-arc-fill{
+  width:3px !important;
+  bottom:9px !important;
+  background:linear-gradient(180deg,#85b4f6 0%,#f0ca80 100%) !important;
+}
+.side-arc-thumb{
+  width:14px !important;
+  height:14px !important;
+  box-shadow:
+    0 0 0 2px rgba(216,181,106,.10),
+    0 3px 8px rgba(0,0,0,.13) !important;
+}
+
+/* Right meter closer to official 2K shot meter feel */
+.side-aim-track{
+  inset:9px !important;
+  border-radius:999px !important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.022),rgba(255,255,255,.012)) !important;
+  border:1px solid rgba(255,255,255,.045) !important;
+}
+.side-aim-center{
+  top:12px !important;
+  bottom:12px !important;
+  background:linear-gradient(180deg,transparent,rgba(255,255,255,.12),transparent) !important;
+}
+.side-power-fill{
+  left:7px !important;
+  right:7px !important;
+  bottom:9px !important;
+  background:linear-gradient(180deg,#e0c07a 0%,#8ab4ff 52%,#4167a8 100%) !important;
+  opacity:.40 !important;
+}
+.side-ideal-band{
+  left:7px !important;
+  right:7px !important;
+  background:rgba(142, 219, 127, .18) !important;
+  border:1px solid rgba(142,219,127,.24) !important;
+  box-shadow:0 0 10px rgba(142,219,127,.08) inset;
+}
+.side-aim-thumb{
+  width:14px !important;
+  height:14px !important;
+  box-shadow:
+    0 0 0 2px rgba(138,180,255,.10),
+    0 3px 8px rgba(0,0,0,.12) !important;
+}
+
+/* Cleaner readout */
+.side-aim-hint{
+  width:62px !important;
+  bottom:10px !important;
+  font-size:5px !important;
+  color:#b9c5d3 !important;
+}
+.side-aim-readout{
+  margin-top:5px !important;
+  padding:3px 4px !important;
+  gap:3px !important;
+  background:rgba(16,20,26,.34) !important;
+}
+.side-aim-readout span{
+  font-size:5px !important;
+}
+
+/* Scoring feedback animation */
+.side-shot-hud.meter-made .side-arc-bar,
+.side-shot-hud.meter-made .side-aim-bar{
+  animation:meterMakeFlash .62s ease-out;
+}
+
+.side-shot-hud.meter-made .side-arc-fill,
+.side-shot-hud.meter-made .side-power-fill{
+  animation:meterFillSurge .62s ease-out;
+}
+
+.side-shot-hud.meter-perfect .side-ideal-band{
+  animation:meterPerfectGlow .72s ease-out;
+}
+
+.side-shot-hud.meter-made .side-arc-thumb,
+.side-shot-hud.meter-made .side-aim-thumb{
+  animation:meterThumbPulse .62s ease-out;
+}
+
+@keyframes meterMakeFlash{
+  0%{
+    box-shadow:
+      0 8px 16px rgba(0,0,0,.12),
+      inset 0 1px 0 rgba(255,255,255,.025),
+      0 0 0 rgba(240,202,128,0);
+    background:
+      linear-gradient(180deg,rgba(18,22,28,.22),rgba(8,10,14,.22));
+  }
+  30%{
+    box-shadow:
+      0 8px 16px rgba(0,0,0,.12),
+      inset 0 1px 0 rgba(255,255,255,.04),
+      0 0 22px rgba(240,202,128,.22);
+    background:
+      linear-gradient(180deg,rgba(67,78,98,.34),rgba(16,19,26,.28));
+  }
+  100%{
+    box-shadow:
+      0 8px 16px rgba(0,0,0,.12),
+      inset 0 1px 0 rgba(255,255,255,.025),
+      0 0 0 rgba(240,202,128,0);
+  }
+}
+
+@keyframes meterFillSurge{
+  0%{ filter:brightness(1); }
+  25%{ filter:brightness(1.8); }
+  100%{ filter:brightness(1); }
+}
+
+@keyframes meterPerfectGlow{
+  0%{
+    background:rgba(142,219,127,.18);
+    box-shadow:0 0 0 rgba(142,219,127,0);
+  }
+  35%{
+    background:rgba(142,219,127,.34);
+    box-shadow:0 0 18px rgba(142,219,127,.28), inset 0 0 12px rgba(142,219,127,.22);
+  }
+  100%{
+    background:rgba(142,219,127,.18);
+    box-shadow:0 0 0 rgba(142,219,127,0);
+  }
+}
+
+@keyframes meterThumbPulse{
+  0%{ transform:translate(-50%,-50%) scale(1); }
+  28%{ transform:translate(-50%,-50%) scale(1.18); }
+  100%{ transform:translate(-50%,-50%) scale(1); }
+}
+
+@media(max-width:700px){
+  .side-bar{
+    width:26px !important;
+  }
+  .side-aim-wrap{
+    width:30px !important;
+  }
+  .side-arc-bar,
+  .side-aim-bar{
+    height:136px !important;
+  }
+  .side-arc-thumb,
+  .side-aim-thumb{
+    width:12px !important;
+    height:12px !important;
+  }
+  .side-bar-head strong{
+    font-size:7px !important;
+  }
+  .side-aim-hint{
+    width:52px !important;
+  }
+}
+
+
+/* ==========================================================
+   2K24 / 2K25 STYLE FINAL SHOT METER TUNING
+   ========================================================== */
+
+/* Keep the bars very slim and visually light */
+.side-bar{
+  width:24px !important;
+}
+.side-aim-wrap{
+  width:28px !important;
+}
+
+/* Make labels tiny, clean, and unobtrusive */
+.side-bar-head{
+  margin:0 0 4px !important;
+  padding:2px 4px !important;
+  background:rgba(15,19,25,.24) !important;
+  border:1px solid rgba(255,255,255,.06) !important;
+  box-shadow:
+    0 6px 12px rgba(0,0,0,.10),
+    inset 0 1px 0 rgba(255,255,255,.025) !important;
+  backdrop-filter:blur(8px) saturate(1.02) !important;
+}
+.side-bar-head span{
+  font-size:5px !important;
+  opacity:.82;
+}
+.side-bar-head strong{
+  font-size:7px !important;
+  color:#f0f4fa !important;
+}
+
+.side-arc-bar,
+.side-aim-bar{
+  height:146px !important;
+  background:
+    linear-gradient(180deg,rgba(16,20,26,.18),rgba(8,10,14,.18)) !important;
+  border:1px solid rgba(255,255,255,.065) !important;
+  box-shadow:
+    0 6px 14px rgba(0,0,0,.10),
+    inset 0 1px 0 rgba(255,255,255,.02) !important;
+  backdrop-filter:blur(8px) saturate(1.03) !important;
+}
+
+/* More "official game HUD" minimalist internals */
+.side-arc-track{
+  width:2px !important;
+  top:8px !important;
+  bottom:8px !important;
+  background:rgba(255,255,255,.08) !important;
+}
+.side-arc-fill{
+  width:2px !important;
+  bottom:8px !important;
+  background:linear-gradient(180deg,#8ab3ef 0%,#e7ca86 100%) !important;
+}
+.side-arc-thumb{
+  width:12px !important;
+  height:12px !important;
+}
+
+.side-aim-track{
+  inset:8px !important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.018),rgba(255,255,255,.010)) !important;
+}
+.side-power-fill{
+  left:6px !important;
+  right:6px !important;
+  bottom:8px !important;
+  opacity:.34 !important;
+}
+.side-ideal-band{
+  left:6px !important;
+  right:6px !important;
+  background:rgba(141,214,126,.16) !important;
+  border:1px solid rgba(141,214,126,.22) !important;
+}
+.side-aim-thumb{
+  width:12px !important;
+  height:12px !important;
+}
+
+.side-aim-hint{
+  width:48px !important;
+  font-size:5px !important;
+  opacity:.84;
+}
+.side-aim-readout{
+  margin-top:4px !important;
+  padding:3px 4px !important;
+  background:rgba(15,19,25,.22) !important;
+  border:1px solid rgba(255,255,255,.06) !important;
+  box-shadow:
+    0 6px 12px rgba(0,0,0,.10),
+    inset 0 1px 0 rgba(255,255,255,.025) !important;
+}
+.side-aim-readout span{
+  font-size:5px !important;
+}
+#sideAimValue{
+  opacity:.88;
+}
+#sideShotStatus{
+  font-weight:900 !important;
+}
+
+/* Perfect = green release */
+.side-shot-hud.meter-perfect .side-arc-bar,
+.side-shot-hud.meter-perfect .side-aim-bar{
+  animation:meterPerfectShell 0.78s ease-out !important;
+}
+.side-shot-hud.meter-perfect .side-arc-fill,
+.side-shot-hud.meter-perfect .side-power-fill{
+  background:linear-gradient(180deg,#97f48a 0%,#3fd665 50%,#1fa84b 100%) !important;
+  animation:meterGreenFill 0.78s ease-out !important;
+}
+.side-shot-hud.meter-perfect .side-ideal-band{
+  background:rgba(114,255,138,.30) !important;
+  border-color:rgba(114,255,138,.36) !important;
+  animation:meterGreenWindow 0.78s ease-out !important;
+}
+.side-shot-hud.meter-perfect .side-arc-thumb,
+.side-shot-hud.meter-perfect .side-aim-thumb{
+  background:linear-gradient(180deg,#eaffea,#84ff9a) !important;
+  box-shadow:0 0 0 2px rgba(99,240,122,.18), 0 0 14px rgba(99,240,122,.24) !important;
+}
+
+/* Standard make = cool white/gold */
+.side-shot-hud.meter-made .side-arc-bar,
+.side-shot-hud.meter-made .side-aim-bar{
+  animation:meterMakeShell 0.62s ease-out !important;
+}
+
+/* Miss = red */
+.side-shot-hud.meter-miss .side-arc-bar,
+.side-shot-hud.meter-miss .side-aim-bar{
+  animation:meterMissShell 0.72s ease-out !important;
+}
+.side-shot-hud.meter-miss .side-arc-fill,
+.side-shot-hud.meter-miss .side-power-fill{
+  background:linear-gradient(180deg,#ff9b9b 0%,#ff6565 52%,#c83d3d 100%) !important;
+  animation:meterMissFill 0.72s ease-out !important;
+}
+.side-shot-hud.meter-miss .side-arc-thumb,
+.side-shot-hud.meter-miss .side-aim-thumb{
+  background:linear-gradient(180deg,#fff1f1,#ff9f9f) !important;
+  box-shadow:0 0 0 2px rgba(255,103,103,.14), 0 0 12px rgba(255,103,103,.18) !important;
+}
+.side-shot-hud.meter-miss #sideShotStatus{
+  color:#ff8c8c !important;
+}
+
+/* Rim / board miss = amber/orange "brick" */
+.side-shot-hud.meter-brick .side-arc-bar,
+.side-shot-hud.meter-brick .side-aim-bar{
+  animation:meterBrickShell 0.72s ease-out !important;
+}
+.side-shot-hud.meter-brick .side-arc-fill,
+.side-shot-hud.meter-brick .side-power-fill{
+  background:linear-gradient(180deg,#ffd58f 0%,#f1a94f 52%,#cc7d28 100%) !important;
+  animation:meterBrickFill 0.72s ease-out !important;
+}
+.side-shot-hud.meter-brick .side-arc-thumb,
+.side-shot-hud.meter-brick .side-aim-thumb{
+  background:linear-gradient(180deg,#fff3df,#f7c172) !important;
+  box-shadow:0 0 0 2px rgba(255,182,72,.14), 0 0 12px rgba(255,182,72,.18) !important;
+}
+.side-shot-hud.meter-brick #sideShotStatus{
+  color:#ffc46b !important;
+}
+
+@keyframes meterMakeShell{
+  0%{
+    box-shadow:0 6px 14px rgba(0,0,0,.10), inset 0 1px 0 rgba(255,255,255,.02), 0 0 0 rgba(0,0,0,0);
+  }
+  30%{
+    box-shadow:0 6px 14px rgba(0,0,0,.10), inset 0 1px 0 rgba(255,255,255,.03), 0 0 14px rgba(240,202,128,.16);
+  }
+  100%{
+    box-shadow:0 6px 14px rgba(0,0,0,.10), inset 0 1px 0 rgba(255,255,255,.02), 0 0 0 rgba(0,0,0,0);
+  }
+}
+
+@keyframes meterPerfectShell{
+  0%{
+    box-shadow:0 6px 14px rgba(0,0,0,.10), inset 0 1px 0 rgba(255,255,255,.02), 0 0 0 rgba(0,0,0,0);
+  }
+  30%{
+    box-shadow:0 6px 14px rgba(0,0,0,.10), inset 0 1px 0 rgba(255,255,255,.03), 0 0 18px rgba(84,255,120,.26);
+  }
+  100%{
+    box-shadow:0 6px 14px rgba(0,0,0,.10), inset 0 1px 0 rgba(255,255,255,.02), 0 0 0 rgba(0,0,0,0);
+  }
+}
+@keyframes meterGreenFill{
+  0%{ filter:brightness(1); }
+  22%{ filter:brightness(1.95); }
+  100%{ filter:brightness(1); }
+}
+@keyframes meterGreenWindow{
+  0%{ box-shadow:0 0 0 rgba(114,255,138,0); }
+  30%{ box-shadow:0 0 16px rgba(114,255,138,.28), inset 0 0 10px rgba(114,255,138,.20); }
+  100%{ box-shadow:0 0 0 rgba(114,255,138,0); }
+}
+
+@keyframes meterMissShell{
+  0%{ box-shadow:0 6px 14px rgba(0,0,0,.10), 0 0 0 rgba(255,0,0,0); }
+  30%{ box-shadow:0 6px 14px rgba(0,0,0,.10), 0 0 14px rgba(255,90,90,.18); }
+  100%{ box-shadow:0 6px 14px rgba(0,0,0,.10), 0 0 0 rgba(255,0,0,0); }
+}
+@keyframes meterMissFill{
+  0%{ filter:brightness(1); }
+  24%{ filter:brightness(1.6); }
+  100%{ filter:brightness(1); }
+}
+@keyframes meterBrickShell{
+  0%{ box-shadow:0 6px 14px rgba(0,0,0,.10), 0 0 0 rgba(255,170,0,0); }
+  30%{ box-shadow:0 6px 14px rgba(0,0,0,.10), 0 0 14px rgba(255,185,84,.18); }
+  100%{ box-shadow:0 6px 14px rgba(0,0,0,.10), 0 0 0 rgba(255,170,0,0); }
+}
+@keyframes meterBrickFill{
+  0%{ filter:brightness(1); }
+  24%{ filter:brightness(1.55); }
+  100%{ filter:brightness(1); }
+}
+
+@media(max-width:700px){
+  .side-bar{
+    width:22px !important;
+  }
+  .side-aim-wrap{
+    width:25px !important;
+  }
+  .side-arc-bar,
+  .side-aim-bar{
+    height:128px !important;
+  }
+  .side-arc-thumb,
+  .side-aim-thumb{
+    width:11px !important;
+    height:11px !important;
+  }
+  .side-aim-hint{
+    width:42px !important;
+  }
+}
+
+
+/* ==========================================================
+   ONE-SIDE SHOT METER + ARC +/- CONTROLS
+   ========================================================== */
+.side-shot-hud.one-side-hud{
+  position:fixed !important;
+  inset:0 !important;
+  width:100vw !important;
+  height:100vh !important;
+  pointer-events:none !important;
+  z-index:286 !important;
+}
+.side-shot-hud.one-side-hud .side-arc-wrap{
+  display:none !important;
+}
+.side-shot-hud.one-side-hud .side-arc-ghost{
+  position:absolute !important;
+  width:0 !important;
+  height:0 !important;
+  overflow:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+.side-shot-hud.one-side-hud .side-aim-wrap.single-side-meter{
+  position:absolute !important;
+  left:var(--side-aim-left,60vw) !important;
+  top:var(--side-hud-top,180px) !important;
+  width:32px !important;
+  pointer-events:auto !important;
+}
+.side-shot-hud.one-side-hud .side-arc-buttons{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:4px !important;
+  margin:0 0 6px !important;
+  padding:3px 4px !important;
+  border-radius:999px !important;
+  background:rgba(15,19,25,.24) !important;
+  border:1px solid rgba(255,255,255,.06) !important;
+  box-shadow:0 6px 12px rgba(0,0,0,.10), inset 0 1px 0 rgba(255,255,255,.025) !important;
+  backdrop-filter:blur(8px) saturate(1.02) !important;
+}
+.side-shot-hud.one-side-hud .side-arc-buttons button{
+  width:18px !important;
+  height:18px !important;
+  border-radius:50% !important;
+  border:1px solid rgba(255,255,255,.08) !important;
+  background:rgba(255,255,255,.05) !important;
+  color:#f4f7fb !important;
+  font-size:12px !important;
+  font-weight:900 !important;
+  line-height:1 !important;
+  padding:0 !important;
+  display:grid !important;
+  place-items:center !important;
+  cursor:pointer !important;
+}
+.side-shot-hud.one-side-hud .side-arc-mini{
+  min-width:34px !important;
+  text-align:center !important;
+}
+.side-shot-hud.one-side-hud .side-arc-mini span{
+  display:block !important;
+  font-size:5px !important;
+  letter-spacing:.10em !important;
+  color:#95a2b4 !important;
+  line-height:1 !important;
+}
+.side-shot-hud.one-side-hud .side-arc-mini strong{
+  display:block !important;
+  margin-top:2px !important;
+  font-size:7px !important;
+  line-height:1 !important;
+  color:#f0f4fa !important;
+  font-weight:900 !important;
+}
+.side-shot-hud.one-side-hud .side-bar-head{
+  margin:0 0 4px !important;
+}
+.side-shot-hud.one-side-hud .side-aim-bar{
+  width:100% !important;
+}
+.side-shot-hud.one-side-hud .side-aim-readout{
+  margin-top:4px !important;
+}
+@media(max-width:700px){
+  .side-shot-hud.one-side-hud .side-aim-wrap.single-side-meter{
+    width:29px !important;
+  }
+  .side-shot-hud.one-side-hud .side-arc-buttons{
+    gap:3px !important;
+    padding:3px !important;
+  }
+  .side-shot-hud.one-side-hud .side-arc-buttons button{
+    width:16px !important;
+    height:16px !important;
+    font-size:11px !important;
+  }
+  .side-shot-hud.one-side-hud .side-arc-mini{
+    min-width:30px !important;
+  }
+}
+
+
+/* ==========================================================
+   REFERENCE PLAYER LOOK POLISH
+   ========================================================== */
+.player-custom .custom-kicker{
+  color:#e8c55c;
+}
+
+
+/* ==========================================================
+   REFERENCE SHOOTER REFINED MODEL PASS
+   ========================================================== */
+
 </style>
 </head>
 
@@ -1725,6 +4865,7 @@ button.primary{
       <label>
         <span>风格预设</span>
         <select id="playerPreset">
+          <option value="reference">参考图投篮手</option>
           <option value="curry">库里风格后卫</option>
           <option value="classic">经典后卫</option>
           <option value="street">街球后卫</option>
@@ -1735,19 +4876,19 @@ button.primary{
       <div class="custom-grid">
         <label>
           <span>球衣主色</span>
-          <input id="jerseyColor" type="color" value="#1d428a">
+          <input id="jerseyColor" type="color" value="#f4f1ea">
         </label>
         <label>
           <span>球衣辅色</span>
-          <input id="trimColor" type="color" value="#ffc72c">
+          <input id="trimColor" type="color" value="#f0c43f">
         </label>
         <label>
           <span>肤色</span>
-          <input id="skinColor" type="color" value="#a76f52">
+          <input id="skinColor" type="color" value="#c88c66">
         </label>
         <label>
           <span>鞋子</span>
-          <input id="shoeColor" type="color" value="#f3f3f3">
+          <input id="shoeColor" type="color" value="#ffffff">
         </label>
       </div>
 
@@ -1808,10 +4949,25 @@ button.primary{
 
   <div class="banner" id="banner">PERFECT</div>
 
-  <section class="shot-panel glass collapsible-panel" id="shotPanelUI">
+  <section
+    class="shot-control-hud compact-ui free-position"
+    id="shotPanelUI"
+    style="
+      position:fixed;
+      left:10px;
+      top:10px;
+      width:272px;
+      height:248px;
+      display:block;
+      visibility:visible;
+      opacity:1;
+      z-index:10000;
+      pointer-events:auto;
+    "
+  >
     <div class="mini-head shot-mini-head">
       <div class="shot-title">
-        <span class="panel-title">投篮</span>
+        <span class="panel-title">投篮控制</span>
         <span class="release-chip" id="releaseText">READY</span>
       </div>
       <button class="panel-toggle" id="toggleShotPanel" type="button">收起</button>
@@ -1822,15 +4978,15 @@ button.primary{
       <div class="flick-line" id="flickLine"></div>
       <div class="flick-tip" id="flickTip"></div>
       <div class="flick-hint" id="flickHint">
-        从这里按住鼠标<br>
-        <b>向上甩动后松开</b>
+        按住拖拽区域<br>
+        <b>上滑后松手投篮</b>
       </div>
     </div>
 
-    <div class="mouse-values">
-      <div><span>方向</span><strong id="aimXText">中</strong></div>
-      <div><span>力度</span><strong id="powerText">100%</strong></div>
-      <div><span>弧度</span><strong id="arcText">58°</strong></div>
+    <div class="mini-readout">
+      <div class="mini-pill"><span>方向</span><strong id="aimXText">中</strong></div>
+      <div class="mini-pill"><span>力度</span><strong id="powerText">100%</strong></div>
+      <div class="mini-pill"><span>弧度</span><strong id="arcText">58°</strong></div>
     </div>
 
     <div class="triple-bars glass-lite" id="tripleBars">
@@ -1887,44 +5043,45 @@ button.primary{
 
 
     <div class="arc-control" id="arcControl">
-      <div class="arc-top">
-        <div>
-          <div class="control-kicker">ARC / 投篮弧度</div>
-          <div class="arc-value-row">
-            <button class="arc-nudge" id="arcMinus" type="button" aria-label="弧度减一度">−</button>
-            <strong class="arc-big-value" id="arcSliderText">58°</strong>
-            <button class="arc-nudge" id="arcPlus" type="button" aria-label="弧度加一度">+</button>
-          </div>
+      <div class="mini-control-top">
+        <div class="mini-control-title">出手弧度</div>
+        <div class="mini-control-value">
+          <button class="arc-nudge" id="arcMinus" type="button" aria-label="弧度减一度">−</button>
+          <strong class="arc-big-value" id="arcSliderText">58°</strong>
+          <button class="arc-nudge" id="arcPlus" type="button" aria-label="弧度加一度">+</button>
         </div>
-        <div class="arc-profile" id="arcProfile">标准弧线</div>
       </div>
 
-      <div class="arc-track-wrap">
+      <div class="arc-presets" aria-label="弧度预设">
+        <button type="button" class="arc-preset" data-arc="50">
+          <span>低</span><b>50°</b>
+        </button>
+        <button type="button" class="arc-preset active" data-arc="58">
+          <span>中</span><b>58°</b>
+        </button>
+        <button type="button" class="arc-preset" data-arc="64">
+          <span>高</span><b>64°</b>
+        </button>
+      </div>
+
+      <div class="mini-arc-meta">
+        <span class="arc-profile" id="arcProfile">标准弧线</span>
+      </div>
+
+      <div class="arc-track-wrap compact-hidden">
         <input id="arcSlider" type="range" min="45" max="70" step="0.5" value="58" aria-label="投篮弧度">
         <div class="arc-ticks">
           <span>45°</span><span>50°</span><span>58°</span><span>64°</span><span>70°</span>
         </div>
       </div>
 
-      <div class="arc-presets" aria-label="弧度预设">
-        <button type="button" class="arc-preset" data-arc="50">
-          <span>低弧</span><b>50°</b>
-        </button>
-        <button type="button" class="arc-preset active" data-arc="58">
-          <span>标准</span><b>58°</b>
-        </button>
-        <button type="button" class="arc-preset" data-arc="64">
-          <span>高弧</span><b>64°</b>
-        </button>
-      </div>
-
-      <div class="arc-helper">滚轮悬停此区域可 ±0.5° 微调；键盘 [ / ] 可微调</div>
+      <div class="arc-helper compact-hidden">滚轮悬停此区域可 ±0.5° 微调；键盘 [ / ] 可微调</div>
     </div>
 
     <div class="power-wrap">
-      <div class="power-head">
-        <span>动态力度 75%–125%</span>
-        <span>理想 <b id="idealPowerText">100</b>%</span>
+      <div class="mini-power-row">
+        <span>推荐 <b id="idealPowerText">100</b>%</span>
+        <span class="mini-note">智能力度校准</span>
       </div>
       <div class="power-track">
         <div class="power-fill" id="powerFill"></div>
@@ -1932,14 +5089,50 @@ button.primary{
         <div class="power-cursor" id="powerCursor"></div>
       </div>
     </div>
-
-    <div class="shot-instruction">
-      可继续用甩投；也可直接使用下方三条控制栏：<b>方向 / 力度 / 弧度</b>。<br>
-      <b>100% 就是当前点位与弧度下的标准命中力度</b>；低于 100% 会短，高于 100% 会长。
-    </div>
         </div>
     <div class="panel-resizer" id="panelResizer" aria-label="调整面板大小"></div>
   </section>
+
+
+  <div class="side-shot-hud one-side-hud" id="sideShotHud" aria-label="侧边投篮控制">
+    <div class="side-bar side-aim-wrap single-side-meter" aria-label="方向、力度与弧度控制">
+      <div class="side-arc-buttons" aria-label="弧度调节">
+        <button id="sideArcMinus" type="button" aria-label="减小弧度">−</button>
+        <div class="side-arc-mini">
+          <span>ARC</span>
+          <strong id="sideArcValue">58°</strong>
+        </div>
+        <button id="sideArcPlus" type="button" aria-label="增大弧度">+</button>
+      </div>
+
+      <div class="side-bar-head" title="Shot Meter">
+        <span>AIM / POWER</span>
+        <strong id="sidePowerValue">100%</strong>
+      </div>
+
+      <div class="side-aim-bar" id="sideAimPowerBar">
+        <div class="side-aim-track"></div>
+        <div class="side-aim-center"></div>
+        <div class="side-ideal-band" id="sideIdealBand"></div>
+        <div class="side-power-fill" id="sidePowerFillVertical"></div>
+        <div class="side-aim-thumb" id="sideAimPowerThumb"></div>
+        <div class="side-aim-hint" id="sideAimHint">按住拖动<br><b>松手投篮</b></div>
+      </div>
+
+      <div class="side-aim-readout">
+        <span id="sideAimValue">中</span>
+        <span id="sideShotStatus">READY</span>
+      </div>
+    </div>
+
+    <div class="side-arc-ghost" aria-hidden="true">
+      <div class="side-arc-bar" id="sideArcBar">
+        <div class="side-arc-track"></div>
+        <div class="side-arc-fill" id="sideArcFill"></div>
+        <div class="side-arc-thumb" id="sideArcThumb"></div>
+      </div>
+    </div>
+  </div>
 
   <div class="time-meter"><div id="timeBar"></div></div>
 
@@ -2535,17 +5728,22 @@ function makePlayer(){
   root.scale.setScalar(PLAYER_SCALE);
 
   const jerseyMain=new THREE.MeshStandardMaterial({
-    color:0x1d428a,
+    color:0xf4f1ea,
     roughness:.70
   });
 
   const jerseyTrim=new THREE.MeshStandardMaterial({
-    color:0xffc72c,
+    color:0xf0c43f,
     roughness:.66
   });
 
+  const trimAccent=new THREE.MeshStandardMaterial({
+    color:0xd65246,
+    roughness:.68
+  });
+
   const shortsMain=new THREE.MeshStandardMaterial({
-    color:0x1d428a,
+    color:0xf4f1ea,
     roughness:.72
   });
 
@@ -2567,6 +5765,11 @@ function makePlayer(){
   const sockMat=new THREE.MeshStandardMaterial({
     color:0xffffff,
     roughness:.82
+  });
+
+  const leggingsMat=new THREE.MeshStandardMaterial({
+    color:0xf7f7f7,
+    roughness:.86
   });
 
   const hairMat=new THREE.MeshStandardMaterial({
@@ -2600,6 +5803,14 @@ function makePlayer(){
     thigh.castShadow=true;
     hip.add(thigh);
 
+    const thighTight=new THREE.Mesh(
+      new THREE.CylinderGeometry(.096,.116,.60,18),
+      leggingsMat
+    );
+    thighTight.position.y=-.30;
+    thighTight.castShadow=true;
+    hip.add(thighTight);
+
     const knee=new THREE.Group();
     knee.position.y=-.59;
     hip.add(knee);
@@ -2619,6 +5830,14 @@ function makePlayer(){
     shin.castShadow=true;
     knee.add(shin);
 
+    const shinTight=new THREE.Mesh(
+      new THREE.CylinderGeometry(.070,.084,.57,18),
+      leggingsMat
+    );
+    shinTight.position.y=-.285;
+    shinTight.castShadow=true;
+    knee.add(shinTight);
+
     const ankle=new THREE.Group();
     ankle.position.y=-.56;
     knee.add(ankle);
@@ -2637,6 +5856,13 @@ function makePlayer(){
     shoe.position.set(0,-.155,.085);
     shoe.castShadow=true;
     ankle.add(shoe);
+
+    const toeCap=new THREE.Mesh(
+      new THREE.BoxGeometry(.180,.060,.14),
+      whiteMat
+    );
+    toeCap.position.set(0,-.135,.255);
+    ankle.add(toeCap);
 
     const sole=new THREE.Mesh(
       new THREE.BoxGeometry(.265,.035,.46),
@@ -2682,6 +5908,13 @@ function makePlayer(){
     );
     sideStripe.position.set(side*.297,-.23,.018);
     torsoGroup.add(sideStripe);
+
+    const sideAccent=new THREE.Mesh(
+      new THREE.BoxGeometry(.012,.31,.305),
+      trimAccent
+    );
+    sideAccent.position.set(side*.272,-.23,.018);
+    torsoGroup.add(sideAccent);
   }
 
   const torso=new THREE.Mesh(
@@ -2700,6 +5933,13 @@ function makePlayer(){
     );
     stripe.position.set(side*.295,.29,.015);
     torsoGroup.add(stripe);
+
+    const stripeAccent=new THREE.Mesh(
+      new THREE.BoxGeometry(.010,.67,.22),
+      trimAccent
+    );
+    stripeAccent.position.set(side*.270,.29,.015);
+    torsoGroup.add(stripeAccent);
   }
 
   const collar=new THREE.Mesh(
@@ -2717,6 +5957,25 @@ function makePlayer(){
   waistTrim.rotation.x=Math.PI/2;
   waistTrim.position.set(0,-.055,0);
   torsoGroup.add(waistTrim);
+
+  // 更像比赛球衣的肩带 / 袖笼区域
+  for(const side of [-1,1]){
+    const shoulderBand=new THREE.Mesh(
+      new THREE.BoxGeometry(.075,.18,.20),
+      jerseyTrim
+    );
+    shoulderBand.position.set(side*.208,.63,.01);
+    shoulderBand.rotation.z=side*.14;
+    torsoGroup.add(shoulderBand);
+
+    const shoulderAccent=new THREE.Mesh(
+      new THREE.BoxGeometry(.028,.18,.205),
+      trimAccent
+    );
+    shoulderAccent.position.set(side*.178,.63,.012);
+    shoulderAccent.rotation.z=side*.14;
+    torsoGroup.add(shoulderAccent);
+  }
 
   // --------------------
   // 球衣号码
@@ -2742,6 +6001,15 @@ function makePlayer(){
   numberPlane.position.set(0,.34,.275);
   torsoGroup.add(numberPlane);
 
+  const backNumberPlane=new THREE.Mesh(
+    new THREE.PlaneGeometry(.40,.46),
+    numberMat.clone()
+  );
+  backNumberPlane.material.side=THREE.DoubleSide;
+  backNumberPlane.position.set(0,.36,-.276);
+  backNumberPlane.rotation.y=Math.PI;
+  torsoGroup.add(backNumberPlane);
+
   // --------------------
   // 颈部与头部：头稍小
   // --------------------
@@ -2756,19 +6024,35 @@ function makePlayer(){
     new THREE.SphereGeometry(.205,28,22),
     skinMat
   );
-  head.scale.set(.94,1.02,.91);
-  head.position.set(0,.985,0);
+  head.scale.set(.88,1.08,.86);
+  head.position.set(0,.985,.004);
   head.castShadow=true;
   torsoGroup.add(head);
 
+  const jaw=new THREE.Mesh(
+    new THREE.SphereGeometry(.125,18,14),
+    skinMat
+  );
+  jaw.scale.set(1.05,.78,.88);
+  jaw.position.set(0,.905,.030);
+  torsoGroup.add(jaw);
+
+  const chin=new THREE.Mesh(
+    new THREE.SphereGeometry(.050,12,10),
+    skinMat
+  );
+  chin.scale.set(1.0,.82,.90);
+  chin.position.set(0,.850,.118);
+  torsoGroup.add(chin);
+
   // 耳朵
-  for(const ex of [-.20,.20]){
+  for(const ex of [-.185,.185]){
     const ear=new THREE.Mesh(
       new THREE.SphereGeometry(.043,12,10),
       skinMat
     );
-    ear.scale.set(.62,1,.46);
-    ear.position.set(ex,.995,0);
+    ear.scale.set(.56,.96,.42);
+    ear.position.set(ex,.980,-.004);
     torsoGroup.add(ear);
   }
 
@@ -2777,8 +6061,8 @@ function makePlayer(){
     new THREE.SphereGeometry(.035,12,10),
     skinMat
   );
-  nose.scale.set(.68,1,.83);
-  nose.position.set(0,.975,.188);
+  nose.scale.set(.60,1.06,.78);
+  nose.position.set(0,.970,.176);
   torsoGroup.add(nose);
 
   // 眼睛
@@ -2788,22 +6072,22 @@ function makePlayer(){
       whiteMat
     );
     eyeWhite.scale.set(1.15,.65,.45);
-    eyeWhite.position.set(ex,1.025,.182);
+    eyeWhite.position.set(ex,1.014,.170);
     torsoGroup.add(eyeWhite);
 
     const pupil=new THREE.Mesh(
       new THREE.SphereGeometry(.011,10,8),
       darkFaceMat
     );
-    pupil.position.set(ex,1.025,.205);
+    pupil.position.set(ex,1.014,.193);
     torsoGroup.add(pupil);
 
     const brow=new THREE.Mesh(
       new THREE.BoxGeometry(.066,.012,.012),
       hairMat
     );
-    brow.position.set(ex,1.070,.190);
-    brow.rotation.z=ex<0?.08:-.08;
+    brow.position.set(ex,1.055,.165);
+    brow.rotation.z=ex<0?.10:-.10;
     torsoGroup.add(brow);
   }
 
@@ -2812,7 +6096,7 @@ function makePlayer(){
     new THREE.BoxGeometry(.085,.010,.010),
     darkFaceMat
   );
-  mouth.position.set(0,.912,.191);
+  mouth.position.set(0,.900,.170);
   torsoGroup.add(mouth);
 
   const hairGroup=new THREE.Group();
@@ -2917,7 +6201,7 @@ function makePlayer(){
     MAT.ball
   );
   // 默认是双手把球抱在身体前下方，而不是贴在胸前。
-  heldBall.position.set(.018,-.020,.300);
+  heldBall.position.set(.245,.02,.40);
   heldBall.castShadow=true;
   torsoGroup.add(heldBall);
 
@@ -2926,19 +6210,21 @@ function makePlayer(){
   // releaseMarker 设在 1.36，使手/球释放位置超过头顶。
   const releaseMarker=new THREE.Object3D();
   // 右手出手点固定高于头顶，左手只做辅助手。
-  releaseMarker.position.set(.080,1.40,.230);
+  releaseMarker.position.set(.105,1.42,.215);
   torsoGroup.add(releaseMarker);
 
   function drawNumber(value='30'){
     nctx.clearRect(0,0,256,256);
     nctx.textAlign='center';
     nctx.textBaseline='middle';
-    nctx.lineWidth=16;
-    nctx.strokeStyle='#111111';
-    nctx.fillStyle='#ffffff';
-    nctx.font='900 150px Arial Black, Arial, sans-serif';
-    nctx.strokeText(String(value).slice(0,2),128,135);
-    nctx.fillText(String(value).slice(0,2),128,135);
+    nctx.lineJoin='round';
+    nctx.lineWidth=14;
+    nctx.strokeStyle='#f4f1ea';
+    nctx.fillStyle='#2b2b2b';
+    nctx.font='900 144px Arial Black, Arial, sans-serif';
+    const text=String(value).slice(0,2);
+    nctx.strokeText(text,128,138);
+    nctx.fillText(text,128,138);
     numberTexture.needsUpdate=true;
   }
 
@@ -2984,14 +6270,57 @@ function makePlayer(){
       hairGroup.add(cap);
     }
     else{
-      const h=new THREE.Mesh(
+      // 参考图风格：短寸两侧收紧，顶部略蓬松
+      const fadeCap=new THREE.Mesh(
         new THREE.SphereGeometry(
-          .208,24,16,0,Math.PI*2,0,Math.PI*.35
+          .176,22,16,0,Math.PI*2,0,Math.PI*.30
         ),
         hairMat
       );
-      h.position.set(0,1.070,0);
-      hairGroup.add(h);
+      fadeCap.scale.set(1.02,.92,.92);
+      fadeCap.position.set(0,1.058,-.010);
+      hairGroup.add(fadeCap);
+
+      for(const side of [-1,1]){
+        const sideFade=new THREE.Mesh(
+          new THREE.SphereGeometry(.070,12,10),
+          hairMat
+        );
+        sideFade.scale.set(.72,1.05,.70);
+        sideFade.position.set(side*.128,.995,-.012);
+        hairGroup.add(sideFade);
+      }
+
+      const topCap=new THREE.Mesh(
+        new THREE.SphereGeometry(
+          .132,18,14,0,Math.PI*2,0,Math.PI*.52
+        ),
+        hairMat
+      );
+      topCap.scale.set(1.08,1.05,.96);
+      topCap.position.set(0,1.118,-.004);
+      hairGroup.add(topCap);
+
+      const frontLine=new THREE.Mesh(
+        new THREE.BoxGeometry(.175,.026,.030),
+        hairMat
+      );
+      frontLine.position.set(0,1.090,.128);
+      hairGroup.add(frontLine);
+
+      for(let i=0;i<6;i++){
+        const tuft=new THREE.Mesh(
+          new THREE.SphereGeometry(.026,10,8),
+          hairMat
+        );
+        const x=-.085+i*.034;
+        tuft.position.set(
+          x,
+          1.118+Math.sin(i*.8)*.010,
+          .078-Math.abs(x)*.10
+        );
+        hairGroup.add(tuft);
+      }
     }
   }
 
@@ -3014,10 +6343,12 @@ function makePlayer(){
     materials:{
       jerseyMain,
       jerseyTrim,
+      trimAccent,
       shortsMain,
       skinMat,
       shoeMat,
-      hairMat
+      hairMat,
+      leggingsMat
     },
     drawNumber,
     setHair
@@ -3304,6 +6635,8 @@ function updateIdealSettings(resetCurrentPower=true){
 
   if(typeof syncDirectControls==='function'){
     syncDirectControls();
+
+shotPanelUI.classList.add('compact-ui');
   }
 }
 function previewVelocity(){
@@ -3664,57 +6997,57 @@ function easeInOutPose(t){
 function restorePose(){
   player.root.position.y=.45;
 
-  player.leftLeg.hip.position.z=.035;
-  player.rightLeg.hip.position.z=-.040;
+  player.leftLeg.hip.position.z=.030;
+  player.rightLeg.hip.position.z=-.050;
 
   player.torsoGroup.rotation.set(
-    0,
-    -.016,
-    0
+    .14,
+    -.14,
+    -.02
   );
 
-  player.leftLeg.hip.rotation.set(0,0,0);
-  player.rightLeg.hip.rotation.set(0,0,0);
+  player.leftLeg.hip.rotation.set(.24,0,-.05);
+  player.rightLeg.hip.rotation.set(.14,0,.04);
 
-  player.leftLeg.knee.rotation.set(0,0,0);
-  player.rightLeg.knee.rotation.set(0,0,0);
+  player.leftLeg.knee.rotation.set(-.34,0,0);
+  player.rightLeg.knee.rotation.set(-.24,0,0);
 
-  player.leftLeg.ankle.rotation.set(0,0,0);
-  player.rightLeg.ankle.rotation.set(0,0,0);
+  player.leftLeg.ankle.rotation.set(.08,0,0);
+  player.rightLeg.ankle.rotation.set(.05,0,0);
 
   // 修正主手 / 辅助手：
   // 右手在球下方偏后，作为真正投篮手；
   // 左手在球左侧偏外，只做辅助手。
   player.rightArm.shoulder.rotation.set(
-    -.70,
-    -.08,
-    .10
+    -.38,
+    -.24,
+    .30
   );
   player.leftArm.shoulder.rotation.set(
-    -.54,
-    .12,
-    -.26
+    -.10,
+    -.02,
+    -.14
   );
 
   player.rightArm.elbow.rotation.set(
-    -1.28,
-    0,
-    0
+    -.92,
+    .06,
+    .10
   );
   player.leftArm.elbow.rotation.set(
-    -1.05,
-    0,
-    0
+    -.72,
+    -.04,
+    -.08
   );
 
-  player.rightArm.wrist.rotation.set(.04,0,.02);
-  player.leftArm.wrist.rotation.set(-.02,0,-.16);
+  player.rightArm.wrist.rotation.set(.26,.08,-.06);
+  player.leftArm.wrist.rotation.set(.02,-.02,-.12);
 
-  // 双手把球抱在身体前下方，而不是胸前平放。
+  // 更像参考图：球在身体右前侧偏下，呈预备投篮 / 控球准备姿势。
   player.heldBall.position.set(
-    .018,
-    -.020,
-    .300
+    .245,
+    .02,
+    .40
   );
 }
 
@@ -3905,6 +7238,8 @@ function beginBallFlight(){
 
   if(!solved){
     ui.release.textContent='弧度无效';
+    triggerSideMeterFeedback('miss');
+    if(sideShotStatus) sideShotStatus.textContent='MISS';
     finishShot();
     return;
   }
@@ -4061,7 +7396,19 @@ function detectScore(prev){
     netHit=1;
     netSway=1;
     playSwishSound();
+    triggerSideMeterFeedback(
+      shot.grade.name==='PERFECT'
+        ? 'perfect'
+        : 'make'
+    );
     updateHUD();drawBoard();
+
+    if(sideShotStatus){
+      sideShotStatus.textContent=
+        shot.grade.name==='PERFECT'
+          ? 'GREEN'
+          : 'MAKE';
+    }
 
     const label=shot.grade.name==='PERFECT'
       ? `PERFECT SWISH +${shot.scoreValue}`
@@ -4085,6 +7432,7 @@ function finishShot(){
   trajectory.visible=true;
 
   ui.release.textContent='READY';
+  if(sideShotStatus) sideShotStatus.textContent='READY';
 
   power=100;
 
@@ -4235,10 +7583,28 @@ function updateShot(dt){
       combo=0;
 
       if(shot.flightAge<3.35){
+        const missType=
+          (shot.hasRim || shot.hasBoard)
+            ? 'brick'
+            : 'miss';
+
+        triggerSideMeterFeedback(missType);
+
+        if(sideShotStatus){
+          sideShotStatus.textContent=
+            missType==='brick'
+              ? 'BRICK'
+              : 'MISS';
+        }
+
         showBanner(
           shot.hasBoard
             ? '打板偏出'
-            : '未命中',
+            : (
+                shot.hasRim
+                  ? '打铁偏出'
+                  : '未命中'
+              ),
           'miss'
         );
       }
@@ -4414,6 +7780,25 @@ const flickStartEl=document.getElementById('flickStart');
 const flickLine=document.getElementById('flickLine');
 const flickTip=document.getElementById('flickTip');
 const flickHint=document.getElementById('flickHint');
+
+const sideArcBar=document.getElementById('sideArcBar');
+const sideArcThumb=document.getElementById('sideArcThumb');
+const sideArcFill=document.getElementById('sideArcFill');
+const sideArcValue=document.getElementById('sideArcValue');
+
+const sideAimPowerBar=document.getElementById('sideAimPowerBar');
+const sideAimPowerThumb=document.getElementById('sideAimPowerThumb');
+const sidePowerFillVertical=document.getElementById('sidePowerFillVertical');
+const sideIdealBand=document.getElementById('sideIdealBand');
+const sideAimValue=document.getElementById('sideAimValue');
+const sidePowerValue=document.getElementById('sidePowerValue');
+const sideShotStatus=document.getElementById('sideShotStatus');
+
+const sideShotHud=document.getElementById('sideShotHud');
+const sideBarHeads=[...document.querySelectorAll('.side-shot-hud .side-bar-head')];
+const sideArcMinus=document.getElementById('sideArcMinus');
+const sideArcPlus=document.getElementById('sideArcPlus');
+
 const aimXText=document.getElementById('aimXText');
 const arcText=document.getElementById('arcText');
 const arcSlider=document.getElementById('arcSlider');
@@ -4555,8 +7940,230 @@ function updateFlickReadout(){
   if(typeof syncDirectControls==='function'){
     syncDirectControls();
   }
+  updateSideBarsUI();
 }
 
+
+
+function getDefaultSideHudLayout(){
+  const width=innerWidth<=700 ? 244 : 300;
+  const left=(innerWidth-width)/2;
+  const top=innerWidth<=700
+    ? Math.max(92,innerHeight-296)
+    : Math.max(96,innerHeight-340);
+  return {left,top};
+}
+
+function keepSideHudInViewport(){
+  if(!sideShotHud) return;
+
+  const rect=sideShotHud.getBoundingClientRect();
+
+  let left=parseFloat(
+    sideShotHud.style.getPropertyValue('--side-hud-left')
+  );
+
+  let top=parseFloat(
+    sideShotHud.style.getPropertyValue('--side-hud-top')
+  );
+
+  if(!Number.isFinite(left) || !Number.isFinite(top)){
+    const fallback=getDefaultSideHudLayout();
+    left=fallback.left;
+    top=fallback.top;
+  }
+
+  const maxLeft=Math.max(8,innerWidth-rect.width-8);
+  const maxTop=Math.max(8,innerHeight-rect.height-8);
+
+  left=THREE.MathUtils.clamp(left,8,maxLeft);
+  top=THREE.MathUtils.clamp(top,8,maxTop);
+
+  sideShotHud.style.setProperty('--side-hud-left',`${left}px`);
+  sideShotHud.style.setProperty('--side-hud-top',`${top}px`);
+}
+
+function saveSideHudLayout(){
+  if(!sideShotHud) return;
+
+  const layout={
+    left:sideShotHud.style.getPropertyValue('--side-hud-left') || '',
+    top:sideShotHud.style.getPropertyValue('--side-hud-top') || ''
+  };
+
+  try{
+    localStorage.setItem(
+      'basketball_side_hud_layout_v2',
+      JSON.stringify(layout)
+    );
+  }catch{}
+}
+
+function loadSideHudLayout(){
+  if(!sideShotHud) return;
+  requestAnimationFrame(()=>{
+    updateSideHudFollowPlayer();
+  });
+}
+
+
+function projectWorldToScreen(world){
+  const p=world.clone().project(camera);
+  return {
+    x:(p.x*.5+.5)*innerWidth,
+    y:(-p.y*.5+.5)*innerHeight,
+    z:p.z
+  };
+}
+
+function updateSideHudFollowPlayer(){
+  if(
+    !sideShotHud ||
+    !player ||
+    !player.root
+  ){
+    return;
+  }
+
+  const world=new THREE.Vector3(
+    player.root.position.x,
+    1.62,
+    player.root.position.z
+  );
+
+  const screen=projectWorldToScreen(world);
+
+  if(screen.z>1){
+    const fallbackX=innerWidth*.5;
+    const fallbackY=innerHeight*.52;
+    sideShotHud.style.setProperty('--side-hud-top',`${fallbackY-72}px`);
+    sideShotHud.style.setProperty('--side-aim-left',`${fallbackX+34}px`);
+    return;
+  }
+
+  const aimWidth=sideShotHud.querySelector('.side-aim-wrap')?.offsetWidth || (innerWidth<=700?29:32);
+  const barHeight=sideShotHud.querySelector('.side-aim-wrap')?.offsetHeight || 198;
+
+  // 单侧放在人物右侧外缘，避免遮挡人物本身。
+  const lateralGap=innerWidth<=700 ? 24 : 28;
+  const top=THREE.MathUtils.clamp(
+    screen.y-barHeight*.46,
+    76,
+    innerHeight-barHeight-64
+  );
+
+  const aimLeft=THREE.MathUtils.clamp(
+    screen.x+lateralGap,
+    8,
+    innerWidth-aimWidth-8
+  );
+
+  sideShotHud.style.setProperty('--side-hud-top',`${top}px`);
+  sideShotHud.style.setProperty('--side-aim-left',`${aimLeft}px`);
+}
+
+
+let sideMeterFeedbackTimer=null;
+
+function triggerSideMeterFeedback(type='make'){
+  if(!sideShotHud) return;
+
+  sideShotHud.classList.remove(
+    'meter-made',
+    'meter-perfect',
+    'meter-miss',
+    'meter-brick'
+  );
+
+  // Force reflow so repeated events retrigger animation.
+  void sideShotHud.offsetWidth;
+
+  if(type==='perfect'){
+    sideShotHud.classList.add(
+      'meter-made',
+      'meter-perfect'
+    );
+  }
+  else if(type==='miss'){
+    sideShotHud.classList.add('meter-miss');
+  }
+  else if(type==='brick'){
+    sideShotHud.classList.add('meter-brick');
+  }
+  else{
+    sideShotHud.classList.add('meter-made');
+  }
+
+  clearTimeout(sideMeterFeedbackTimer);
+  sideMeterFeedbackTimer=setTimeout(()=>{
+    if(sideShotHud){
+      sideShotHud.classList.remove(
+        'meter-made',
+        'meter-perfect',
+        'meter-miss',
+        'meter-brick'
+      );
+    }
+  },820);
+}
+
+function updateSideBarsUI(){
+  if(sideArcValue){
+    sideArcValue.textContent=`${arcDeg.toFixed(1).replace('.0','')}°`;
+  }
+
+  const arcPct=THREE.MathUtils.clamp(
+    (arcDeg-45)/(70-45),
+    0,
+    1
+  );
+
+  if(sideArcThumb){
+    sideArcThumb.style.top=`${(1-arcPct)*100}%`;
+  }
+
+  if(sideArcFill){
+    sideArcFill.style.height=`${Math.max(6,arcPct*100)}%`;
+  }
+
+  if(sidePowerValue){
+    sidePowerValue.textContent=`${Math.round(power)}%`;
+  }
+
+  if(sideShotStatus && !shot && !sideShotDragging){
+    sideShotStatus.textContent='READY';
+  }
+
+  if(sideAimValue){
+    if(Math.abs(aimX)<.08) sideAimValue.textContent='中';
+    else sideAimValue.textContent=aimX<0
+      ? '左'
+      : '右';
+  }
+
+  const powerPct=powerToBarPercent(power);
+  const aimPct=THREE.MathUtils.clamp(
+    (aimX+.58)/(1.16)*100,
+    0,
+    100
+  );
+
+  if(sideAimPowerThumb){
+    sideAimPowerThumb.style.left=`${aimPct}%`;
+    sideAimPowerThumb.style.top=`${100-powerPct}%`;
+  }
+
+  if(sidePowerFillVertical){
+    sidePowerFillVertical.style.height=`${powerPct}%`;
+  }
+
+  if(sideIdealBand){
+    const low=powerToBarPercent(idealPower-4);
+    const high=powerToBarPercent(idealPower+4);
+    sideIdealBand.style.bottom=`${low}%`;
+    sideIdealBand.style.height=`${Math.max(10,high-low)}%`;
+  }
+}
 function resetFlickVisual(){
   flickLine.style.opacity='0';
   flickTip.style.opacity='0';
@@ -4665,6 +8272,7 @@ shotPad.addEventListener('pointerdown',e=>{
   shotPad.classList.add('dragging');
   flickHint.style.opacity='.25';
   ui.release.textContent='SHOOT';
+  if(sideShotStatus) sideShotStatus.textContent='SHOOT';
 
   drawFlickVector();
   updateFlickReadout();
@@ -4726,6 +8334,171 @@ shotPad.addEventListener('pointercancel',e=>{
   resetFlickVisual();
   updateFlickReadout();
   ui.release.textContent='READY';
+});
+
+// ---------------------------------------------------------
+// 侧边投篮条整体拖动
+// ---------------------------------------------------------
+let sideHudDragging=false;
+let sideHudPointerId=null;
+let sideHudDragOffsetX=0;
+let sideHudDragOffsetY=0;
+
+function beginSideHudDrag(e){ return; }
+
+function moveSideHudDrag(e){ return; }
+
+function endSideHudDrag(e){ return; }
+
+
+// ---------------------------------------------------------
+// 侧边投篮条控制
+// ---------------------------------------------------------
+let sideArcDragging=false;
+let sideArcPointerId=null;
+
+let sideShotDragging=false;
+let sideShotPointerId=null;
+
+function setArcFromSideBar(clientY){
+  const rect=sideArcBar.getBoundingClientRect();
+  const t=THREE.MathUtils.clamp(
+    (clientY-rect.top)/rect.height,
+    0,
+    1
+  );
+
+  // 上高下低
+  setArc(
+    THREE.MathUtils.lerp(
+      70,
+      45,
+      t
+    )
+  );
+}
+
+function setAimPowerFromSideBar(clientX,clientY){
+  const rect=
+    sideAimPowerBar.getBoundingClientRect();
+
+  const tx=THREE.MathUtils.clamp(
+    (clientX-rect.left)/rect.width,
+    0,
+    1
+  );
+
+  const ty=THREE.MathUtils.clamp(
+    (clientY-rect.top)/rect.height,
+    0,
+    1
+  );
+
+  aimX=THREE.MathUtils.lerp(
+    -.58,
+    .58,
+    tx
+  );
+
+  power=THREE.MathUtils.lerp(
+    POWER_MAX,
+    POWER_MIN,
+    ty
+  );
+
+  aimDepth=0;
+
+  updateFlickReadout();
+}
+
+
+sideAimPowerBar?.addEventListener('pointerdown',e=>{
+  if(shot) return;
+  e.preventDefault();
+  e.stopPropagation();
+  audio();
+  controls.enabled=false;
+  flicking=true;
+  sideShotDragging=true;
+  sideShotPointerId=e.pointerId;
+  try{
+    sideAimPowerBar.setPointerCapture(e.pointerId);
+  }catch{}
+  setAimPowerFromSideBar(e.clientX,e.clientY);
+  ui.release.textContent='SHOOT';
+  if(sideShotStatus) sideShotStatus.textContent='拖动中';
+});
+
+sideAimPowerBar?.addEventListener('pointermove',e=>{
+  if(!sideShotDragging || e.pointerId!==sideShotPointerId) return;
+  e.preventDefault();
+  setAimPowerFromSideBar(e.clientX,e.clientY);
+  if(sideShotStatus) sideShotStatus.textContent='松手投篮';
+});
+
+function endSideShotDrag(e,shouldShoot=true){
+  if(!sideShotDragging) return;
+  if(e?.pointerId!==undefined && e.pointerId!==sideShotPointerId) return;
+
+  if(e?.clientX!==undefined && e?.clientY!==undefined){
+    setAimPowerFromSideBar(e.clientX,e.clientY);
+  }
+
+  sideShotDragging=false;
+  sideShotPointerId=null;
+  flicking=false;
+  controls.enabled=true;
+
+  try{
+    sideAimPowerBar.releasePointerCapture(e.pointerId);
+  }catch{}
+
+  if(!shot && shouldShoot){
+    if(sideShotStatus) sideShotStatus.textContent='SHOOT';
+    launchShot();
+  }else if(!shot){
+    if(sideShotStatus) sideShotStatus.textContent='READY';
+  }
+}
+
+sideAimPowerBar?.addEventListener('pointerup',e=>{
+  endSideShotDrag(e,true);
+});
+
+sideAimPowerBar?.addEventListener('pointercancel',e=>{
+  endSideShotDrag(e,false);
+  power=idealPower;
+  aimX=0;
+  updateFlickReadout();
+  ui.release.textContent='READY';
+});
+
+sideArcMinus?.addEventListener('click',e=>{
+  e.preventDefault();
+  e.stopPropagation();
+  setArc(arcDeg-1);
+  if(sideShotStatus && !shot){
+    sideShotStatus.textContent='ARC';
+    setTimeout(()=>{
+      if(sideShotStatus && !shot){
+        sideShotStatus.textContent='READY';
+      }
+    },320);
+  }
+});
+
+sideArcPlus?.addEventListener('click',e=>{
+  e.preventDefault();
+  e.stopPropagation();
+  setArc(arcDeg+1);
+  if(sideShotStatus && !shot){
+    sideShotStatus.textContent='ARC';
+    setTimeout(()=>{
+      if(sideShotStatus && !shot){
+        sideShotStatus.textContent='READY';
+      }
+    },320);
+  }
 });
 
 // ---------------------------------------------------------
@@ -4834,6 +8607,20 @@ function resize(){
 }
 addEventListener('resize',resize);
 addEventListener('resize',()=>{
+  if(shotPanelUI){
+    shotPanelUI.classList.add('compact-ui');
+    shotPanelUI.classList.add('free-position');
+
+    requestAnimationFrame(()=>{
+      keepShotPanelInViewport();
+    });
+  }
+
+  if(sideShotHud){
+    requestAnimationFrame(()=>{
+      updateSideHudFollowPlayer();
+    });
+  }
   if(
     shotPanelUI &&
     shotPanelUI.classList.contains(
@@ -4878,6 +8665,7 @@ function animate(){
   idlePlayer(elapsed);
   updateHUD();
   drawBoard();
+  updateSideHudFollowPlayer();
 
   controls.update();
   renderer.render(scene,camera);
@@ -5258,6 +9046,113 @@ function stopResizeShotPanel(pointerId){
 panelResizer?.addEventListener('pointerup',e=>stopResizeShotPanel(e.pointerId));
 panelResizer?.addEventListener('pointercancel',e=>stopResizeShotPanel(e.pointerId));
 
+function isCompactMobileViewport(){
+  return innerWidth<=700;
+}
+
+function getDefaultShotPanelLayout(){
+  if(isCompactMobileViewport()){
+    const width=Math.min(
+      236,
+      Math.max(
+        198,
+        innerWidth*0.42
+      )
+    );
+
+    const height=226;
+
+    return {
+      left:8,
+      top:Math.max(
+        116,
+        innerHeight-height-84
+      ),
+      width,
+      height
+    };
+  }
+
+  return {
+    left:10,
+    top:10,
+    width:272,
+    height:248
+  };
+}
+
+function keepShotPanelInViewport(){
+  if(!shotPanelUI) return;
+
+  shotPanelUI.classList.add('free-position');
+
+  const rect=
+    shotPanelUI.getBoundingClientRect();
+
+  let left=parseFloat(
+    shotPanelUI.style.getPropertyValue(
+      '--panel-left'
+    )
+  );
+
+  let top=parseFloat(
+    shotPanelUI.style.getPropertyValue(
+      '--panel-top'
+    )
+  );
+
+  if(!Number.isFinite(left)) left=10;
+  if(!Number.isFinite(top)) top=10;
+
+  const maxLeft=Math.max(
+    8,
+    innerWidth-rect.width-8
+  );
+
+  const maxTop=Math.max(
+    8,
+    innerHeight-rect.height-8
+  );
+
+  shotPanelUI.style.setProperty(
+    '--panel-left',
+    `${THREE.MathUtils.clamp(left,8,maxLeft)}px`
+  );
+
+  shotPanelUI.style.setProperty(
+    '--panel-top',
+    `${THREE.MathUtils.clamp(top,8,maxTop)}px`
+  );
+}
+
+function applyDefaultShotPanelLayout(){
+  const layout=
+    getDefaultShotPanelLayout();
+
+  shotPanelUI.className=
+    'shot-control-hud compact-ui free-position';
+
+  shotPanelUI.style.setProperty(
+    '--panel-left',
+    `${layout.left}px`
+  );
+
+  shotPanelUI.style.setProperty(
+    '--panel-top',
+    `${layout.top}px`
+  );
+
+  shotPanelUI.style.setProperty(
+    '--panel-width',
+    `${Math.round(layout.width)}px`
+  );
+
+  shotPanelUI.style.setProperty(
+    '--panel-height',
+    `${Math.round(layout.height)}px`
+  );
+}
+
 function saveShotPanelLayout(){
   const layout={
     width:
@@ -5281,7 +9176,7 @@ function saveShotPanelLayout(){
 
   try{
     localStorage.setItem(
-      'basketball3d_shotpanel_layout_v4',
+      'basketball3d_shotpanel_layout_v10',
       JSON.stringify(layout)
     );
   }catch{}
@@ -5290,10 +9185,13 @@ function saveShotPanelLayout(){
 function loadShotPanelLayout(){
   let layout=null;
 
+  shotPanelUI.className=
+    'shot-control-hud compact-ui free-position';
+
   try{
     layout=JSON.parse(
       localStorage.getItem(
-        'basketball3d_shotpanel_layout_v4'
+        'basketball3d_shotpanel_layout_v10'
       ) || 'null'
     );
   }catch{}
@@ -5316,85 +9214,100 @@ function loadShotPanelLayout(){
       );
     }
 
-    if(
-      layout.free &&
-      layout.left &&
-      layout.top
-    ){
-      shotPanelUI.classList.add(
-        'free-position'
-      );
-
+    if(layout.left){
       shotPanelUI.style.setProperty(
         '--panel-left',
         layout.left
       );
+    }
 
+    if(layout.top){
       shotPanelUI.style.setProperty(
         '--panel-top',
         layout.top
       );
     }
-    else{
-      shotPanelUI.classList.add(
-        'free-position'
-      );
+  }
+  else{
+    applyDefaultShotPanelLayout();
+  }
+
+  // Remove old inline fallback positioning once CSS vars are ready.
+  shotPanelUI.style.removeProperty('left');
+  shotPanelUI.style.removeProperty('top');
+  shotPanelUI.style.removeProperty('width');
+  shotPanelUI.style.removeProperty('height');
+  shotPanelUI.style.removeProperty('display');
+  shotPanelUI.style.removeProperty('visibility');
+  shotPanelUI.style.removeProperty('opacity');
+  shotPanelUI.style.removeProperty('z-index');
+  shotPanelUI.style.removeProperty('pointer-events');
+
+  requestAnimationFrame(()=>{
+    keepShotPanelInViewport();
+
+    const rect=
+      shotPanelUI.getBoundingClientRect();
+
+    // Absolute emergency fallback: if layout somehow computes to
+    // an invisible box, force it back to a safe desktop/mobile size.
+    if(
+      rect.width<170 ||
+      rect.height<110 ||
+      rect.right<0 ||
+      rect.bottom<0 ||
+      rect.left>innerWidth ||
+      rect.top>innerHeight
+    ){
+      const fallback=
+        getDefaultShotPanelLayout();
 
       shotPanelUI.style.setProperty(
         '--panel-left',
-        '10px'
+        `${fallback.left}px`
       );
 
       shotPanelUI.style.setProperty(
         '--panel-top',
-        '10px'
+        `${fallback.top}px`
+      );
+
+      shotPanelUI.style.setProperty(
+        '--panel-width',
+        `${fallback.width}px`
+      );
+
+      shotPanelUI.style.setProperty(
+        '--panel-height',
+        `${fallback.height}px`
       );
     }
-  }
-  else{
-    shotPanelUI.classList.add(
-      'free-position'
-    );
 
-    shotPanelUI.style.setProperty(
-      '--panel-left',
-      '10px'
-    );
-
-    shotPanelUI.style.setProperty(
-      '--panel-top',
-      '10px'
-    );
-
-    shotPanelUI.style.setProperty(
-      '--panel-width',
-      '330px'
-    );
-
-    shotPanelUI.style.setProperty(
-      '--panel-height',
-      '350px'
-    );
-  }
+    saveShotPanelLayout();
+  });
 
   const w=parseFloat(
     shotPanelUI.style.getPropertyValue(
       '--panel-width'
     )
-  ) || 330;
+  ) || 272;
 
   const h=parseFloat(
     shotPanelUI.style.getPropertyValue(
       '--panel-height'
     )
-  ) || 350;
+  ) || 248;
 
   if(hudWidthSlider){
-    hudWidthSlider.value=String(Math.round(w));
+    hudWidthSlider.value=String(
+      Math.round(w)
+    );
   }
 
   if(hudHeightSlider){
-    hudHeightSlider.value=String(Math.round(h));
+    hudHeightSlider.value=String(
+      Math.round(h)
+    );
   }
 
   if(hudWidthValue){
@@ -5409,29 +9322,15 @@ function loadShotPanelLayout(){
 }
 
 dockResetLayout?.addEventListener('click',()=>{
-  shotPanelUI.classList.add(
-    'free-position'
-  );
+  shotPanelUI.className=
+    'shot-control-hud compact-ui free-position';
 
-  shotPanelUI.style.setProperty(
-    '--panel-left',
-    '10px'
-  );
+  applyDefaultShotPanelLayout();
+  keepShotPanelInViewport();
 
-  shotPanelUI.style.setProperty(
-    '--panel-top',
-    '10px'
-  );
-
-  shotPanelUI.style.setProperty(
-    '--panel-width',
-    '330px'
-  );
-
-  shotPanelUI.style.setProperty(
-    '--panel-height',
-    '350px'
-  );
+  if(toggleShotPanel){
+    toggleShotPanel.textContent='收起';
+  }
 
   saveShotPanelLayout();
 });
@@ -5453,6 +9352,15 @@ const playerCustom=document.getElementById('playerCustom');
 const toggleCustom=document.getElementById('toggleCustom');
 
 const playerPresets={
+  reference:{
+    jersey:'#f4f1ea',
+    trim:'#f0c43f',
+    skin:'#c88c66',
+    shoe:'#ffffff',
+    number:30,
+    hair:'short',
+    build:.95
+  },
   curry:{
     jersey:'#1d428a',
     trim:'#ffc72c',
@@ -5492,8 +9400,14 @@ function applyPlayerAppearance(){
   player.materials.jerseyMain.color.set(jerseyColor.value);
   player.materials.shortsMain.color.set(jerseyColor.value);
   player.materials.jerseyTrim.color.set(trimColor.value);
+  if(player.materials.trimAccent){
+    player.materials.trimAccent.color.set('#d65246');
+  }
   player.materials.skinMat.color.set(skinColor.value);
   player.materials.shoeMat.color.set(shoeColor.value);
+  if(player.materials.leggingsMat){
+    player.materials.leggingsMat.color.set('#f7f7f7');
+  }
 
   player.drawNumber(
     THREE.MathUtils.clamp(
@@ -5570,7 +9484,8 @@ toggleCustom.addEventListener('click',()=>{
 // 初始化
 // ---------------------------------------------------------
 renderLeaderboard();
-loadPreset('curry');
+playerPreset.value='reference';
+loadPreset('reference');
 updateModeUI();
 updateChallengeHUD();
 moveToSpot(currentSpot);
@@ -5594,13 +9509,32 @@ if(shotDefaultPanel){
 if(shotDefaultToggle){
   shotDefaultToggle.textContent='收起';
 }
+
+// Final safety: shooting controls must always be visible on load.
+shotPanelUI.className='shot-control-hud compact-ui free-position';
+
+requestAnimationFrame(()=>{
+  keepShotPanelInViewport();
+});
+
+// 彻底关闭旧投篮控制区，避免再次显示。
+if(shotPanelUI){
+  shotPanelUI.className='legacy-shot-panel-disabled';
+  shotPanelUI.innerHTML='';
+  shotPanelUI.style.cssText='display:none !important; visibility:hidden !important; opacity:0 !important; pointer-events:none !important; width:0 !important; height:0 !important; overflow:hidden !important;';
+}
+
+loadSideHudLayout();
 updateIdealSettings();
 updatePowerUI();
 updateHUD();
 updateFlickReadout();
+updateSideBarsUI();
 drawBoard();
 loading.style.display='none';
 animate();
 </script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"7939e04a4baf43c8b86a560f74aac60e"}' crossorigin="anonymous"></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"1c1c7799c54e46349cc23295b5e08299"}' crossorigin="anonymous"></script>
 </body>
 </html>
