@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>投🏀挑战</title>
+<title>投篮练习 - 真实力度</title>
 
 <style>
 :root{
@@ -4813,6 +4813,241 @@ button.primary{
    REFERENCE SHOOTER REFINED MODEL PASS
    ========================================================== */
 
+
+/* ==========================================================
+   MOBILE VIEW + TOUCH CONTROL OPTIMIZATION
+   ========================================================== */
+@media(max-width:700px){
+  #helpPanel,
+  .leaderboard,
+  .player-custom,
+  .challenge-hud{
+    display:none !important;
+  }
+
+  .stats{
+    position:fixed !important;
+    top:6px !important;
+    left:6px !important;
+    right:6px !important;
+    width:auto !important;
+    grid-template-columns:repeat(3,1fr) !important;
+    gap:4px !important;
+    padding:5px !important;
+    z-index:80 !important;
+    border-radius:12px !important;
+    background:rgba(8,10,14,.54) !important;
+    backdrop-filter:blur(8px) !important;
+  }
+  .stats .stat{
+    padding:5px 4px !important;
+    border-radius:9px !important;
+  }
+  .stats .stat .k{
+    font-size:7px !important;
+    margin-bottom:1px !important;
+  }
+  .stats .stat .v{
+    font-size:15px !important;
+  }
+
+  .spots{
+    position:fixed !important;
+    top:52px !important;
+    left:6px !important;
+    right:6px !important;
+    transform:none !important;
+    max-width:none !important;
+    width:auto !important;
+    padding:5px !important;
+    overflow-x:auto !important;
+    flex-wrap:nowrap !important;
+    justify-content:flex-start !important;
+    z-index:78 !important;
+    border-radius:12px !important;
+    background:rgba(8,10,14,.46) !important;
+    backdrop-filter:blur(8px) !important;
+    scrollbar-width:none;
+  }
+  .spots::-webkit-scrollbar{
+    display:none;
+  }
+  #spots{
+    flex-wrap:nowrap !important;
+    overflow-x:auto !important;
+    justify-content:flex-start !important;
+    scrollbar-width:none;
+  }
+  #spots::-webkit-scrollbar{
+    display:none;
+  }
+  .spots-label{
+    flex:0 0 auto;
+    font-size:8px !important;
+    padding:0 4px !important;
+  }
+  .spot-btn{
+    flex:0 0 auto;
+    padding:5px 7px !important;
+    font-size:9px !important;
+    border-radius:999px !important;
+    white-space:nowrap !important;
+  }
+
+  .mode-panel{
+    position:fixed !important;
+    left:6px !important;
+    right:auto !important;
+    bottom:52px !important;
+    top:auto !important;
+    width:118px !important;
+    padding:7px 8px !important;
+    z-index:72 !important;
+    opacity:.82;
+  }
+  .mode-panel .mode-title{
+    font-size:10px !important;
+  }
+
+  .gamebar{
+    position:fixed !important;
+    left:50% !important;
+    right:auto !important;
+    bottom:22px !important;
+    transform:translateX(-50%) !important;
+    width:min(270px,calc(100vw - 132px)) !important;
+    padding:5px !important;
+    gap:4px !important;
+    z-index:76 !important;
+    background:rgba(8,10,14,.48) !important;
+    backdrop-filter:blur(8px) !important;
+  }
+  .gamebar button{
+    flex:1 1 0 !important;
+    min-width:0 !important;
+    padding:6px 5px !important;
+    font-size:9px !important;
+    border-radius:8px !important;
+  }
+
+  .time-meter{
+    position:fixed !important;
+    left:8px !important;
+    right:8px !important;
+    bottom:7px !important;
+    transform:none !important;
+    width:auto !important;
+    height:4px !important;
+    z-index:76 !important;
+    opacity:.78;
+  }
+
+  .banner{
+    top:92px !important;
+    font-size:17px !important;
+    padding:7px 12px !important;
+    z-index:90 !important;
+  }
+
+  /* Mobile Shot Meter: fixed thumb zone, not over the player */
+  .side-shot-hud.one-side-hud{
+    pointer-events:none !important;
+    z-index:120 !important;
+  }
+  .side-shot-hud.one-side-hud .side-aim-wrap.single-side-meter{
+    position:fixed !important;
+    left:auto !important;
+    right:10px !important;
+    top:auto !important;
+    bottom:70px !important;
+    width:52px !important;
+    pointer-events:auto !important;
+  }
+
+  .side-shot-hud.one-side-hud .side-aim-bar{
+    width:42px !important;
+    height:176px !important;
+    margin-left:auto !important;
+    margin-right:0 !important;
+    border-radius:999px !important;
+    background:rgba(12,15,20,.20) !important;
+  }
+  .side-shot-hud.one-side-hud .side-aim-track{
+    inset:10px 13px !important;
+  }
+  .side-shot-hud.one-side-hud .side-power-fill,
+  .side-shot-hud.one-side-hud .side-ideal-band{
+    left:12px !important;
+    right:12px !important;
+  }
+  .side-shot-hud.one-side-hud .side-aim-thumb{
+    width:16px !important;
+    height:16px !important;
+  }
+
+  .side-shot-hud.one-side-hud .side-arc-buttons{
+    width:100% !important;
+    padding:4px !important;
+    gap:4px !important;
+    margin-bottom:6px !important;
+    background:rgba(12,15,20,.36) !important;
+  }
+  .side-shot-hud.one-side-hud .side-arc-buttons button{
+    width:23px !important;
+    height:23px !important;
+    font-size:15px !important;
+  }
+  .side-shot-hud.one-side-hud .side-arc-mini{
+    min-width:34px !important;
+  }
+  .side-shot-hud.one-side-hud .side-arc-mini span{
+    font-size:6px !important;
+  }
+  .side-shot-hud.one-side-hud .side-arc-mini strong{
+    font-size:9px !important;
+  }
+
+  .side-shot-hud.one-side-hud .side-bar-head{
+    display:none !important;
+  }
+  .side-shot-hud.one-side-hud .side-aim-readout{
+    width:52px !important;
+    margin-top:5px !important;
+    padding:4px !important;
+    justify-content:space-around !important;
+  }
+  .side-shot-hud.one-side-hud .side-aim-readout span{
+    font-size:6px !important;
+  }
+  .side-shot-hud.one-side-hud .side-aim-hint{
+    width:58px !important;
+    font-size:6px !important;
+    bottom:12px !important;
+    opacity:.88;
+  }
+
+  #app canvas{
+    touch-action:none;
+  }
+}
+
+@media(max-width:430px){
+  .gamebar{
+    width:calc(100vw - 116px) !important;
+  }
+  .gamebar button{
+    font-size:8px !important;
+    padding:6px 4px !important;
+  }
+  .side-shot-hud.one-side-hud .side-aim-wrap.single-side-meter{
+    right:7px !important;
+    bottom:66px !important;
+  }
+  .side-shot-hud.one-side-hud .side-aim-bar{
+    height:164px !important;
+  }
+}
+
 </style>
 </head>
 
@@ -5116,7 +5351,7 @@ button.primary{
         <div class="side-ideal-band" id="sideIdealBand"></div>
         <div class="side-power-fill" id="sidePowerFillVertical"></div>
         <div class="side-aim-thumb" id="sideAimPowerThumb"></div>
-        <div class="side-aim-hint" id="sideAimHint">按住拖动<br><b>松手投篮</b></div>
+        <div class="side-aim-hint" id="sideAimHint">上滑力度<br><b>左右方向</b></div>
       </div>
 
       <div class="side-aim-readout">
@@ -5189,6 +5424,51 @@ controls.update();
 
 const defaultCameraPosition = new THREE.Vector3(0,8.6,24.2);
 const defaultCameraTarget = new THREE.Vector3(0,3.2,5.2);
+
+function isMobileViewport(){
+  return innerWidth<=700 || innerWidth/innerHeight<.78;
+}
+
+const mobileCameraPosition = new THREE.Vector3(0,11.8,31.5);
+const mobileCameraTarget = new THREE.Vector3(0,2.9,6.4);
+
+function applyResponsiveCamera(force=false){
+  const mobile=isMobileViewport();
+
+  camera.fov=mobile ? 50 : 34;
+  camera.aspect=innerWidth/innerHeight;
+  camera.updateProjectionMatrix();
+
+  if(mobile){
+    controls.minDistance=10.5;
+    controls.maxDistance=52;
+    controls.enablePan=false;
+    controls.rotateSpeed=.48;
+    controls.zoomSpeed=.72;
+    controls.touches.ONE=THREE.TOUCH.ROTATE;
+    controls.touches.TWO=THREE.TOUCH.DOLLY_ROTATE;
+
+    if(force){
+      camera.position.copy(mobileCameraPosition);
+      controls.target.copy(mobileCameraTarget);
+      controls.update();
+    }
+  }
+  else{
+    controls.minDistance=5.3;
+    controls.maxDistance=42;
+    controls.enablePan=true;
+    controls.rotateSpeed=.65;
+    controls.zoomSpeed=.9;
+
+    if(force){
+      camera.position.copy(defaultCameraPosition);
+      controls.target.copy(defaultCameraTarget);
+      controls.update();
+    }
+  }
+}
+
 
 scene.add(new THREE.HemisphereLight(0xe9eeff,0x49392f,1.8));
 const keyLight = new THREE.DirectionalLight(0xffffff,2.05);
@@ -8025,6 +8305,13 @@ function updateSideHudFollowPlayer(){
     return;
   }
 
+  // 手机端固定在右下操作区，避免贴住人物挡视野。
+  if(isMobileViewport()){
+    sideShotHud.style.removeProperty('--side-hud-top');
+    sideShotHud.style.removeProperty('--side-aim-left');
+    return;
+  }
+
   const world=new THREE.Vector3(
     player.root.position.x,
     1.62,
@@ -8041,11 +8328,10 @@ function updateSideHudFollowPlayer(){
     return;
   }
 
-  const aimWidth=sideShotHud.querySelector('.side-aim-wrap')?.offsetWidth || (innerWidth<=700?29:32);
+  const aimWidth=sideShotHud.querySelector('.side-aim-wrap')?.offsetWidth || 32;
   const barHeight=sideShotHud.querySelector('.side-aim-wrap')?.offsetHeight || 198;
 
-  // 单侧放在人物右侧外缘，避免遮挡人物本身。
-  const lateralGap=innerWidth<=700 ? 24 : 28;
+  const lateralGap=28;
   const top=THREE.MathUtils.clamp(
     screen.y-barHeight*.46,
     76,
@@ -8515,9 +8801,7 @@ spots.forEach((s,i)=>{
 
 document.getElementById('startGame').addEventListener('click',startGame);
 document.getElementById('resetCamera').addEventListener('click',()=>{
-  camera.position.copy(defaultCameraPosition);
-  controls.target.copy(defaultCameraTarget);
-  controls.update();
+  applyResponsiveCamera(true);
 });
 document.getElementById('resetGame').addEventListener('click',()=>{
   if(shot) finishShot();
@@ -8601,9 +8885,7 @@ function idlePlayer(t){
 }
 function resize(){
   renderer.setSize(innerWidth,innerHeight);
-  camera.aspect=innerWidth/innerHeight;
-  camera.fov=innerWidth/innerHeight<.95?38:34;
-  camera.updateProjectionMatrix();
+  applyResponsiveCamera(false);
 }
 addEventListener('resize',resize);
 addEventListener('resize',()=>{
@@ -8619,6 +8901,12 @@ addEventListener('resize',()=>{
   if(sideShotHud){
     requestAnimationFrame(()=>{
       updateSideHudFollowPlayer();
+    });
+  }
+
+  if(isMobileViewport()){
+    requestAnimationFrame(()=>{
+      applyResponsiveCamera(true);
     });
   }
   if(
@@ -9531,6 +9819,8 @@ updateHUD();
 updateFlickReadout();
 updateSideBarsUI();
 drawBoard();
+resize();
+applyResponsiveCamera(isMobileViewport());
 loading.style.display='none';
 animate();
 </script>
