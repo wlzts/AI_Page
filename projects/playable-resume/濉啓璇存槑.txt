@@ -1,0 +1,21 @@
+【只改 resume-data.js】
+
+你以后更新个人简历时，只需要打开同目录下的：
+
+resume-data.js
+
+然后找到对应栏目修改即可。
+
+最常修改的地方：
+1. profile：姓名、职位、简介、联系方式
+2. experience：工作经历
+3. education：教育经历
+4. projects：项目
+5. skills：技能等级（1~5）
+6. achievements：证书/成就
+
+注意：
+- GitHub、LinkedIn、个人网站没有就保持 ""，按钮会自动隐藏。
+- 项目 Demo/GitHub/案例链接没有就保持 ""，游戏不会显示空按钮。
+- 有真实简历 PDF 后，将 profile.resume 改为 "resume.pdf"。
+- 学校名称和工作时间现在是“暂未填写”，补充后会自动同步到网页与游戏。
