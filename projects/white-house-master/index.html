@@ -2,2663 +2,4567 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<meta name="theme-color" content="#211c17" />
-<title>今日野卦</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="theme-color" content="#0b1f38" />
+<title>美国总统上岗模拟器 · Deluxe</title>
 <style>
 :root{
-  --ink:#211c17;
-  --ink-2:#3b3026;
-  --paper:#efe3ca;
-  --paper-2:#e6d5b3;
-  --paper-3:#f7edd9;
-  --red:#a73020;
-  --red-dark:#7f2418;
-  --gold:#9f7c46;
-  --muted:#746957;
-  --line:rgba(33,28,23,.18);
-  --line-strong:rgba(33,28,23,.42);
-  --shadow:0 22px 52px rgba(49,38,27,.16);
-  --radius-xl:26px;
-  --radius-lg:18px;
-  --radius-md:13px;
+  --navy:#0b1f38; --blue:#17395f; --blue2:#234f7d; --red:#a93432;
+  --paper:#fbf7ef; --paper2:#f2ebdf; --ink:#172333; --muted:#6e737a;
+  --gold:#b3945e; --line:#d9d0c2; --green:#536f5a; --shadow:0 22px 70px rgba(13,29,49,.14);
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
   margin:0;
-  min-height:100vh;
-  color:var(--ink);
   background:
-    radial-gradient(circle at 12% 0%,rgba(167,48,32,.11),transparent 26%),
-    radial-gradient(circle at 92% 14%,rgba(159,124,70,.08),transparent 22%),
-    repeating-linear-gradient(
-      0deg,
-      rgba(33,28,23,.018) 0,
-      rgba(33,28,23,.018) 1px,
-      transparent 1px,
-      transparent 7px
-    ),
-    #d6c39f;
-  font-family:"Songti SC","STSong","SimSun","PingFang SC","Microsoft YaHei",serif;
-  -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
+    radial-gradient(circle at 20% -5%,rgba(35,79,125,.10),transparent 32%),
+    radial-gradient(circle at 92% 10%,rgba(169,52,50,.08),transparent 24%),
+    linear-gradient(180deg,#e9e4da,#f6f2e9 45%,#ebe5da);
+  color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  -webkit-font-smoothing:antialiased
 }
 button,input{font:inherit}
-button{-webkit-tap-highlight-color:transparent}
-button:focus-visible,input:focus-visible{outline:2px solid var(--red);outline-offset:2px}
-.app{
-  width:min(100%,760px);
-  margin:0 auto;
-  padding:14px 13px 56px;
-}
-.utility-font{
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:focus-visible,input:focus-visible{outline:3px solid rgba(35,79,125,.25);outline-offset:2px}
+.hidden{display:none!important}
 
-/* 顶部牌匾 */
+.app{width:min(100%,860px);margin:auto;padding:18px 12px 38px}
 .topbar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  margin:0 1px 12px;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:0 4px 12px;color:#777d84;font-size:9px;
+  letter-spacing:.14em;text-transform:uppercase
 }
-.brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:11px;
-  font-weight:800;
-  letter-spacing:.08em;
+.live{display:flex;align-items:center;gap:7px}
+.dot{
+  width:7px;height:7px;border-radius:50%;background:var(--red);
+  box-shadow:0 0 0 5px rgba(169,52,50,.10);
+  animation:pulse 1.4s ease-in-out infinite
 }
-.brand-seal{
-  width:31px;
-  height:31px;
-  display:grid;
-  place-items:center;
-  border:2px solid var(--red);
-  color:var(--red);
-  font-size:15px;
-  font-weight:900;
-  transform:rotate(-4deg);
-  background:rgba(239,227,202,.48);
-  box-shadow:inset 0 0 0 2px rgba(167,48,32,.08);
-}
-.open-note{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  color:#695f50;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:9px;
-}
-.open-note::before{
-  content:"";
-  width:7px;height:7px;border-radius:50%;
-  background:var(--red);
-  box-shadow:0 0 0 4px rgba(167,48,32,.08);
+@keyframes pulse{50%{opacity:.35;transform:scale(.8)}}
+
+.pillbtn{
+  border:1px solid rgba(11,31,56,.12);
+  background:rgba(255,255,255,.45);
+  color:var(--navy);border-radius:999px;
+  padding:7px 10px;font-size:9px;font-weight:800
 }
 
-/* 首屏 */
-.hero{
-  position:relative;
-  overflow:hidden;
-  padding:27px 19px 22px;
-  border:1px solid var(--line-strong);
-  border-radius:var(--radius-xl);
-  background:
-    linear-gradient(rgba(247,237,217,.48),rgba(247,237,217,.48)),
-    repeating-linear-gradient(
-      90deg,
-      transparent 0,
-      transparent 34px,
-      rgba(33,28,23,.027) 35px
-    ),
-    var(--paper);
-  box-shadow:var(--shadow);
-}
-.hero::before{
-  content:"";
-  position:absolute;
-  width:170px;height:170px;
-  right:-72px;top:-50px;
-  border:1px dashed rgba(167,48,32,.28);
-  border-radius:50%;
-  transform:rotate(18deg);
-}
-.hero::after{
-  content:"野卦";
-  position:absolute;
-  right:15px;top:18px;
-  width:74px;height:74px;
-  display:grid;place-items:center;
-  border:2px solid rgba(167,48,32,.26);
-  color:rgba(167,48,32,.18);
-  font-size:21px;
-  font-weight:900;
-  transform:rotate(9deg);
-}
-.eyebrow{
-  position:relative;z-index:2;
-  display:flex;align-items:center;gap:8px;
-  margin-bottom:12px;
-  color:var(--red);
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:9px;font-weight:900;letter-spacing:.14em;
-}
-.eyebrow::before{
-  content:"";width:19px;height:2px;background:currentColor;
-}
-h1{
-  position:relative;z-index:2;
-  margin:0;
-  font-size:clamp(42px,11vw,72px);
-  line-height:.98;
-  letter-spacing:-.075em;
-  font-weight:900;
-}
-.hero-copy{
-  position:relative;z-index:2;
-  max-width:520px;
-  margin:16px 0 0;
-  color:#655a4a;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:13px;
-  line-height:1.72;
-}
-.method-slip{
-  position:relative;z-index:2;
-  margin-top:18px;
-  padding:13px 13px 12px 17px;
-  border:1px solid rgba(33,28,23,.2);
-  background:rgba(255,249,235,.35);
-  box-shadow:inset 4px 0 0 rgba(167,48,32,.78);
-}
-.method-label{
-  color:#867963;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:7px;
-  font-weight:800;
-  letter-spacing:.16em;
-}
-.method-name{
-  margin-top:5px;
-  font-size:20px;
-  font-weight:900;
-}
-.method-desc{
-  margin-top:5px;
-  color:#6d6252;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:9px;
-  line-height:1.55;
-}
-.method-foot{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
-  margin-top:11px;
-}
-.ghost-small{
-  border:1px solid var(--line);
-  border-radius:999px;
-  padding:7px 10px;
-  color:#675c4e;
-  background:rgba(247,237,217,.3);
-  cursor:pointer;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:8px;
-  transition:.15s ease;
-}
-.ghost-small:hover{border-color:var(--ink);color:var(--ink);transform:translateY(-1px)}
-.ghost-small:active{transform:scale(.98)}
-.method-code{
-  color:#9a8c76;
-  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
-  font-size:7px;
-}
-.notice{
-  margin:12px 0 0;
-  padding:10px 12px;
-  border-left:3px solid var(--red);
-  color:#6e6250;
-  background:rgba(239,227,202,.72);
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:9px;
-  line-height:1.65;
-}
-
-/* 进度 */
-.progress{
-  margin:19px 3px 8px;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-}
-.progress-head{
-  display:flex;justify-content:space-between;
-  margin-bottom:7px;
-  color:#766b5a;
-  font-size:8px;
-}
-.progress-track{
-  height:3px;overflow:hidden;background:rgba(33,28,23,.14);
-}
-.progress-track span{
-  display:block;width:0;height:100%;
-  background:var(--red);
-  transition:width .28s ease;
-}
-
-/* 步骤卡 */
-.step{
-  position:relative;
-  margin-top:12px;
-  padding:18px 15px 16px;
-  border:1px solid var(--line);
-  border-radius:var(--radius-lg);
-  background:
-    linear-gradient(rgba(247,237,217,.52),rgba(247,237,217,.52)),
-    var(--paper);
-  box-shadow:0 8px 22px rgba(49,38,27,.05);
-  animation:stepIn .35s ease both;
-}
-.step::after{
-  content:"";
-  position:absolute;
-  width:10px;height:10px;
-  right:10px;bottom:10px;
-  border-right:1px solid rgba(33,28,23,.18);
-  border-bottom:1px solid rgba(33,28,23,.18);
-}
-.step.missing{
-  border-color:rgba(167,48,32,.75);
-  animation:shake .28s ease;
-}
-.step-head{
-  display:flex;align-items:flex-start;gap:10px;
-}
-.step-no{
-  flex:0 0 auto;
-  width:25px;height:25px;
-  display:grid;place-items:center;
-  border:1px solid var(--ink);
-  border-radius:50%;
-  color:var(--paper);
-  background:var(--ink);
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:8px;font-weight:900;
-}
-.step h2{
-  margin:1px 0 0;
-  font-size:17px;
-  line-height:1.42;
-}
-.step-desc{
-  margin:7px 0 14px 35px;
-  color:#776b59;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:9px;
-  line-height:1.6;
-}
-
-/* 通用选项 */
-.choice-grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:8px;
-}
-.choice{
-  min-height:66px;
-  padding:11px 10px;
-  border:1px solid rgba(33,28,23,.17);
-  border-radius:12px;
-  background:rgba(247,237,217,.62);
-  text-align:left;
-  cursor:pointer;
-  transition:.15s ease;
-}
-.choice:hover{
-  border-color:#746654;
-  transform:translateY(-1px);
-}
-.choice:active{transform:scale(.985)}
-.choice.selected{
-  border-color:var(--red);
-  background:#ead5c7;
-  box-shadow:inset 0 0 0 1px rgba(167,48,32,.7);
-}
-.choice strong{
-  display:block;
-  font-size:13px;
-  line-height:1.35;
-}
-.choice small{
-  display:block;
-  margin-top:5px;
-  color:#786d5d;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:8px;
-  line-height:1.4;
-}
-
-/* 摸字 */
-.word-board{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:7px;
-  max-width:420px;
-  margin:auto;
-  padding:9px;
-  border:1px solid var(--ink);
-  background:rgba(255,249,235,.18);
-}
-.word-tile{
-  position:relative;
-  aspect-ratio:1/1;
-  display:grid;place-items:center;
-  border:1px solid rgba(33,28,23,.16);
-  background:rgba(247,237,217,.52);
-  cursor:pointer;
-  transition:.15s ease;
-}
-.word-tile:active{transform:scale(.96)}
-.word-tile.selected{
-  color:var(--paper);
-  background:var(--ink);
-}
-.word-tile.selected::after{
-  content:"";
-  position:absolute;inset:5px;
-  border:1px solid var(--red);
-}
-.word-char{
-  font-size:29px;
-  font-weight:900;
-}
-.word-note{
-  position:absolute;
-  bottom:5px;
-  color:inherit;
-  opacity:.6;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:6px;
-}
-.pick-count{
-  display:flex;justify-content:space-between;
-  margin-bottom:8px;
-  color:#766b5a;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:8px;
-}
-.pick-count b{color:var(--red)}
-
-/* 报数 */
-.num-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:7px;
-}
-.num-btn{
-  min-height:52px;
-  border:1px solid var(--line);
-  border-radius:10px;
-  background:rgba(247,237,217,.62);
-  cursor:pointer;
-  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
-  font-size:17px;font-weight:800;
-  transition:.15s ease;
-}
-.num-btn.selected{
-  color:var(--paper);
-  border-color:var(--ink);
-  background:var(--ink);
-  box-shadow:inset 0 0 0 2px var(--red);
-}
-
-/* 敲卦 */
-.tap-wrap{text-align:center}
-.tap-wood{
-  width:126px;height:126px;
-  margin:3px auto 10px;
-  display:grid;place-items:center;
-  border:1px solid #5b4630;
-  border-radius:50%;
-  color:#e8d2aa;
-  background:
-    radial-gradient(circle at 38% 32%,rgba(255,255,255,.08),transparent 20%),
-    repeating-radial-gradient(circle at center,#5e432b 0,#5e432b 5px,#553c27 6px,#553c27 9px);
-  box-shadow:
-    inset 0 0 0 5px rgba(255,255,255,.03),
-    0 7px 16px rgba(54,39,25,.18);
-  cursor:pointer;
-  user-select:none;
-  transition:.1s ease;
-}
-.tap-wood:active{transform:scale(.94)}
-.tap-big{display:block;font-size:30px;line-height:1}
-.tap-small{
-  display:block;margin-top:6px;
-  color:#d4bd98;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:7px;
-}
-.tap-count{
-  color:var(--red);
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:10px;font-weight:800;
-}
-.tap-lock{
-  margin-top:8px;
-  padding:7px 11px;
-  border:1px solid var(--line);
-  border-radius:999px;
-  background:transparent;
-  cursor:pointer;
-  color:#6d6252;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:8px;
-}
-.tap-lock:disabled{opacity:.35;cursor:not-allowed}
-
-/* 方位 */
-.direction-wheel{
-  position:relative;
-  width:min(100%,330px);
-  aspect-ratio:1/1;
-  margin:0 auto;
-  border:1px solid var(--ink);
-  border-radius:50%;
-  background:
-    linear-gradient(45deg,transparent 49.8%,rgba(33,28,23,.08) 50%,transparent 50.2%),
-    linear-gradient(-45deg,transparent 49.8%,rgba(33,28,23,.08) 50%,transparent 50.2%),
-    rgba(247,237,217,.35);
-}
-.dir-btn{
-  position:absolute;
-  width:66px;height:44px;
-  border:1px solid var(--line);
-  border-radius:999px;
-  background:rgba(239,227,202,.94);
-  cursor:pointer;
-  font-size:11px;
-  font-weight:800;
-  transition:.15s ease;
-}
-.dir-btn.selected{
-  color:var(--paper);
-  border-color:var(--red);
-  background:var(--ink);
-  box-shadow:0 0 0 2px rgba(167,48,32,.22);
-}
-.dir-n{left:50%;top:7%;transform:translateX(-50%)}
-.dir-ne{right:5%;top:22%}
-.dir-e{right:1%;top:50%;transform:translateY(-50%)}
-.dir-se{right:5%;bottom:22%}
-.dir-s{left:50%;bottom:7%;transform:translateX(-50%)}
-.dir-sw{left:5%;bottom:22%}
-.dir-w{left:1%;top:50%;transform:translateY(-50%)}
-.dir-nw{left:5%;top:22%}
-.dir-center{
-  position:absolute;
-  left:50%;top:50%;
-  width:74px;height:74px;
-  display:grid;place-items:center;
-  transform:translate(-50%,-50%);
-  border:1px solid var(--red);
-  border-radius:50%;
-  color:var(--red);
-  font-size:20px;font-weight:900;
-}
-
-/* 命线 */
-.line-read{
-  display:flex;align-items:baseline;gap:7px;
-  margin-bottom:11px;
-}
-.line-read strong{
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:37px;
-  letter-spacing:-.05em;
-}
-.line-read span{
-  color:#766b5a;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:8px;
-}
-input[type="range"]{
-  width:100%;
-  height:29px;
-  appearance:none;
-  -webkit-appearance:none;
-  background:transparent;
-}
-input[type="range"]::-webkit-slider-runnable-track{
-  height:4px;
-  background:
-    linear-gradient(90deg,var(--ink) 0 var(--fill,50%),rgba(33,28,23,.14) var(--fill,50%) 100%);
-}
-input[type="range"]::-webkit-slider-thumb{
-  appearance:none;-webkit-appearance:none;
-  width:23px;height:23px;
-  margin-top:-10px;
-  border:5px solid var(--paper);
-  border-radius:50%;
-  background:var(--red);
-  box-shadow:0 2px 8px rgba(33,28,23,.18);
-}
-.line-labels{
-  display:flex;justify-content:space-between;
-  color:#766b5a;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:7px;
-}
-
-/* 铜钱 */
-.coin-wrap{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:9px;
-}
-.coin{
-  aspect-ratio:1/1;
-  display:grid;place-items:center;
-  border:0;
-  border-radius:50%;
-  color:#4c331d;
-  background:
-    radial-gradient(circle at 38% 33%,#d9b36c 0,#bd8d46 58%,#966833 100%);
-  box-shadow:
-    inset 0 0 0 4px rgba(86,52,20,.16),
-    0 5px 12px rgba(69,47,27,.13);
-  cursor:pointer;
-  font-size:22px;font-weight:900;
-  transition:.2s ease;
-}
-.coin.flipped{transform:rotateY(180deg)}
-.coin.done{cursor:default}
-.coin-hint{
-  margin-top:10px;
-  color:#766b5a;
-  text-align:center;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:8px;
-}
-
-/* 红纸点位 */
-.redpaper{
-  position:relative;
-  height:210px;
-  overflow:hidden;
-  border:1px solid #8d2519;
-  background:
-    repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0,rgba(255,255,255,.025) 1px,transparent 1px,transparent 9px),
-    #9f2d20;
-  box-shadow:inset 0 0 40px rgba(70,15,10,.18);
-  cursor:crosshair;
-}
-.redpaper::before{
-  content:"随手按一下";
-  position:absolute;
-  left:50%;top:50%;
-  transform:translate(-50%,-50%);
-  color:rgba(248,223,191,.36);
-  font-size:20px;font-weight:900;
-}
-.red-dot{
-  position:absolute;
-  width:18px;height:18px;
-  border:2px solid #f4d8a6;
-  border-radius:50%;
-  transform:translate(-50%,-50%);
-  box-shadow:0 0 0 5px rgba(244,216,166,.1);
-  pointer-events:none;
-}
-
-/* 最终长按 */
-.finish-zone{margin-top:15px}
-.hold-btn{
-  position:relative;
-  width:100%;height:62px;
-  overflow:hidden;
-  border:0;
-  border-radius:16px;
-  color:var(--paper);
-  background:var(--ink);
-  cursor:pointer;
-  user-select:none;
-  touch-action:none;
-  box-shadow:0 11px 26px rgba(33,28,23,.18);
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:13px;font-weight:900;letter-spacing:.08em;
-}
-.hold-btn:hover{transform:translateY(-1px)}
-.hold-btn:active{transform:scale(.992)}
-.hold-fill{
-  position:absolute;left:0;top:0;bottom:0;width:0;
-  background:var(--red);
-}
-.hold-text{position:relative;z-index:2}
-.error{
-  min-height:18px;
-  margin-top:8px;
-  color:var(--red);
-  text-align:center;
-  opacity:0;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:8px;
-}
-.error.show{opacity:1}
-
-/* 推演遮罩 */
-.overlay{
-  position:fixed;inset:0;z-index:100;
-  display:none;place-items:center;
-  padding:23px;
-  color:var(--paper);
-  background:rgba(30,24,19,.96);
-}
-.overlay.show{display:grid;animation:fadeIn .2s ease}
-.reading{
-  width:min(100%,390px);
-  text-align:center;
-}
-.divine-plate{
-  position:relative;
-  width:156px;height:156px;
-  margin:0 auto 24px;
-}
-.divine-ring{
-  position:absolute;border-radius:50%;
-  border:1px solid rgba(239,227,202,.28);
-}
-.r1{inset:0}
-.r2{inset:19px;border-style:dashed;animation:spin 4s linear infinite}
-.r3{inset:41px;border-color:#b64a37;animation:spinReverse 2.8s linear infinite}
-.divine-plate::before,
-.divine-plate::after{
-  content:"";
-  position:absolute;left:50%;top:50%;
-  width:100%;height:1px;
-  background:rgba(239,227,202,.14);
-}
-.divine-plate::before{transform:translate(-50%,-50%) rotate(30deg)}
-.divine-plate::after{transform:translate(-50%,-50%) rotate(-30deg)}
-.divine-center{
-  position:absolute;inset:57px;
-  display:grid;place-items:center;
-  border:1px solid #d66e58;
-  border-radius:50%;
-  color:#e1b48c;
-  font-size:16px;font-weight:900;
-  background:#6c261f;
-  animation:pulse .9s ease-in-out infinite alternate;
-}
-.read-title{margin:0;font-size:19px}
-.read-sub{
-  margin:6px 0 0;
-  color:#9f978b;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:8px;
-}
-.read-line{
-  height:2px;margin:17px 0 13px;
-  background:rgba(239,227,202,.13);
-}
-.read-line span{display:block;width:0;height:100%;background:#b94a37}
-.overlay.show .read-line span{animation:load 2.85s linear forwards}
-.read-msg{
-  min-height:38px;
-  margin:0;
-  color:#bdb4a5;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:9px;line-height:1.75;
-}
-.read-code{
-  margin-top:13px;
-  color:#6f685f;
-  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
-  font-size:7px;letter-spacing:.14em;
-}
-
-/* 结果 */
-.result{display:none;margin-top:18px}
-.result.show{display:block;animation:resultIn .58s cubic-bezier(.2,.85,.3,1)}
-.report{
-  overflow:hidden;
-  border-radius:27px;
-  color:var(--paper);
-  background:
-    radial-gradient(circle at 88% 4%,rgba(167,48,32,.28),transparent 24%),
-    repeating-linear-gradient(0deg,transparent 0,transparent 29px,rgba(255,255,255,.018) 30px),
-    #211c17;
-  box-shadow:0 24px 58px rgba(33,28,23,.27);
-}
-.report-inner{padding:23px 18px 21px}
-.report-head{
-  display:flex;justify-content:space-between;gap:12px;align-items:flex-start;
-  padding-bottom:16px;
-  border-bottom:1px solid rgba(239,227,202,.12);
-}
-.report-overline{
-  margin-bottom:5px;
-  color:#9b9285;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:7px;font-weight:900;letter-spacing:.15em;
-}
-.report h2{
-  margin:0;
-  font-size:23px;
-  line-height:1.18;
-}
-.red-seal{
-  flex:0 0 auto;
-  width:58px;height:58px;
-  display:grid;place-items:center;
-  border:2px solid #c65b46;
-  color:#df7a66;
-  font-size:10px;font-weight:900;line-height:1.15;text-align:center;
-  transform:rotate(8deg);
-}
-.one-line{
-  padding:22px 0 17px;
-}
-.one-label{
-  color:#8e867a;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:7px;font-weight:900;letter-spacing:.15em;
-}
-.one-answer{
-  margin-top:6px;
-  color:#fff2dd;
-  font-size:clamp(31px,9vw,50px);
-  line-height:1.12;
-  letter-spacing:-.055em;
-  font-weight:900;
-}
-.one-time{
-  margin-top:8px;
-  color:#c7b99f;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:9px;
-}
-.meta-row{
-  display:flex;justify-content:space-between;align-items:flex-end;gap:10px;
-  margin-top:18px;
-}
-.score-caption{
-  color:#8e867a;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:7px;
-}
-.score{
-  margin-top:3px;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:46px;font-weight:900;letter-spacing:-.06em;
-}
-.score small{font-size:10px;color:#8e867a;font-weight:400}
-.gua-name{
-  max-width:145px;
-  padding:9px 10px;
-  border:1px solid rgba(239,227,202,.14);
-  border-radius:10px;
-}
-.gua-name span{
-  display:block;
-  color:#80786e;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:7px;
-}
-.gua-name strong{
-  display:block;margin-top:4px;
-  font-size:12px;line-height:1.45;
-}
-.report-section{
-  padding:15px 0;
-  border-top:1px solid rgba(239,227,202,.11);
-}
-.section-title{
-  margin-bottom:8px;
-  color:#81796e;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:7px;font-weight:900;letter-spacing:.15em;
-}
-.reasoning{
-  margin:0;
-  color:#e9e0d2;
-  font-size:12px;
-  line-height:1.88;
-}
-.reasoning b{
-  color:#f4c6aa;
-  font-weight:900;
-}
-.human-translation{
-  margin-top:12px;
-  padding:12px 13px;
-  border-left:2px solid #c25742;
-  background:rgba(167,48,32,.1);
-}
-.human-label{
-  color:#a7907a;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:7px;font-weight:900;letter-spacing:.12em;
-}
-.human-text{
-  margin-top:5px;
-  color:#fff2dd;
-  font-size:16px;
-  font-weight:900;
-  line-height:1.55;
-}
-.three-lines{
-  display:grid;
-  gap:7px;
-}
-.keep-line{
-  display:flex;gap:9px;align-items:flex-start;
-  padding:9px 10px;
-  border:1px solid rgba(239,227,202,.11);
-  border-radius:10px;
-  background:rgba(239,227,202,.035);
-}
-.keep-num{
-  color:#d26a53;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:9px;font-weight:900;
-}
-.keep-text{
-  color:#e0d7ca;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:9px;line-height:1.55;
-}
-.folk-tip{
-  padding:12px 13px;
-  border-radius:11px;
-  color:var(--ink);
+.card{
   background:var(--paper);
+  border:1px solid rgba(11,31,56,.13);
+  border-radius:28px;
+  box-shadow:var(--shadow);
+  overflow:hidden
 }
-.folk-title{
-  margin-bottom:5px;
-  color:var(--red);
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:7px;font-weight:900;letter-spacing:.12em;
+.hero{padding:22px;position:relative}
+.brand{display:flex;align-items:center;gap:12px}
+.seal{width:56px;height:56px;flex:none}
+.brand-cn{font-weight:900;font-size:12px;letter-spacing:.08em}
+.brand-en{margin-top:4px;color:var(--muted);font-size:8px;letter-spacing:.11em}
+.eyebrow{margin-top:28px;color:var(--red);font-weight:900;font-size:10px;letter-spacing:.18em}
+.hero h1{
+  margin:8px 0 0;
+  font-family:"Songti SC","STSong",Georgia,serif;
+  font-size:clamp(39px,9.6vw,66px);
+  line-height:1.01;
+  letter-spacing:-.055em
 }
-.folk-tip p{
-  margin:0;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:10px;font-weight:700;line-height:1.68;
+.hero p{
+  margin:14px 0 0;max-width:650px;color:#555d65;
+  font-size:13px;line-height:1.75
 }
-.yiji{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
+.hero p b{color:var(--navy)}
+.hero-art{
+  margin-top:20px;border:1px solid var(--line);
+  border-radius:22px;overflow:hidden;background:#e9edf1;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.7)
 }
-.yiji-card{
-  min-height:105px;
-  padding:11px;
-  border-radius:10px;
+.hero-art svg{display:block;width:100%;height:auto}
+.meta{
+  display:flex;flex-wrap:wrap;gap:8px 10px;
+  padding-top:14px;margin-top:15px;
+  border-top:1px solid var(--line);
+  color:var(--muted);font-size:9px
 }
-.yi{border:1px solid rgba(239,227,202,.14);background:rgba(239,227,202,.04)}
-.ji{border:1px solid rgba(167,48,32,.3);background:rgba(167,48,32,.09)}
-.yiji-title{
-  margin-bottom:8px;
-  font-size:9px;font-weight:900;
+.meta b{color:var(--ink)}
+
+.primary,.secondary{
+  min-height:50px;border-radius:15px;padding:13px 16px;
+  font-weight:900;border:0;transition:.15s
 }
-.ji .yiji-title{color:#df765f}
-.yiji-items{
-  display:grid;gap:6px;
-  color:#d8cfc2;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
+.primary{
+  background:var(--navy);color:#fff;
+  box-shadow:0 10px 22px rgba(11,31,56,.18)
+}
+.primary:hover:not(:disabled){background:var(--blue)}
+.secondary{background:#ece5d8;color:var(--navy)}
+.primary:active,.secondary:active{transform:scale(.985)}
+.primary:disabled,.secondary:disabled{opacity:.3;box-shadow:none;cursor:not-allowed}
+.wide{width:100%;margin-top:16px}
+
+.stage{display:none;margin-top:14px}
+.stage.show{display:block;animation:up .35s ease both}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+.stagehead{background:var(--navy);color:#fff;padding:13px 17px}
+.stageheadrow{
+  display:flex;justify-content:space-between;
+  font-size:8px;letter-spacing:.13em;opacity:.8
+}
+.track{
+  height:4px;background:rgba(255,255,255,.14);
+  border-radius:99px;margin-top:10px;overflow:hidden
+}
+.track>div{
+  height:100%;width:16.67%;background:white;
+  border-radius:99px;transition:.35s
+}
+.scene{display:none;padding:24px 18px 20px;min-height:560px}
+.scene.active{display:block;animation:scene .3s ease both}
+@keyframes scene{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:none}}
+.time{font-size:9px;color:var(--red);font-weight:900;letter-spacing:.15em}
+.scene h2{margin:8px 0 6px;font-size:25px;letter-spacing:-.03em}
+.desc{margin:0 0 16px;color:var(--muted);font-size:11px;line-height:1.7}
+.artbox{
+  border:1px solid var(--line);border-radius:18px;
+  overflow:hidden;background:#f4efe5
+}
+.artbox svg{display:block;width:100%;height:auto}
+.actions{display:flex;gap:8px;margin-top:18px}
+.actions>*{flex:1}
+.actions .secondary{flex:0 0 auto}
+
+.whn{
+  display:none;margin-top:12px;
+  border:1px solid rgba(169,52,50,.28);
+  border-radius:12px;overflow:hidden;background:#fff
+}
+.whn.show{display:flex;animation:up .25s ease both}
+.whn b{
+  flex:none;padding:9px 10px;background:var(--red);
+  color:white;font:900 10px/1 Georgia,serif
+}
+.whn span{padding:8px 10px;font-size:10px;line-height:1.5;color:#50575f}
+
+/* handshake */
+.hswrap{padding:0;background:#dfe7ee}
+.hswrap svg{max-height:295px}
+.hswrap.shaking .leftArm{animation:lshake .13s ease-in-out infinite alternate}
+.hswrap.shaking .rightArm{animation:rshake .13s ease-in-out infinite alternate}
+@keyframes lshake{to{transform:translate(3px,-1px)}}
+@keyframes rshake{to{transform:translate(-3px,1px)}}
+.hold{
+  width:100%;margin-top:13px;border:0;border-radius:14px;
+  background:var(--navy);color:white;font-weight:900;
+  padding:16px;touch-action:none;user-select:none;
+  position:relative;overflow:hidden
+}
+.hold::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.16),transparent);
+  transform:translateX(-100%)
+}
+.hold.holding::after{animation:sweep 1s linear infinite}
+@keyframes sweep{to{transform:translateX(100%)}}
+.status{
+  margin-top:10px;border:1px solid var(--line);
+  border-radius:13px;background:#fff;padding:11px 12px;
+  color:#5b626a;font-size:10px;line-height:1.55
+}
+.status strong{
+  display:block;color:var(--ink);
+  font:900 25px/1 Georgia,serif;margin-bottom:4px
+}
+
+/* signature */
+.penrack{display:grid;grid-template-columns:repeat(8,1fr);gap:5px;margin-top:12px}
+.pen{
+  border:1px solid var(--line);background:#fff;
+  border-radius:10px;padding:7px 2px
+}
+.pen.active{
+  background:#edf2f6;border-color:var(--blue2);
+  box-shadow:inset 0 0 0 1px var(--blue2)
+}
+.pen svg{display:block;width:100%;height:52px}
+.pen small{
+  display:block;text-align:center;color:#7c8288;
+  font-size:7px;font-weight:900
+}
+.sigwrap{
+  margin-top:12px;padding:11px;background:#fff;
+  border:1px solid var(--line);border-radius:15px
+}
+.sighead{
+  display:flex;justify-content:space-between;
+  border-bottom:1px solid #e0d8ca;padding-bottom:8px;
+  font:900 10px/1.4 Georgia,serif
+}
+.sighead span{
+  font:400 8px/1.4 sans-serif;color:var(--muted);text-align:right
+}
+.sigsvg{
+  width:100%;height:170px;display:block;
+  touch-action:none;cursor:crosshair;
+  background:linear-gradient(#fff,#fcf9f2)
+}
+.hint{text-align:center;color:#8b9095;font-size:8px;margin-top:4px}
+.sigresult{
+  margin-top:9px;padding:10px;background:#f2ede4;
+  border-radius:11px;font-size:9px;line-height:1.55;color:#59616a
+}
+
+/* tele */
+.telebox{
+  background:#07192c;border-radius:18px;overflow:hidden;
+  border:1px solid #0f3155
+}
+.telebox svg{display:block;width:100%;height:auto}
+.glass{
+  margin:12px auto 0;width:86%;padding:14px 15px;
+  border:1px solid rgba(210,230,245,.35);
+  background:rgba(7,20,36,.68);border-radius:12px;
+  color:white;min-height:104px;position:relative
+}
+.glass .liveflag{
+  position:absolute;top:8px;right:8px;background:var(--red);
+  font-size:7px;font-weight:900;padding:4px 5px;border-radius:4px
+}
+.telecopy{
+  font-family:"Songti SC",serif;
+  font-size:17px;line-height:1.65;padding-right:45px
+}
+.glitch{animation:glitch .2s linear 4}
+@keyframes glitch{
+  0%{transform:translate(0)}
+  25%{transform:translate(4px,-1px)}
+  50%{transform:translate(-3px,1px)}
+  75%{transform:translate(2px)}
+  100%{transform:translate(0)}
+}
+.timer{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-top:10px;padding:9px 10px;border:1px solid var(--line);
+  border-radius:11px;background:#f4efe7;color:#676e75;font-size:8px
+}
+.timer b{font:900 22px/1 Georgia,serif;color:var(--navy)}
+.timer b.danger{color:var(--red)}
+.choices{display:grid;gap:7px;margin-top:9px}
+.choice{
+  border:1px solid var(--line);background:#fff;
+  border-radius:12px;text-align:left;padding:11px 12px
+}
+.choice.selected{
+  background:#edf2f6;border-color:var(--blue2);
+  box-shadow:inset 0 0 0 1px var(--blue2)
+}
+.choice strong{display:block;font-size:12px}
+.choice small{
+  display:block;margin-top:3px;color:var(--muted);
+  font-size:8px;line-height:1.45
+}
+
+/* turkey */
+.turkeys{display:grid;gap:9px}
+.turkey{
+  position:relative;display:grid;grid-template-columns:122px 1fr;
+  gap:10px;align-items:center;border:1px solid var(--line);
+  border-radius:16px;background:#fff;padding:9px;text-align:left
+}
+.turkey.selected{
+  background:#edf2f5;border-color:var(--blue2);
+  box-shadow:inset 0 0 0 1px var(--blue2)
+}
+.turkey svg{width:122px;height:112px}
+.tname{font:900 16px/1 Georgia,serif;letter-spacing:.06em}
+.tbio{margin-top:5px;color:var(--muted);font-size:8px;line-height:1.5}
+.tquote{margin-top:6px;font-family:"Songti SC",serif;font-size:11px}
+.stampmark{
+  position:absolute;right:8px;top:8px;width:68px;height:68px;
+  border:3px solid var(--red);color:var(--red);border-radius:50%;
+  display:none;place-items:center;text-align:center;
+  font:900 9px/1 Georgia,serif;
+  transform:rotate(-12deg);opacity:.83
+}
+.turkey.pardoned .stampmark{
+  display:grid;animation:stamp .22s ease both
+}
+@keyframes stamp{
+  from{transform:rotate(-12deg) scale(1.35);opacity:0}
+  to{transform:rotate(-12deg) scale(1);opacity:.83}
+}
+.stamparea{
+  margin-top:12px;min-height:116px;border:1px dashed #c6b9a6;
+  border-radius:14px;background:#faf6ee;padding:11px;position:relative
+}
+.stampnote{
+  max-width:69%;color:var(--muted);font-size:9px;line-height:1.5
+}
+.stampbtn{
+  position:absolute;right:13px;top:20px;width:82px;height:82px;
+  border:3px solid var(--red);color:var(--red);border-radius:50%;
+  display:grid;place-items:center;text-align:center;
+  background:rgba(251,247,239,.98);
+  font:900 10px/1.1 Georgia,serif;
+  transform:rotate(-10deg);
+  box-shadow:0 8px 20px rgba(169,52,50,.13);
+  touch-action:none;user-select:none;cursor:grab
+}
+
+/* press */
+.pressbox{
+  position:relative;height:320px;border:1px solid var(--line);
+  border-radius:18px;overflow:hidden;background:#dfe5e8
+}
+.pressbox svg.bg{
+  position:absolute;inset:0;width:100%;height:100%
+}
+.avatar{
+  position:absolute;left:34px;bottom:30px;width:54px;height:82px;
+  z-index:5;touch-action:none;cursor:grab;
+  filter:drop-shadow(0 5px 4px rgba(0,0,0,.15))
+}
+.bubble{
+  position:absolute;z-index:4;max-width:176px;padding:7px 8px;
+  border-radius:10px;background:#fff;border:1px solid var(--line);
   font-size:8px;line-height:1.45;
+  box-shadow:0 7px 18px rgba(11,31,56,.08)
 }
-.data-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:6px;
+.bubble:after{
+  content:"";position:absolute;left:17px;bottom:-6px;
+  width:10px;height:10px;background:#fff;
+  border-right:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  transform:rotate(45deg)
 }
-.data{
-  min-width:0;
-  padding:10px 4px;
-  border:1px solid rgba(239,227,202,.11);
-  border-radius:9px;
-  text-align:center;
+.pressresult{
+  margin-top:9px;padding:10px 11px;border:1px solid var(--line);
+  border-radius:11px;background:#f3eee5;
+  font-size:9px;line-height:1.55;color:#5a626a
 }
-.data strong{
-  display:block;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:14px;
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-}
-.data span{
-  display:block;
-  margin-top:4px;
-  color:#7d756c;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:6px;line-height:1.3;
-}
-.share-line{
-  margin:0;
-  padding:17px 0;
-  border-top:1px solid rgba(239,227,202,.11);
-  color:#fff0d9;
-  font-size:17px;
-  line-height:1.58;
-  font-weight:900;
-}
-.report-foot{
-  display:flex;justify-content:space-between;gap:8px;
-  color:#686159;
-  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
-  font-size:6px;
-}
-.result-actions{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-  margin-top:10px;
-}
-.action-btn{
-  min-height:49px;
-  border-radius:13px;
-  cursor:pointer;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:10px;font-weight:900;
-  transition:.15s ease;
-}
-.action-btn:active{transform:scale(.985)}
-.copy-btn{border:0;color:white;background:var(--red)}
-.reset-btn{border:1px solid var(--line);color:var(--ink);background:rgba(239,227,202,.7)}
-.toast{
-  position:fixed;left:50%;bottom:26px;z-index:120;
-  padding:9px 13px;
-  border-radius:999px;
-  color:var(--paper);
-  background:var(--ink);
-  opacity:0;pointer-events:none;
-  transform:translate(-50%,8px);
-  transition:.2s ease;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:8px;
-  box-shadow:0 8px 22px rgba(33,28,23,.2);
-}
-.toast.show{opacity:1;transform:translate(-50%,0)}
-footer{
-  padding:27px 5px 0;
-  color:#766b5c;
-  text-align:center;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:8px;line-height:1.7;
-}
-footer small{
-  display:block;margin-top:3px;
-  color:#9a8e7a;
-  font-size:7px;
+.pressresult strong{
+  display:block;font:900 23px/1 Georgia,serif;
+  color:var(--ink);margin-bottom:3px
 }
 
-@keyframes shake{
-  0%,100%{transform:translateX(0)}
-  30%{transform:translateX(-4px)}
-  70%{transform:translateX(4px)}
+/* late */
+.latestage{
+  border-radius:18px;overflow:hidden;
+  background:#07182c;border:1px solid #16385f
 }
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.latestage svg{display:block;width:100%;height:auto}
+.comments{display:grid;gap:7px;margin-top:10px}
+.comment{
+  border:1px solid var(--line);background:#fff;
+  border-radius:12px;padding:9px 10px
+}
+.user{font-size:7px;color:#8a9097;font-weight:900}
+.ctext{margin-top:3px;font-size:10px;line-height:1.5}
+.meter{
+  margin-top:11px;border:1px solid var(--line);
+  border-radius:13px;background:#f4efe7;padding:11px
+}
+.meterhead{display:flex;justify-content:space-between;align-items:end}
+.val{font:900 32px/1 Georgia,serif;color:var(--navy)}
+.meterlabel{text-align:right;color:var(--muted);font-size:8px;line-height:1.4}
+.meter input{width:100%;accent-color:var(--red);margin-top:9px}
+.labels{display:flex;justify-content:space-between;color:#8b9095;font-size:7px}
+.metercomment{margin-top:7px;color:#59616a;font-size:9px;line-height:1.5}
+
+/* overlays + result */
+.overlay{
+  position:fixed;inset:0;z-index:1000;display:none;
+  align-items:center;justify-content:center;padding:18px;
+  background:rgba(242,235,223,.96);backdrop-filter:blur(5px)
+}
+.overlay.show{display:flex}
+.modal{
+  width:min(100%,440px);background:var(--paper);
+  border:1px solid rgba(11,31,56,.13);border-radius:22px;
+  box-shadow:var(--shadow);padding:19px
+}
+.modaltitle{
+  font-family:"Songti SC",serif;
+  font-size:23px;font-weight:900
+}
+.modalsub{
+  margin-top:4px;color:var(--muted);
+  font-size:10px;line-height:1.5
+}
+.bootlines{display:grid;gap:7px;margin-top:15px}
+.bootline{
+  display:flex;justify-content:space-between;padding:9px 10px;
+  border:1px solid var(--line);border-radius:10px;
+  background:#faf7f0;color:#666d74;font-size:9px;opacity:.42
+}
+.bootline.on{opacity:1;background:#fff}
+.bootline b{color:var(--green)}
+.bootline.warn b{color:var(--red)}
+.boottrack{
+  height:5px;background:#e6dfd3;border-radius:99px;
+  overflow:hidden;margin-top:12px
+}
+.boottrack div{
+  height:100%;width:0;background:var(--navy);transition:.2s
+}
+.radar{
+  width:120px;height:120px;border:1px solid #b8b2a8;
+  border-radius:50%;margin:0 auto 18px;position:relative;
+  display:grid;place-items:center
+}
+.radar:before,.radar:after{
+  content:"";position:absolute;
+  border:1px solid rgba(11,31,56,.13);border-radius:50%
+}
+.radar:before{inset:16px}
+.radar:after{inset:34px}
+.arm{
+  position:absolute;left:50%;top:50%;width:46%;height:1px;
+  background:var(--red);transform-origin:left;
+  animation:spin 1s linear infinite
+}
 @keyframes spin{to{transform:rotate(360deg)}}
-@keyframes spinReverse{to{transform:rotate(-360deg)}}
-@keyframes pulse{from{transform:scale(.86);opacity:.7}to{transform:scale(1.12);opacity:1}}
-@keyframes load{from{width:0}to{width:100%}}
-@keyframes resultIn{
-  from{opacity:0;transform:translateY(16px) scale(.985)}
-  to{opacity:1;transform:none}
-}
-@keyframes stepIn{
-  from{opacity:0;transform:translateY(7px)}
-  to{opacity:1;transform:none}
-}
-/* ===== 可读性与响应式增强：手机 / 平板 / 桌面 ===== */
-body{
-  font-size:16px;
-}
-.app{
-  width:min(100%,820px);
-  padding:16px clamp(14px,3vw,24px) 64px;
-}
-.brand{font-size:14px}
-.open-note{font-size:12px}
-.eyebrow{font-size:12px}
-.hero-copy{font-size:15px;line-height:1.75}
-.method-label{font-size:11px}
-.method-name{font-size:23px}
-.method-desc{font-size:13px;line-height:1.65}
-.ghost-small{font-size:12px;padding:9px 13px}
-.method-code{font-size:10px}
-.notice{font-size:13px;line-height:1.7}
-.progress-head{font-size:12px}
-.progress-track{height:4px}
-.step-no{font-size:11px}
-.step h2{font-size:20px;line-height:1.42}
-.step-desc{font-size:13px;line-height:1.65}
-.choice{min-height:78px;padding:14px 13px}
-.choice strong{font-size:16px;line-height:1.4}
-.choice small{font-size:12px;line-height:1.5}
-.word-char{font-size:34px}
-.word-note{font-size:10px;bottom:7px}
-.pick-count{font-size:12px}
-.num-btn{min-height:58px;font-size:20px}
-.tap-small{font-size:11px}
-.tap-count{font-size:13px}
-.tap-lock{font-size:12px;padding:9px 14px}
-.dir-btn{font-size:13px}
-.dir-center{font-size:23px}
-.line-read span{font-size:12px}
-.line-labels{font-size:11px}
-.coin-hint{font-size:12px}
-.hold-btn{font-size:15px;min-height:64px;height:auto;padding:18px 16px}
-.error{font-size:12px;line-height:1.5}
-.read-title{font-size:22px}
-.read-sub{font-size:12px}
-.read-msg{font-size:13px;line-height:1.8}
-.read-code{font-size:10px}
-.report-overline{font-size:10px}
-.report h2{font-size:26px}
-.red-seal{font-size:12px}
-.one-label{font-size:10px}
-.one-answer{font-size:clamp(34px,9vw,54px)}
-.one-time{font-size:13px}
-.score-caption{font-size:11px}
-.score small{font-size:13px}
-.gua-name span{font-size:10px}
-.gua-name strong{font-size:15px}
-.section-title{font-size:11px}
-.reasoning{font-size:15px;line-height:1.9}
-.human-label{font-size:10px}
-.human-text{font-size:19px;line-height:1.55}
-.keep-num{font-size:12px}
-.keep-text{font-size:13px;line-height:1.6}
-.folk-title{font-size:10px}
-.folk-tip p{font-size:13px;line-height:1.72}
-.yiji-title{font-size:12px}
-.yiji-items{font-size:12px;line-height:1.55}
-.data strong{font-size:16px}
-.data span{font-size:10px;line-height:1.4}
-.share-line{font-size:20px;line-height:1.6}
-.report-foot{font-size:9px}
-.action-btn{font-size:13px;min-height:52px}
-.toast{font-size:12px}
-footer{font-size:12px}
-footer small{font-size:10px}
-
-/* 手机优先：375–430px */
-@media(max-width:699px){
-  .hero{padding:28px 19px 24px}
-  h1{font-size:clamp(43px,13vw,58px);line-height:1.02}
-  .method-slip{padding:15px 14px 14px 18px}
-  .step{padding:20px 16px 18px}
-  .choice-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-  .word-board{gap:8px;padding:10px}
-  .word-tile{min-height:94px}
-  .direction-wheel{width:min(100%,340px)}
-  .report-inner{padding:25px 19px 23px}
-  .data-grid{gap:8px}
-  .data{padding:12px 6px}
+.antext{
+  text-align:center;color:var(--muted);font-size:10px;
+  line-height:1.5;margin-top:10px;min-height:32px
 }
 
-/* 窄屏手机：不再缩字号，只调整布局 */
-@media(max-width:374px){
-  .app{padding-left:11px;padding-right:11px}
-  .topbar{align-items:flex-start}
-  .open-note{max-width:110px;text-align:right;line-height:1.4}
-  .choice-grid{grid-template-columns:1fr}
-  .num-grid{grid-template-columns:repeat(4,1fr)}
-  .word-char{font-size:31px}
-  .dir-btn{width:62px;height:42px;font-size:12px}
-  .human-text{font-size:18px}
-  .share-line{font-size:18px}
+.result{display:none;margin-top:14px}
+.result.show{display:block;animation:up .4s ease both}
+.report{position:relative;padding:24px 20px;background:var(--paper)}
+.report:before{
+  content:"";position:absolute;inset:9px;
+  border:1px solid rgba(179,148,94,.38);border-radius:21px
+}
+.reporthead,.resultmain,.section,.reportmeta{position:relative;z-index:2}
+.reporthead{
+  display:flex;justify-content:space-between;gap:12px;
+  padding-bottom:13px;border-bottom:1px solid var(--line)
+}
+.org{font-size:9px;font-weight:900;letter-spacing:.12em}
+.orgsub{margin-top:3px;color:var(--muted);font-size:7px}
+.stampfinal{
+  height:max-content;border:1px solid var(--red);color:var(--red);
+  font-size:8px;font-weight:900;padding:5px 6px;
+  border-radius:4px;transform:rotate(2deg)
+}
+.resultmain{padding:20px 0 17px}
+.kicker{color:var(--muted);font-size:8px;letter-spacing:.14em}
+.rtitle{
+  margin:6px 0 14px;font-family:"Songti SC",serif;
+  font-size:29px;font-weight:900
+}
+.scorerow{display:flex;align-items:flex-end;gap:10px}
+.score{font:900 86px/.82 Georgia,serif;letter-spacing:-.07em}
+.unit{padding-bottom:6px;color:var(--muted);font-size:8px;line-height:1.5}
+.scoretrack{
+  height:7px;background:#e5ded2;border-radius:99px;
+  overflow:hidden;margin-top:12px
+}
+.scorefill{
+  height:100%;width:0;background:var(--red);
+  border-radius:99px;transition:1s cubic-bezier(.2,.8,.2,1)
+}
+.level{
+  display:inline-flex;margin-top:13px;padding:7px 9px;
+  border-radius:99px;border:1px solid #d1d9e1;
+  background:#edf1f4;font-size:8px;font-weight:900
+}
+.persona{margin-top:8px;color:#5b626a;font-size:10px}
+.persona b{color:var(--navy)}
+.section{padding:14px 0;border-top:1px solid var(--line)}
+.sectionlabel{
+  margin-bottom:8px;color:var(--muted);
+  font-size:7px;font-weight:900;letter-spacing:.14em
+}
+.dims{display:grid;gap:7px}
+.dim{
+  display:grid;grid-template-columns:92px 1fr 30px;
+  gap:7px;align-items:center
+}
+.dimname{font-size:8px;color:#565d64}
+.bar{height:6px;border-radius:99px;background:#e4ded4;overflow:hidden}
+.bar div{height:100%;background:var(--navy)}
+.dimscore{text-align:right;font:900 11px/1 Georgia,serif}
+.copy{margin:0;font-size:11px;line-height:1.75}
+.useless{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.uitem{background:#f2ede4;border-radius:11px;padding:10px}
+.uval{font:900 21px/1 Georgia,serif}
+.ulabel{margin-top:4px;color:var(--muted);font-size:7px}
+.quote{
+  font-family:"Songti SC",serif;
+  font-weight:900;font-size:17px;line-height:1.55;margin:0
+}
+.quote:before{
+  content:"“";color:var(--gold);font-size:30px;vertical-align:-6px
+}
+.reportmeta{
+  display:grid;grid-template-columns:1fr 1fr;gap:7px;
+  padding-top:12px;border-top:1px solid var(--line);
+  color:var(--muted);font-size:7px
+}
+.reportmeta b{
+  display:block;color:var(--ink);font-size:8px;
+  margin-top:3px;word-break:break-all
+}
+.resultactions{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:8px;margin-top:10px
+}
+.copystatus{
+  text-align:center;min-height:18px;color:var(--muted);
+  font-size:8px;margin-top:6px
+}
+footer{
+  text-align:center;padding:24px 8px 2px;
+  color:#8b9095;font-size:8px;line-height:1.7
 }
 
-/* 平板 / 桌面：放宽内容，但不把文字缩小 */
-
-
-/* ===== 玄学插图增强 + 字号优化 ===== */
-.brand{font-size:13px}
-.open-note{font-size:12px}
-.eyebrow,.method-label,.method-code,.progress-head,.pick-count span,.one-label,.score-caption,.section-title,.report-overline,.folk-overline,.keep-num,.data span,.report-footer,.yiji-title,.share-caption,footer,footer small{font-size:11px}
-.hero-copy{font-size:15px;max-width:560px}
-.notice{font-size:13px;line-height:1.75}
-.method-desc{font-size:12px;line-height:1.65}
-.ghost-small{font-size:12px;padding:8px 12px}
-.step h2{font-size:18px}
-.step-desc{font-size:13px;line-height:1.7}
-.choice strong{font-size:15px}
-.choice small{font-size:12px;line-height:1.5}
-.one-time{font-size:15px}
-.reasoning,.human-text{font-size:15px;line-height:1.9}
-.keep-text,.folk-tip p,.yiji-items{font-size:13px;line-height:1.7}
-.share-line{font-size:20px;line-height:1.6}
-
-.hero-deco-row{
-  position:relative;
-  z-index:2;
-  display:grid;
-  grid-template-columns:1fr;
-  gap:10px;
-  margin-top:14px;
+@media(min-width:660px){
+  .app{padding-top:28px}
+  .hero{padding:30px}
+  .scene{padding:30px}
+  .report{padding:29px 31px 25px}
+  .turkeys{grid-template-columns:repeat(3,1fr)}
+  .turkey{grid-template-columns:1fr;text-align:center}
+  .turkey svg{margin:auto}
+  .hero-art svg{max-height:380px}
+  .pressbox{height:350px}
 }
-.mystic-ribbon{
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:8px;
-}
-.mystic-card{
-  min-height:78px;
-  padding:10px 6px 9px;
-  border:1px solid rgba(33,28,23,.15);
-  border-radius:14px;
-  background:rgba(255,249,235,.4);
-  text-align:center;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.35);
-}
-.mystic-card b{
-  display:block;
-  font-size:24px;
-  line-height:1;
-  color:var(--red-dark);
-}
-.mystic-card span{
-  display:block;
-  margin-top:7px;
-  color:#6a5f4f;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:11px;
-  line-height:1.35;
-}
-.hero-sketch{
-  position:relative;
-}
-.sketch-board{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  padding:14px 13px;
-  border:1px dashed rgba(167,48,32,.32);
-  border-radius:16px;
-  background:rgba(247,237,217,.34);
-}
-.sketch-diagram{
-  position:relative;
-  width:94px;
-  height:94px;
-  flex:0 0 auto;
-}
-.sketch-ring,
-.sketch-ring::before,
-.sketch-ring::after{
-  position:absolute;
-  inset:0;
-  border-radius:50%;
-}
-.sketch-ring{
-  border:1px solid rgba(33,28,23,.3);
-}
-.sketch-ring::before{
-  content:"";
-  inset:12px;
-  border:1px dashed rgba(167,48,32,.42);
-}
-.sketch-ring::after{
-  content:"";
-  inset:26px;
-  border:1px solid rgba(33,28,23,.22);
-}
-.sketch-cross::before,
-.sketch-cross::after{
-  content:"";
-  position:absolute;
-  left:50%;
-  top:50%;
-  width:88px;
-  height:1px;
-  background:rgba(33,28,23,.17);
-}
-.sketch-cross::before{transform:translate(-50%,-50%) rotate(45deg)}
-.sketch-cross::after{transform:translate(-50%,-50%) rotate(-45deg)}
-.sketch-core{
-  position:absolute;
-  inset:30px;
-  display:grid;
-  place-items:center;
-  border-radius:50%;
-  background:rgba(167,48,32,.1);
-  border:1px solid rgba(167,48,32,.45);
-  color:var(--red-dark);
-  font-size:25px;
-  font-weight:900;
-}
-.sketch-copy{min-width:0}
-.sketch-label{
-  color:#8b7f6c;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:11px;
-  font-weight:800;
-  letter-spacing:.12em;
-}
-.sketch-copy p{
-  margin:6px 0 0;
-  color:#6b6153;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:13px;
-  line-height:1.65;
-}
-
-.report-illustration{
-  padding:14px 0 10px;
-}
-.folk-diagram{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  padding:13px;
-  border:1px solid rgba(239,227,202,.12);
-  border-radius:14px;
-  background:rgba(255,248,236,.05);
-}
-.folk-wheel{
-  position:relative;
-  width:98px;
-  height:98px;
-  flex:0 0 auto;
-}
-.folk-wheel::before,
-.folk-wheel::after{
-  content:"";
-  position:absolute;
-  left:50%;
-  top:50%;
-  width:94px;
-  height:1px;
-  background:rgba(239,227,202,.13);
-}
-.folk-wheel::before{transform:translate(-50%,-50%) rotate(45deg)}
-.folk-wheel::after{transform:translate(-50%,-50%) rotate(-45deg)}
-.folk-ring-a,
-.folk-ring-b,
-.folk-ring-c{
-  position:absolute;
-  border-radius:50%;
-}
-.folk-ring-a{inset:0;border:1px solid rgba(239,227,202,.26)}
-.folk-ring-b{inset:13px;border:1px dashed rgba(167,48,32,.35)}
-.folk-ring-c{inset:30px;border:1px solid rgba(239,227,202,.12)}
-.folk-core{
-  position:absolute;
-  inset:34px;
-  display:grid;
-  place-items:center;
-  border-radius:50%;
-  background:rgba(167,48,32,.15);
-  border:1px solid rgba(167,48,32,.55);
-  color:#fff1dd;
-  font-size:25px;
-  font-weight:900;
-}
-.folk-copy{min-width:0}
-.folk-overline{
-  color:#9d9588;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-weight:800;
-  letter-spacing:.14em;
-}
-.folk-title{
-  margin-top:4px;
-  color:#fff6ea;
-  font-size:18px;
-  font-weight:900;
-  line-height:1.35;
-}
-.folk-figure-text{
-  margin:6px 0 0;
-  color:#d9d0c3;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:13px;
-  line-height:1.7;
-}
-
-@media(min-width:700px){
-  .hero-copy{font-size:16px}
-  .notice{font-size:14px}
-  .method-desc,.step-desc,.choice small,.sketch-copy p,.folk-figure-text,.keep-text,.folk-tip p,.yiji-items{font-size:14px}
-  .step h2{font-size:22px}
-  .choice strong{font-size:17px}
-  .hero-deco-row{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:12px;align-items:stretch}
-  .mystic-card{min-height:95px;padding:14px 8px 11px}
-  .mystic-card b{font-size:28px}
-  .mystic-card span{font-size:12px}
-  .sketch-board{height:100%}
-  .sketch-diagram{width:110px;height:110px}
-  .sketch-core{inset:36px;font-size:28px}
-  .report-illustration{padding:16px 0 12px}
-  .folk-wheel{width:112px;height:112px}
-  .folk-wheel::before,.folk-wheel::after{width:108px}
-  .folk-core{inset:39px;font-size:29px}
-  .folk-title{font-size:20px}
-}
-
-@media(min-width:700px){
-  .app{padding-top:30px;padding-bottom:80px}
-  .hero{padding:40px 36px 34px}
-  h1{font-size:clamp(58px,7vw,78px)}
-  .hero-copy{font-size:16px;max-width:590px}
-  .method-slip{margin-top:22px;padding:16px 18px 15px 22px}
-  .step{padding:26px 25px 24px;margin-top:16px}
-  .step h2{font-size:22px}
-  .step-desc{font-size:14px}
-  .choice-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-  .choice{min-height:88px;padding:16px 15px}
-  .choice strong{font-size:17px}
-  .choice small{font-size:13px}
-  .word-board{max-width:500px;gap:9px;padding:11px}
-  .word-char{font-size:38px}
-  .num-grid{grid-template-columns:repeat(4,1fr);gap:10px}
-  .num-btn{min-height:64px;font-size:22px}
-  .direction-wheel{width:360px}
-  .report-inner{padding:34px 34px 30px}
-  .report h2{font-size:30px}
-  .reasoning{font-size:16px}
-  .human-text{font-size:22px}
-  .keep-text{font-size:14px}
-  .folk-tip p{font-size:14px}
-  .yiji-items{font-size:13px}
-  .share-line{font-size:22px}
-  .result-actions{max-width:520px;margin:12px auto 0}
-}
-
-/* 大桌面：限制行宽，避免一行太长 */
-@media(min-width:1024px){
-  .app{width:860px}
-  .reasoning,.hero-copy{max-width:680px}
-}
-@media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{
-    animation-duration:.01ms!important;
-    transition-duration:.01ms!important;
-    scroll-behavior:auto!important;
-  }
+@media(max-width:390px){
+  .hero h1{font-size:38px}
+  .scene h2{font-size:23px}
+  .turkey{grid-template-columns:104px 1fr}
+  .turkey svg{width:104px;height:98px}
+  .score{font-size:78px}
+  .dim{grid-template-columns:82px 1fr 28px}
+  .penrack{gap:4px}
 }
 </style>
 </head>
+
 <body>
-<main class="app">
+<div class="app">
 
   <div class="topbar">
-    <div class="brand">
-      <span class="brand-seal">卦</span>
-      今日野卦
+    <div class="live">
+      <span class="dot"></span>
+      <span>White House Training Feed</span>
     </div>
-    <div class="open-note">今晚摊子还开着</div>
+    <button class="pillbtn" id="soundBtn">声音：关</button>
   </div>
 
-  <section class="hero">
-    <div class="eyebrow">今日只断小事，不碰大命</div>
-    <h1>前面听不懂，<br>最后听人话。</h1>
-    <p class="hero-copy">
-      每次进来都换一套民间路数。你只管凭感觉点，前面的推法我们说得玄一点，最后只告诉你：今天具体少干哪件蠢事。
+  <section class="card hero" id="hero">
+    <div class="brand">
+
+      <svg class="seal" viewBox="0 0 100 100" aria-hidden="true">
+        <defs>
+          <linearGradient id="sg" x1="0" y1="0" x2="1" y2="1">
+            <stop stop-color="#c3a46c"/>
+            <stop offset="1" stop-color="#8f7140"/>
+          </linearGradient>
+        </defs>
+
+        <circle cx="50" cy="50" r="46" fill="#fbf7ef" stroke="#0b1f38" stroke-width="3"/>
+        <circle cx="50" cy="50" r="38" fill="none" stroke="url(#sg)" stroke-width="1.5"/>
+        <path d="M32 59c8-17 17-24 18-24s11 7 18 24c-8-2-13 2-18 8-5-6-11-10-18-8Z" fill="#0b1f38"/>
+        <path d="M50 28l3 10h10l-8 6 3 10-8-6-8 6 3-10-8-6h10Z" fill="#a93432" transform="scale(.53) translate(44 33)"/>
+        <path d="M29 70c14 8 28 8 42 0" fill="none" stroke="#b3945e" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="50" cy="70" r="3" fill="#a93432"/>
+      </svg>
+
+      <div>
+        <div class="brand-cn">白宫临时上岗办公室</div>
+        <div class="brand-en">OFFICE OF EXTREMELY URGENT PRESIDENTIAL ONBOARDING</div>
+      </div>
+    </div>
+
+    <div class="eyebrow">DAY 0 · 入职前夜</div>
+
+    <h1>你已被临时通知：<br>明天开始当美国总统。</h1>
+
+    <p>
+      白宫给了你 <b>30 秒培训时间</b>。
+      治国先放一放，先学会握手、签字、救提词器、离开记者会，以及赦免一只鸡。
     </p>
 
-    <div class="method-slip">
-      <div class="method-label">本轮起卦路数</div>
-      <div class="method-name" id="methodName">门槛起卦</div>
-      <div class="method-desc" id="methodDesc">据说适合看那些不大，但很占时间的小麻烦。</div>
-      <div class="method-foot">
-        <button type="button" class="ghost-small" id="changeMethod">这路不顺，换个摊法</button>
-        <span class="method-code" id="methodCode">NO. 000000</span>
-      </div>
+    <div class="hero-art">
+      <svg viewBox="0 0 900 500" role="img" aria-label="白宫南草坪杂志插画">
+        <defs>
+          <linearGradient id="skyA" x1="0" y1="0" x2="0" y2="1">
+            <stop stop-color="#b7cee3"/>
+            <stop offset=".58" stop-color="#dce7ef"/>
+            <stop offset="1" stop-color="#f4eee3"/>
+          </linearGradient>
+
+          <linearGradient id="wallA" x1="0" y1="0" x2="1" y2="1">
+            <stop stop-color="#fffef9"/>
+            <stop offset="1" stop-color="#e8e3d9"/>
+          </linearGradient>
+
+          <linearGradient id="lawnA" x1="0" y1="0" x2="0" y2="1">
+            <stop stop-color="#718a6b"/>
+            <stop offset="1" stop-color="#455e4d"/>
+          </linearGradient>
+
+          <filter id="softA" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#10233b" flood-opacity=".16"/>
+          </filter>
+
+          <filter id="glowA" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="8"/>
+          </filter>
+        </defs>
+
+        <rect width="900" height="500" fill="url(#skyA)"/>
+        <circle cx="737" cy="82" r="34" fill="#f6dfaa" opacity=".52" filter="url(#glowA)"/>
+
+        <g fill="#fff" opacity=".38">
+          <path d="M85 105c38-27 77-18 95 6 31-23 81-10 91 20H65c3-12 9-20 20-26Z"/>
+          <path d="M633 116c33-22 67-13 82 8 27-19 66-8 77 18H612c3-10 9-19 21-26Z"/>
+        </g>
+
+        <rect y="370" width="900" height="130" fill="url(#lawnA)"/>
+        <ellipse cx="450" cy="437" rx="292" ry="22" fill="#20342c" opacity=".18"/>
+
+        <g filter="url(#softA)">
+          <rect x="172" y="190" width="556" height="181" rx="3" fill="url(#wallA)" stroke="#c9c2b7" stroke-width="2"/>
+          <rect x="210" y="164" width="480" height="29" fill="#f8f5ee" stroke="#c8c0b4" stroke-width="2"/>
+
+          <defs>
+            <g id="w">
+              <rect width="42" height="54" rx="2" fill="#e4ebf0" stroke="#aab7c3" stroke-width="1.4"/>
+              <path d="M21 0v54M0 27h42" fill="none" stroke="#aab7c3" stroke-width="1.4"/>
+            </g>
+          </defs>
+
+          <g>
+            <use href="#w" x="199" y="225"/>
+            <use href="#w" x="260" y="225"/>
+            <use href="#w" x="321" y="225"/>
+            <use href="#w" x="537" y="225"/>
+            <use href="#w" x="598" y="225"/>
+            <use href="#w" x="659" y="225"/>
+
+            <use href="#w" x="199" y="298"/>
+            <use href="#w" x="260" y="298"/>
+            <use href="#w" x="321" y="298"/>
+            <use href="#w" x="537" y="298"/>
+            <use href="#w" x="598" y="298"/>
+            <use href="#w" x="659" y="298"/>
+          </g>
+
+          <g>
+            <path d="M349 184h202l-34-36H383Z" fill="#fbf8f1" stroke="#c9c1b5" stroke-width="2"/>
+            <path d="M383 148h134l-67-42Z" fill="#f4f0e8" stroke="#c9c1b5" stroke-width="2"/>
+
+            <g fill="#faf8f2" stroke="#c9c1b5" stroke-width="2">
+              <rect x="370" y="184" width="22" height="173"/>
+              <rect x="411" y="184" width="22" height="173"/>
+              <rect x="467" y="184" width="22" height="173"/>
+              <rect x="508" y="184" width="22" height="173"/>
+            </g>
+
+            <g fill="#ddd6ca">
+              <rect x="364" y="181" width="34" height="7"/>
+              <rect x="405" y="181" width="34" height="7"/>
+              <rect x="461" y="181" width="34" height="7"/>
+              <rect x="502" y="181" width="34" height="7"/>
+            </g>
+
+            <rect x="431" y="265" width="38" height="92" fill="#17395f"/>
+            <path d="M435 272h30v38h-30Z" fill="#8aa3b7" opacity=".55"/>
+            <path d="M345 358h210l17 18H328Z" fill="#d7d0c5"/>
+          </g>
+
+          <g fill="#f4f0e8" stroke="#c5beb3" stroke-width="1.5">
+            <rect x="167" y="177" width="35" height="16"/>
+            <rect x="698" y="177" width="35" height="16"/>
+            <path d="M171 177l14-19 13 19Z"/>
+            <path d="M702 177l14-19 13 19Z"/>
+          </g>
+        </g>
+
+        <g fill="#3f5a47">
+          <ellipse cx="240" cy="371" rx="64" ry="24"/>
+          <ellipse cx="302" cy="373" rx="48" ry="19"/>
+          <ellipse cx="605" cy="372" rx="55" ry="21"/>
+          <ellipse cx="673" cy="371" rx="61" ry="24"/>
+        </g>
+
+        <g>
+          <ellipse cx="450" cy="405" rx="58" ry="11" fill="#728c8f" opacity=".5"/>
+          <path d="M450 405c-11-34-4-66 0-92 4 26 11 58 0 92Z" fill="#eaf7fb" opacity=".85"/>
+          <path d="M443 397c4-35 4-62 7-79 3 18 4 43 7 79" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".8"/>
+        </g>
+
+        <g transform="translate(74 310)" filter="url(#softA)">
+          <rect x="0" y="0" width="78" height="55" rx="8" fill="#0b1f38"/>
+          <circle cx="27" cy="27" r="17" fill="#1f4c78" stroke="#d7e2ea" stroke-width="3"/>
+          <circle cx="27" cy="27" r="7" fill="#07111f"/>
+          <rect x="78" y="13" width="31" height="14" rx="3" fill="#102f51"/>
+          <circle cx="13" cy="9" r="5" fill="#a93432"/>
+          <path d="M18 55 7 104M59 55l9 49" stroke="#0b1f38" stroke-width="6" stroke-linecap="round"/>
+        </g>
+
+        <g transform="translate(742 266)">
+          <path d="M26 0v123" stroke="#485560" stroke-width="5"/>
+          <path d="M5 8h48l-7 55H12Z" fill="#b9cad6" opacity=".7" stroke="#4f6272" stroke-width="2"/>
+          <rect x="14" y="68" width="25" height="13" rx="3" fill="#0b1f38"/>
+        </g>
+
+        <g transform="translate(708 389)">
+          <path d="M16 30Q-3 1 20 10 7-12 35 8 43-14 49 10 67-7 65 18 89 10 74 35Z" fill="#6a4932"/>
+          <ellipse cx="48" cy="40" rx="27" ry="23" fill="#9a6e45"/>
+          <circle cx="72" cy="26" r="12" fill="#ad7f56"/>
+          <circle cx="76" cy="23" r="2" fill="#0b1f38"/>
+          <path d="m83 28 15 4-15 4Z" fill="#d89d43"/>
+          <path d="M66 36q6 13 10 0" fill="#a93432"/>
+          <path d="M37 60l-2 17M55 60l3 17" stroke="#6b4a32" stroke-width="3"/>
+        </g>
+
+        <text x="26" y="36" fill="#0b1f38" opacity=".55"
+              font-family="Georgia" font-size="12" font-weight="bold" letter-spacing="2">
+          PRESIDENTIAL ORIENTATION • 09:00
+        </text>
+      </svg>
     </div>
 
-    <div class="hero-deco-row">
-      <div class="mystic-ribbon" id="mysticRibbon" aria-hidden="true"></div>
-
-      <div class="hero-sketch" aria-hidden="true">
-        <div class="sketch-board">
-          <div class="sketch-diagram">
-            <div class="sketch-ring"></div>
-            <div class="sketch-cross"></div>
-            <div class="sketch-core">卦</div>
-          </div>
-          <div class="sketch-copy">
-            <div class="sketch-label">摊上一角</div>
-            <p>门、数、方位和手势，本来互不相干。摆到一起，民间就爱硬说它们有关系。</p>
-          </div>
-        </div>
-      </div>
+    <div class="meta">
+      <span>预计耗时 <b>30 秒</b></span>
+      <span>·</span>
+      <span><b>6 项</b>国家级无关紧要培训</span>
+      <span>·</span>
+      <span>全部插画为内嵌 SVG</span>
     </div>
+
+    <button class="primary wide" id="startBtn">
+      接受这份非常突然的工作
+    </button>
   </section>
 
-  <div class="notice" id="notice">
-    先看，后点。不要选吉利的，选第一眼让你停了一下的。
-  </div>
+  <section class="card stage" id="stage">
 
-  <div class="progress">
-    <div class="progress-head">
-      <span>本卦已走</span>
-      <span id="progressText">0 / 4</span>
+    <div class="stagehead">
+      <div class="stageheadrow">
+        <span id="stageLabel">PRESIDENTIAL ONBOARDING · 01/06</span>
+        <span id="stagePct">17%</span>
+      </div>
+      <div class="track">
+        <div id="progress"></div>
+      </div>
     </div>
-    <div class="progress-track"><span id="progressBar"></span></div>
-  </div>
 
-  <div id="steps"></div>
+    <!-- 第一关 -->
+    <section class="scene active" data-scene="1">
 
-  <div class="finish-zone">
-    <button type="button" class="hold-btn" id="holdBtn">
-      <span class="hold-fill" id="holdFill"></span>
-      <span class="hold-text" id="holdText">长按收卦 · 松手不算</span>
-    </button>
-    <div class="error" id="error">东西还没取全，这卦不能硬断。</div>
-  </div>
+      <div class="time">09:07 · 第一场正式会面</div>
+      <h2>对方已经伸手了。</h2>
 
-  <section class="result" id="result">
-    <article class="report">
-      <div class="report-inner">
+      <p class="desc">
+        按住开始握手。你觉得差不多了，就松开。
+        系统不会提前告诉你“差不多”到底是多少秒。
+      </p>
 
-        <div class="report-head">
-          <div>
-            <div class="report-overline" id="reportMethod">今日野卦 · 一纸断</div>
-            <h2>这卦最后就一句人话</h2>
+      <div class="artbox hswrap" id="hsArt">
+
+        <svg viewBox="0 0 900 390" aria-label="外交握手杂志插画">
+
+          <defs>
+            <linearGradient id="hbg" x1="0" y1="0" x2="0" y2="1">
+              <stop stop-color="#dce7ef"/>
+              <stop offset="1" stop-color="#f3eee5"/>
+            </linearGradient>
+
+            <filter id="hsd" x="-30%" y="-30%" width="160%" height="160%">
+              <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#0b1f38" flood-opacity=".15"/>
+            </filter>
+          </defs>
+
+          <rect width="900" height="390" fill="url(#hbg)"/>
+          <rect y="0" width="900" height="52" fill="#0b1f38"/>
+
+          <text x="24" y="32" fill="#fff" opacity=".8"
+                font-family="Arial" font-size="12" letter-spacing="2">
+            WHN LIVE · DIPLOMATIC PHOTO OP
+          </text>
+
+          <circle cx="862" cy="26" r="6" fill="#a93432"/>
+
+          <g opacity=".34" fill="#263b52">
+            <circle cx="112" cy="126" r="29"/>
+            <path d="M63 204q49-68 98 0Z"/>
+            <circle cx="761" cy="122" r="27"/>
+            <path d="M714 201q47-65 94 0Z"/>
+          </g>
+
+          <g class="leftArm" filter="url(#hsd)">
+            <path d="M-35 235C96 208 177 197 282 178l101 53-49 98C202 307 99 320-35 350Z" fill="#0b1f38"/>
+            <path d="M287 177c37-26 85-28 128 0l60 44-24 54-58-18c-22 17-50 26-77 19l-55-30Z" fill="#d4a682"/>
+            <path d="M266 190c33-9 58-6 77 10l-26 82-68-36Z" fill="#faf9f5"/>
+            <path d="M319 178c18-21 38-29 61-24 21 5 43 24 67 48l24 21-21 37-55-25-30 23-47-34c-13-10-14-31 1-46Z" fill="#d7aa86"/>
+            <path d="M363 174c11 3 20 8 30 16M349 184c13 3 24 8 35 17M337 198c13 3 25 8 35 16"
+                  fill="none" stroke="#b57f60" stroke-width="3" stroke-linecap="round"/>
+          </g>
+
+          <g class="rightArm" filter="url(#hsd)">
+            <path d="M935 231c-131-25-212-34-317-53l-101 53 49 98c132-22 235-8 369 21Z" fill="#274f7a"/>
+            <path d="M613 177c-37-26-85-28-128 0l-60 44 24 54 58-18c22 17 50 26 77 19l55-30Z" fill="#c99372"/>
+            <path d="M634 190c-33-9-58-6-77 10l26 82 68-36Z" fill="#faf9f5"/>
+            <path d="M581 178c-18-21-38-29-61-24-21 5-43 24-67 48l-24 21 21 37 55-25 30 23 47-34c13-10 14-31-1-46Z" fill="#cc9875"/>
+            <path d="M537 174c-11 3-20 8-30 16M551 184c-13 3-24 8-35 17M563 198c-13 3-25 8-35 16"
+                  fill="none" stroke="#aa7053" stroke-width="3" stroke-linecap="round"/>
+          </g>
+
+          <g transform="translate(78 285)" fill="#0b1f38">
+            <rect width="74" height="50" rx="8"/>
+            <circle cx="26" cy="25" r="15" fill="#234f7d" stroke="#dce5ec" stroke-width="3"/>
+            <rect x="74" y="12" width="26" height="13" rx="2"/>
+            <circle cx="12" cy="8" r="5" fill="#a93432"/>
+          </g>
+
+          <g transform="translate(733 279)" fill="#0b1f38">
+            <rect width="74" height="50" rx="8"/>
+            <circle cx="26" cy="25" r="15" fill="#234f7d" stroke="#dce5ec" stroke-width="3"/>
+            <rect x="74" y="12" width="26" height="13" rx="2"/>
+            <circle cx="12" cy="8" r="5" fill="#a93432"/>
+          </g>
+
+        </svg>
+
+      </div>
+
+      <button class="hold" id="hsBtn">
+        按住开始握手
+      </button>
+
+      <div class="status" id="hsStatus">
+        摄影记者已经就位。没有人会提醒你什么时候该松手。
+      </div>
+
+      <div class="whn" id="whn1">
+        <b>WHN</b>
+        <span id="whn1t"></span>
+      </div>
+
+      <div class="actions">
+        <button class="primary" id="next1" disabled>
+          进入椭圆办公室
+        </button>
+      </div>
+
+    </section>
+
+    <!-- 第二关 -->
+    <section class="scene" data-scene="2">
+
+      <div class="time">10:42 · 椭圆办公室</div>
+      <h2>文件已经准备好了。</h2>
+
+      <p class="desc">
+        桌上有 8 支笔。
+        先选你打算动用几支，再在文件上签一个“看起来很重要”的字。
+      </p>
+
+      <div class="artbox">
+
+        <svg viewBox="0 0 900 340" aria-label="椭圆办公室签字桌插画">
+
+          <defs>
+            <linearGradient id="owall" x1="0" y1="0" x2="0" y2="1">
+              <stop stop-color="#e7edf1"/>
+              <stop offset="1" stop-color="#efe7db"/>
+            </linearGradient>
+
+            <linearGradient id="wood" x1="0" y1="0" x2="1" y2="1">
+              <stop stop-color="#8f6848"/>
+              <stop offset="1" stop-color="#5f3f2b"/>
+            </linearGradient>
+
+            <filter id="od" x="-30%" y="-30%" width="160%" height="160%">
+              <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#0b1f38" flood-opacity=".15"/>
+            </filter>
+          </defs>
+
+          <rect width="900" height="340" fill="url(#owall)"/>
+          <path d="M0 260h900v80H0Z" fill="#b39a78"/>
+
+          <path d="M109 0h214v234H109Z" fill="#d2dbe1"/>
+          <path d="M125 20h182v190H125Z" fill="#9bb2c3"/>
+
+          <g stroke="#dbe4e9" stroke-width="5">
+            <path d="M216 20v190M125 83h182M125 146h182"/>
+          </g>
+
+          <path d="M588 36c37 38 52 80 38 125-12 41-38 73-80 95"
+                fill="none" stroke="#a93432" stroke-width="15"/>
+          <path d="M605 34c31 40 42 80 28 119-13 35-39 64-78 85"
+                fill="none" stroke="#f3f1e9" stroke-width="15"/>
+          <path d="M620 34c25 40 32 78 18 114-13 32-39 58-76 75"
+                fill="none" stroke="#234f7d" stroke-width="15"/>
+
+          <g filter="url(#od)">
+            <ellipse cx="448" cy="286" rx="286" ry="28" fill="#503626" opacity=".2"/>
+            <rect x="176" y="230" width="548" height="52" rx="12" fill="url(#wood)"/>
+            <path d="M206 279h488l-27 61H233Z" fill="#6b4932"/>
+
+            <rect x="283" y="125" width="336" height="128"
+                  rx="6" fill="#fffdf8" stroke="#cfc6b9" stroke-width="2"/>
+
+            <text x="315" y="157" fill="#0b1f38"
+                  font-family="Georgia" font-size="15" font-weight="bold"
+                  letter-spacing="1.5">
+              VERY IMPORTANT DOCUMENT
+            </text>
+
+            <text x="315" y="179" fill="#7b8086"
+                  font-family="Arial" font-size="10">
+              内容稍后再看，摄影记者已经到了。
+            </text>
+
+            <path d="M326 215h245" stroke="#d1c8ba" stroke-width="2"/>
+            <path d="M326 228h177" stroke="#d1c8ba" stroke-width="2"/>
+          </g>
+
+          <g transform="translate(688 128)" filter="url(#od)">
+            <rect width="104" height="70" rx="9" fill="#0b1f38"/>
+            <circle cx="36" cy="35" r="23" fill="#234f7d" stroke="#dce5ec" stroke-width="3"/>
+            <circle cx="36" cy="35" r="9" fill="#07121f"/>
+            <rect x="104" y="18" width="36" height="15" rx="3" fill="#17395f"/>
+            <circle cx="17" cy="12" r="6" fill="#a93432"/>
+          </g>
+
+          <g transform="translate(210 217)">
+            <rect width="78" height="8" rx="4" fill="#0b1f38"/>
+            <circle cx="7" cy="4" r="6" fill="#b3945e"/>
+          </g>
+
+          <g transform="translate(611 215)">
+            <rect width="72" height="9" rx="4" fill="#0b1f38"/>
+            <circle cx="7" cy="4.5" r="6" fill="#b3945e"/>
+          </g>
+
+        </svg>
+
+      </div>
+
+      <div class="penrack" id="penRack"></div>
+
+      <div class="sigwrap">
+
+        <div class="sighead">
+          PRESIDENTIAL SIGNATURE AREA
+          <span>
+            请选择至少 1 支笔<br>
+            然后用手指签名
+          </span>
+        </div>
+
+        <svg class="sigsvg" id="sigSvg" viewBox="0 0 600 220">
+          <path
+            id="sigPath"
+            d=""
+            fill="none"
+            stroke="#0b1f38"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+
+        <div class="hint">
+          在上方空白区域划出你的总统签名
+        </div>
+
+        <div class="sigresult" id="sigResult">
+          当前使用钢笔：0 支。文具部门还没有感受到你的存在。
+        </div>
+      </div>
+
+      <div class="whn" id="whn2">
+        <b>WHN</b>
+        <span id="whn2t"></span>
+      </div>
+
+      <div class="actions">
+        <button class="secondary back">返回</button>
+        <button class="primary" id="next2" disabled>
+          签完了，继续上班
+        </button>
+      </div>
+
+    </section>
+
+    <!-- 第三关 -->
+    <section class="scene" data-scene="3">
+
+      <div class="time">12:16 · 全国直播讲话</div>
+      <h2>提词器正在正常工作。</h2>
+
+      <p class="desc">
+        目前一切都很好。通常这种时候就容易出点什么。
+      </p>
+
+      <div class="telebox">
+
+        <svg viewBox="0 0 900 340" aria-label="全国讲话与提词器插画">
+
+          <defs>
+            <linearGradient id="tbg2" x1="0" y1="0" x2="1" y2="1">
+              <stop stop-color="#07182b"/>
+              <stop offset=".58" stop-color="#102d4c"/>
+              <stop offset="1" stop-color="#1e4b76"/>
+            </linearGradient>
+
+            <radialGradient id="spot2">
+              <stop stop-color="#f3ead8" stop-opacity=".34"/>
+              <stop offset="1" stop-color="#f3ead8" stop-opacity="0"/>
+            </radialGradient>
+
+            <filter id="td2" x="-30%" y="-30%" width="160%" height="160%">
+              <feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#020a12" flood-opacity=".28"/>
+            </filter>
+          </defs>
+
+          <rect width="900" height="340" fill="url(#tbg2)"/>
+          <ellipse cx="450" cy="120" rx="320" ry="210" fill="url(#spot2)"/>
+
+          <g opacity=".35" fill="#9fb6c9">
+            <circle cx="76" cy="50" r="20"/>
+            <circle cx="142" cy="50" r="20"/>
+            <circle cx="758" cy="50" r="20"/>
+            <circle cx="824" cy="50" r="20"/>
+          </g>
+
+          <g transform="translate(56 0)">
+            <rect width="112" height="340" fill="#f4f0e8"/>
+            <g fill="#a93432">
+              <rect y="42" width="112" height="42"/>
+              <rect y="126" width="112" height="42"/>
+              <rect y="210" width="112" height="42"/>
+              <rect y="294" width="112" height="46"/>
+            </g>
+
+            <rect width="52" height="98" fill="#17395f"/>
+
+            <g fill="#fff" opacity=".82">
+              <circle cx="13" cy="16" r="2.2"/>
+              <circle cx="27" cy="16" r="2.2"/>
+              <circle cx="41" cy="16" r="2.2"/>
+              <circle cx="13" cy="31" r="2.2"/>
+              <circle cx="27" cy="31" r="2.2"/>
+              <circle cx="41" cy="31" r="2.2"/>
+              <circle cx="13" cy="46" r="2.2"/>
+              <circle cx="27" cy="46" r="2.2"/>
+              <circle cx="41" cy="46" r="2.2"/>
+            </g>
+          </g>
+
+          <g transform="translate(732 0)">
+            <rect width="112" height="340" fill="#f4f0e8"/>
+            <g fill="#a93432">
+              <rect y="42" width="112" height="42"/>
+              <rect y="126" width="112" height="42"/>
+              <rect y="210" width="112" height="42"/>
+              <rect y="294" width="112" height="46"/>
+            </g>
+            <rect x="60" width="52" height="98" fill="#17395f"/>
+          </g>
+
+          <g filter="url(#td2)">
+            <path d="M314 209h272l-18 119H332Z" fill="#755036" stroke="#4d3425" stroke-width="2"/>
+            <path d="M327 204h246l14 17H312Z" fill="#996c48"/>
+            <rect x="348" y="222" width="204" height="35" rx="4" fill="#0b1f38"/>
+
+            <text x="388" y="244" fill="#fff"
+                  font-family="Georgia" font-size="13"
+                  font-weight="bold" letter-spacing="1.5">
+              THE WHITE HOUSE
+            </text>
+
+            <ellipse cx="450" cy="292" rx="31" ry="25"
+                     fill="#0b1f38" stroke="#b3945e" stroke-width="2"/>
+          </g>
+
+          <g transform="translate(395 96)" filter="url(#td2)">
+            <circle cx="55" cy="42" r="31" fill="#c99b78"/>
+            <path d="M28 36c5-25 46-38 59-5-17-9-39-8-59 5Z" fill="#6a5545"/>
+            <path d="M27 68q28-17 56 0l22 91H5Z" fill="#0b213d"/>
+            <path d="M45 70h20l-10 18Z" fill="#fbf8f1"/>
+            <path d="m55 82 7 33-7 9-7-9Z" fill="#a93432"/>
+            <circle cx="44" cy="43" r="2" fill="#3d2c25"/>
+            <circle cx="66" cy="43" r="2" fill="#3d2c25"/>
+            <path d="M45 56q10 6 20 0" fill="none" stroke="#9e6d54"
+                  stroke-width="2" stroke-linecap="round"/>
+          </g>
+
+          <g stroke="#0c1723" stroke-width="4" stroke-linecap="round">
+            <path d="M428 190c-4-23-18-33-38-30"/>
+            <path d="M472 190c4-23 18-33 38-30"/>
+          </g>
+
+          <g fill="#161f27">
+            <circle cx="388" cy="160" r="6"/>
+            <circle cx="512" cy="160" r="6"/>
+          </g>
+
+          <g transform="translate(218 71)" filter="url(#td2)">
+            <path d="M38 0v184" stroke="#9eb2c1" stroke-width="5"/>
+            <path d="M0 18h82l-12 96H13Z"
+                  fill="#b7cad6" opacity=".34"
+                  stroke="#c7d8e3" stroke-width="2"/>
+            <path d="M13 114h56" stroke="#7f96a7" stroke-width="3"/>
+          </g>
+
+          <g transform="translate(600 71)" filter="url(#td2)">
+            <path d="M44 0v184" stroke="#9eb2c1" stroke-width="5"/>
+            <path d="M0 18h82l-12 96H13Z"
+                  fill="#b7cad6" opacity=".34"
+                  stroke="#c7d8e3" stroke-width="2"/>
+            <path d="M13 114h56" stroke="#7f96a7" stroke-width="3"/>
+          </g>
+
+          <g opacity=".76" fill="#050d16">
+            <path d="M0 315h164l-24 25H0Z"/>
+            <path d="M736 315h164v25H760Z"/>
+          </g>
+
+          <g transform="translate(116 282)" fill="#081522">
+            <rect width="92" height="50" rx="7"/>
+            <circle cx="34" cy="25" r="16" fill="#1d466f" stroke="#9fb5c6" stroke-width="2"/>
+            <rect x="92" y="12" width="33" height="14" rx="2"/>
+          </g>
+
+          <text x="27" y="28" fill="#fff" opacity=".62"
+                font-family="Arial" font-size="10" letter-spacing="1.8">
+            WHN • NATIONAL ADDRESS • LIVE
+          </text>
+        </svg>
+
+        <div class="glass" id="teleGlass">
+          <span class="liveflag">WHN LIVE</span>
+
+          <div class="telecopy" id="teleCopy">
+            各位美国人民，<br>
+            今天，我想和大家谈一件非常重要的事情……
           </div>
-          <div class="red-seal">今日<br>有效</div>
         </div>
 
-        <div class="report-illustration">
-          <div class="folk-diagram">
-            <div class="folk-wheel" aria-hidden="true">
-              <div class="folk-ring-a"></div>
-              <div class="folk-ring-b"></div>
-              <div class="folk-ring-c"></div>
-              <div class="folk-core" id="folkCore">门</div>
-            </div>
-            <div class="folk-copy">
-              <div class="folk-overline">卦摊小图</div>
-              <div class="folk-title" id="folkTitle">先见门，后见数</div>
-              <p class="folk-figure-text" id="folkFigureText">多半不是大事，是小事来缠。</p>
-            </div>
+        <div style="height:12px"></div>
+
+      </div>
+
+      <button class="primary wide" id="teleStart">
+        开始全国直播
+      </button>
+
+      <div id="teleChallenge" class="hidden">
+
+        <div class="timer">
+          <span>故障后的人类语言恢复时间</span>
+          <b id="teleTimer">5.00</b>
+        </div>
+
+        <div class="choices" id="teleChoices"></div>
+      </div>
+
+      <div class="whn" id="whn3">
+        <b>WHN</b>
+        <span id="whn3t"></span>
+      </div>
+
+      <div class="actions">
+        <button class="secondary back">返回</button>
+        <button class="primary" id="next3" disabled>
+          继续假装一切正常
+        </button>
+      </div>
+
+    </section>
+
+    <!-- 第四关 -->
+    <section class="scene" data-scene="4">
+
+      <div class="time">14:30 · 国家级放鸡程序</div>
+      <h2>今天最重要的人事决定之一。</h2>
+
+      <p class="desc">
+        三位候选鸡已经完成背景审查。
+        请选择其中一位，并亲手完成赦免。
+      </p>
+
+      <div class="turkeys" id="turkeys"></div>
+
+      <div class="stamparea hidden" id="stampArea">
+        <div class="stampnote">
+          请把右侧的 <b>PARDONED</b> 印章拖到你选中的火鸡卡片上。
+          美国国家机器已经准备好了。
+        </div>
+
+        <div class="stampbtn" id="stampBtn">
+          PARDONED<br>
+          <span style="font-size:7px">BY PRESIDENT</span>
+        </div>
+      </div>
+
+      <div class="whn" id="whn4">
+        <b>WHN</b>
+        <span id="whn4t"></span>
+      </div>
+
+      <div class="actions">
+        <button class="secondary back">返回</button>
+        <button class="primary" id="next4" disabled>
+          结束今天的放鸡程序
+        </button>
+      </div>
+
+    </section>
+
+    <!-- 第五关 -->
+    <section class="scene" data-scene="5">
+
+      <div class="time">16:48 · 新闻发布厅</div>
+      <h2>记者会已经结束。</h2>
+
+      <p class="desc">
+        你刚刚说了“谢谢大家”。
+        理论上，这句话应该具有结束会议的功能。
+      </p>
+
+      <div class="pressbox" id="pressBox">
+
+        <svg class="bg" viewBox="0 0 900 520" preserveAspectRatio="none" aria-hidden="true">
+
+          <defs>
+            <linearGradient id="pbg" x1="0" y1="0" x2="0" y2="1">
+              <stop stop-color="#17395f"/>
+              <stop offset=".48" stop-color="#234f7d"/>
+              <stop offset=".49" stop-color="#dde4e8"/>
+              <stop offset="1" stop-color="#b9a78f"/>
+            </linearGradient>
+          </defs>
+
+          <rect width="900" height="520" fill="url(#pbg)"/>
+          <rect x="0" y="0" width="900" height="245" fill="#17395f"/>
+
+          <g fill="#f4f2eb" stroke="#d1cbc1" stroke-width="2">
+            <path d="M70 0h52v245H70Z"/>
+            <path d="M778 0h52v245h-52Z"/>
+            <path d="M56 0h80v22H56Z"/>
+            <path d="M764 0h80v22h-80Z"/>
+          </g>
+
+          <g transform="translate(330 38)">
+            <ellipse cx="120" cy="70" rx="110" ry="62"
+                     fill="#85a6bd" stroke="#c5d4de" stroke-width="4"/>
+
+            <path d="M72 80h96V52H72Z" fill="#eef3f4" opacity=".9"/>
+            <path d="M83 52h74l-37-20Z" fill="#eef3f4"/>
+
+            <g stroke="#7d96a8" stroke-width="4">
+              <path d="M98 52v28M120 52v28M142 52v28"/>
+            </g>
+
+            <text x="71" y="106" fill="#fff"
+                  font-family="Georgia" font-size="13"
+                  font-weight="bold" letter-spacing="1.5">
+              THE WHITE HOUSE
+            </text>
+          </g>
+
+          <g transform="translate(372 180)">
+            <path d="M0 0h156l-16 152H16Z" fill="#6f4b33"/>
+            <path d="M11 0h134l-14 44H25Z" fill="#0b1f38"/>
+            <circle cx="78" cy="70" r="23" fill="#0b1f38"/>
+            <text x="71" y="77" fill="#fff" font-size="19">★</text>
+          </g>
+
+          <g fill="#283b4e">
+            <path d="M55 520V380h102v140Z"/>
+            <path d="M190 520V360h105v160Z"/>
+            <path d="M310 520V390h110v130Z"/>
+            <path d="M480 520V372h108v148Z"/>
+            <path d="M612 520V388h100v132Z"/>
+          </g>
+
+          <g fill="#c59b7c">
+            <circle cx="106" cy="363" r="24"/>
+            <circle cx="243" cy="344" r="24"/>
+            <circle cx="365" cy="373" r="24"/>
+            <circle cx="533" cy="355" r="24"/>
+            <circle cx="663" cy="371" r="24"/>
+          </g>
+
+          <g fill="#fff" opacity=".75">
+            <path d="M20 287h10l3 10 10 3-10 4-3 10-4-10-10-4 10-3Z"/>
+            <path d="M188 300h10l3 10 10 3-10 4-3 10-4-10-10-4 10-3Z"/>
+            <path d="M720 285h10l3 10 10 3-10 4-3 10-4-10-10-4 10-3Z"/>
+          </g>
+
+          <g>
+            <rect x="780" y="304" width="92" height="188" rx="4"
+                  fill="#faf8f2" stroke="#7e7164" stroke-width="4"/>
+
+            <text x="802" y="329" fill="#6b625a"
+                  font-family="Arial" font-size="14" font-weight="bold">
+              EXIT
+            </text>
+
+            <circle cx="852" cy="400" r="5" fill="#7e7164"/>
+          </g>
+
+        </svg>
+
+        <svg class="avatar" id="avatar" viewBox="0 0 72 106" aria-label="总统小人">
+
+          <defs>
+            <filter id="avd">
+              <feDropShadow dx="0" dy="3" stdDeviation="2" flood-opacity=".2"/>
+            </filter>
+          </defs>
+
+          <g filter="url(#avd)">
+            <circle cx="36" cy="20" r="15" fill="#c99b78"/>
+            <path d="M22 17q14-18 28 0" fill="#78614f"/>
+            <path d="M17 41q19-13 38 0l9 61H8Z" fill="#0b1f38"/>
+            <path d="M29 41h14l-7 15Z" fill="#f8f5ef"/>
+            <path d="m36 48 5 23-5 7-5-7Z" fill="#a93432"/>
+            <path d="M7 59-2 84M65 59l9 25"
+                  stroke="#0b1f38" stroke-width="7" stroke-linecap="round"/>
+          </g>
+
+        </svg>
+
+      </div>
+
+      <button class="primary wide" id="pressStart">
+        说完“谢谢大家”，开始离场
+      </button>
+
+      <div class="pressresult hidden" id="pressResult"></div>
+
+      <div class="whn" id="whn5">
+        <b>WHN</b>
+        <span id="whn5t"></span>
+      </div>
+
+      <div class="actions">
+        <button class="secondary back">返回</button>
+        <button class="primary" id="next5" disabled>
+          晚上还要录节目
+        </button>
+      </div>
+
+    </section>
+
+    <!-- 第六关 -->
+    <section class="scene" data-scene="6">
+
+      <div class="time">22:41 · 深夜节目</div>
+      <h2>你已经当了一天总统。现在还不能下班。</h2>
+
+      <p class="desc">
+        节目组决定回放一下互联网今天对你的看法。
+        请自行决定解释到什么程度。
+      </p>
+
+      <div class="latestage">
+
+        <svg viewBox="0 0 900 390" aria-label="深夜节目舞台插画">
+
+          <defs>
+            <linearGradient id="lbg2" x1="0" y1="0" x2="1" y2="1">
+              <stop stop-color="#07172a"/>
+              <stop offset=".56" stop-color="#112e4c"/>
+              <stop offset="1" stop-color="#214d75"/>
+            </linearGradient>
+
+            <radialGradient id="lamp2">
+              <stop stop-color="#f4d999" stop-opacity=".48"/>
+              <stop offset="1" stop-color="#f4d999" stop-opacity="0"/>
+            </radialGradient>
+
+            <filter id="ld2" x="-30%" y="-30%" width="160%" height="160%">
+              <feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#000" flood-opacity=".25"/>
+            </filter>
+          </defs>
+
+          <rect width="900" height="390" fill="url(#lbg2)"/>
+          <circle cx="692" cy="78" r="150" fill="url(#lamp2)"/>
+
+          <path d="M0 0h34v390H0Z" fill="#7d2e30"/>
+          <path d="M866 0h34v390h-34Z" fill="#7d2e30"/>
+          <path d="M34 0h18v390H34ZM848 0h18v390h-18Z"
+                fill="#b3945e" opacity=".55"/>
+
+          <text x="66" y="48" fill="#e0c58b"
+                font-family="Georgia" font-size="16"
+                font-weight="bold" letter-spacing="2.2">
+            A LITTLE LATE WITH AMERICA
+          </text>
+
+          <g opacity=".48">
+            <path d="M0 334h70v56H0Z" fill="#66809c"/>
+            <path d="M79 296h95v94H79Z" fill="#4e6b8a"/>
+            <path d="M187 318h61v72h-61Z" fill="#6e88a2"/>
+            <path d="M260 273h118v117H260Z" fill="#486787"/>
+            <path d="M391 309h75v81h-75Z" fill="#7089a2"/>
+            <path d="M480 250h134v140H480Z" fill="#436282"/>
+            <path d="M625 303h79v87h-79Z" fill="#6a829c"/>
+            <path d="M714 270h94v120h-94Z" fill="#4c6a89"/>
+            <path d="M818 311h82v79h-82Z" fill="#718aa2"/>
+          </g>
+
+          <g fill="#f5e8bd" opacity=".35">
+            <rect x="100" y="314" width="5" height="6"/>
+            <rect x="119" y="314" width="5" height="6"/>
+            <rect x="297" y="294" width="5" height="6"/>
+            <rect x="319" y="294" width="5" height="6"/>
+            <rect x="520" y="276" width="5" height="6"/>
+            <rect x="546" y="276" width="5" height="6"/>
+            <rect x="747" y="292" width="5" height="6"/>
+          </g>
+
+          <g transform="translate(542 177)" filter="url(#ld2)">
+            <path d="M0 88h273v92H0Z" fill="#7d5638"/>
+            <path d="M13 79h247l17 14H0Z" fill="#a7754d"/>
+
+            <path d="M195 15c-19 0-34 15-34 34 0 14 8 26 20 31l-7 19h43l-7-19c12-5 20-17 20-31 0-19-15-34-35-34Z" fill="#c99c7a"/>
+            <path d="M168 37c3-25 39-43 61-13-17-5-38-2-61 13Z" fill="#6e5747"/>
+            <path d="M153 98q43-33 86 0Z" fill="#172c42"/>
+            <path d="M184 99h22l-11 17Z" fill="#f8f4ed"/>
+            <path d="m195 110 7 28-7 7-7-7Z" fill="#a93432"/>
+
+            <circle cx="184" cy="51" r="2" fill="#3d2e27"/>
+            <circle cx="205" cy="51" r="2" fill="#3d2e27"/>
+
+            <path d="M184 63q11 6 21 0"
+                  fill="none" stroke="#9c6e57"
+                  stroke-width="2" stroke-linecap="round"/>
+
+            <rect x="28" y="62" width="54" height="17" rx="2"
+                  fill="#f2eee5" transform="rotate(-5 28 62)"/>
+
+            <path d="M34 68h37M34 73h28"
+                  stroke="#8d8f91" stroke-width="1"/>
+
+            <g transform="translate(102 60)">
+              <path d="M0 18h30v28H0Z" fill="#e9e1d5"/>
+              <path d="M30 23c13-2 14 18 0 17"
+                    fill="none" stroke="#e9e1d5" stroke-width="5"/>
+            </g>
+          </g>
+
+          <g transform="translate(75 100)">
+            <rect width="390" height="142" rx="18"
+                  fill="rgba(255,255,255,.055)"
+                  stroke="rgba(255,255,255,.15)"/>
+
+            <path d="M0 72h390" stroke="rgba(255,255,255,.07)"/>
+
+            <text x="27" y="45" fill="#fff"
+                  font-family="STSong,serif" font-size="21">
+              “总统先生，辛苦一天了。
+            </text>
+
+            <text x="27" y="81" fill="#fff"
+                  font-family="STSong,serif" font-size="21">
+              我们来看一下互联网今天
+            </text>
+
+            <text x="27" y="117" fill="#fff"
+                  font-family="STSong,serif" font-size="21">
+              都怎么评价你。”
+            </text>
+          </g>
+
+          <g fill="#08111c" opacity=".9">
+            <circle cx="84" cy="374" r="24"/>
+            <path d="M49 390q35-47 70 0Z"/>
+            <circle cx="173" cy="369" r="20"/>
+            <path d="M143 390q30-40 60 0Z"/>
+            <circle cx="789" cy="371" r="22"/>
+            <path d="M756 390q33-43 66 0Z"/>
+          </g>
+
+          <g transform="translate(452 293)" fill="#07111d">
+            <rect width="71" height="43" rx="6"/>
+            <circle cx="25" cy="22" r="14"
+                    fill="#1d456e" stroke="#9eb3c4" stroke-width="2"/>
+            <rect x="71" y="10" width="28" height="12" rx="2"/>
+          </g>
+
+        </svg>
+
+      </div>
+
+      <div class="comments" id="comments"></div>
+
+      <div class="meter">
+
+        <div class="meterhead">
+          <div class="val" id="responseVal">50%</div>
+
+          <div class="meterlabel">
+            总统回应程度<br>
+            拖动一次才算正式表态
           </div>
         </div>
 
-        <div class="one-line">
-          <div class="one-label">今日一断</div>
-          <div class="one-answer" id="oneAnswer">今天别替别人接活。</div>
-          <div class="one-time" id="oneTime">尤其 17:20 以后。</div>
+        <input
+          id="responseRange"
+          type="range"
+          min="0"
+          max="100"
+          value="50"
+        >
 
-          <div class="meta-row">
-            <div>
-              <div class="score-caption">躲开这事的把握</div>
-              <div class="score"><span id="score">67</span><small>%</small></div>
-            </div>
-
-            <div class="gua-name">
-              <span>本卦叫</span>
-              <strong id="guaName">半截门局</strong>
-            </div>
-          </div>
+        <div class="labels">
+          <span>完全不接</span>
+          <span>礼貌笑一下</span>
+          <span>我要解释清楚</span>
         </div>
 
-        <div class="report-section">
-          <div class="section-title">这卦是怎么绕出来的</div>
-          <p class="reasoning" id="reasoning"></p>
-
-          <div class="human-translation">
-            <div class="human-label">说人话</div>
-            <div class="human-text" id="humanText">今天很可能有人拿一点破事来占你的时间。</div>
-          </div>
-        </div>
-
-        <div class="report-section">
-          <div class="section-title">今天记住三句话</div>
-          <div class="three-lines" id="threeLines"></div>
-        </div>
-
-        <div class="report-section">
-          <div class="section-title">民间土办法</div>
-          <div class="folk-tip">
-            <div class="folk-title">没法力，但有点用</div>
-            <p id="folkTip"></p>
-          </div>
-        </div>
-
-        <div class="report-section">
-          <div class="section-title">今日宜忌</div>
-          <div class="yiji">
-            <div class="yiji-card yi">
-              <div class="yiji-title">宜</div>
-              <div class="yiji-items" id="yi"></div>
-            </div>
-            <div class="yiji-card ji">
-              <div class="yiji-title">忌</div>
-              <div class="yiji-items" id="ji"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="report-section">
-          <div class="section-title">顺手附送三样没法解释的东西</div>
-          <div class="data-grid">
-            <div class="data">
-              <strong id="dangerTime">17:20</strong>
-              <span>今天最容易起小事</span>
-            </div>
-            <div class="data">
-              <strong id="luckyObject">黑笔</strong>
-              <span>临时压一压的东西</span>
-            </div>
-            <div class="data">
-              <strong id="avoidWord">顺便</strong>
-              <span>今天少接这个词</span>
-            </div>
-          </div>
-        </div>
-
-        <p class="share-line" id="shareLine">
-          我今天的卦很简单：17点以后，不要看起来太有空。
-        </p>
-
-        <div class="report-foot">
-          <span id="dateText"></span>
-          <span id="reportId"></span>
+        <div class="metercomment" id="meterComment">
+          当前状态：给节目一点东西，但暂时没有把自己完全交出去。
         </div>
 
       </div>
-    </article>
 
-    <div class="result-actions">
-      <button type="button" class="action-btn copy-btn" id="copyBtn">复制这句判词</button>
-      <button type="button" class="action-btn reset-btn" id="resetBtn">再起一卦</button>
+      <div class="whn" id="whn6">
+        <b>WHN</b>
+        <span id="whn6t"></span>
+      </div>
+
+      <div class="actions">
+        <button class="secondary back">返回</button>
+        <button class="primary" id="finish" disabled>
+          把这一天交给互联网
+        </button>
+      </div>
+
+    </section>
+
+  </section>
+
+  <!-- 结果页 -->
+  <section class="card result" id="result">
+
+    <div class="report">
+
+      <div class="reporthead">
+
+        <div>
+          <div class="org">美国总统临时上岗报告</div>
+          <div class="orgsub">
+            THE UNITED STATES PRESIDENTIAL ONBOARDING REPORT
+          </div>
+        </div>
+
+        <div class="stampfinal">
+          DAY 1 已结案
+        </div>
+      </div>
+
+      <div class="resultmain">
+
+        <div class="kicker">
+          美国总统适配度
+        </div>
+
+        <div class="rtitle" id="rtitle"></div>
+
+        <div class="scorerow">
+          <div class="score" id="score"></div>
+          <div class="unit">
+            / 100<br>
+            总统工位适配分
+          </div>
+        </div>
+
+        <div class="scoretrack">
+          <div class="scorefill" id="scorefill"></div>
+        </div>
+
+        <div class="level" id="level"></div>
+
+        <div class="persona">
+          总统互联网形态：
+          <b id="persona"></b>
+        </div>
+
+      </div>
+
+      <div class="section">
+        <div class="sectionlabel">
+          CAPABILITY MAP / 工位能力
+        </div>
+        <div class="dims" id="dims"></div>
+      </div>
+
+      <div class="section">
+        <div class="sectionlabel">
+          SYSTEM NOTE / 系统分析
+        </div>
+        <p class="copy" id="analysis"></p>
+      </div>
+
+      <div class="section">
+        <div class="sectionlabel">
+          USELESS DATA / 完全可以不统计的数据
+        </div>
+        <div class="useless" id="useless"></div>
+      </div>
+
+      <div class="section">
+        <div class="sectionlabel">
+          WHITE HOUSE ADVICE / 白宫建议
+        </div>
+        <p class="copy" id="advice"></p>
+      </div>
+
+      <div class="section">
+        <div class="sectionlabel">
+          SCREENSHOT THIS / 建议截图
+        </div>
+        <p class="quote" id="quote"></p>
+      </div>
+
+      <div class="reportmeta">
+        <div>
+          评估日期
+          <b id="date"></b>
+        </div>
+
+        <div>
+          上岗档案编号
+          <b id="rid"></b>
+        </div>
+      </div>
+
     </div>
+
+    <div class="resultactions">
+      <button class="primary" id="copyBtn">
+        复制总统结论
+      </button>
+
+      <button class="secondary" id="restart">
+        换届重测
+      </button>
+    </div>
+
+    <div class="copystatus" id="copyStatus"></div>
+
   </section>
 
   <footer>
-    每天用 AI 做一个好像有用，又好像没什么用的网页。
-    <small>纯娱乐。大事看事实，小事偶尔听听野路子。</small>
+    本系统不判断现实参选资格、政治立场或治理能力。
+    它主要确认你能不能在镜头前把事情表现得像已经处理好了。
   </footer>
-</main>
 
-<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="readTitle">
-  <div class="reading">
-    <div class="divine-plate">
-      <div class="divine-ring r1"></div>
-      <div class="divine-ring r2"></div>
-      <div class="divine-ring r3"></div>
-      <div class="divine-center">断</div>
-    </div>
-    <h3 class="read-title" id="readTitle">正在把几样没关系的东西硬凑成一卦</h3>
-    <p class="read-sub">老法子不讲明白，讲明白就不玄了</p>
-    <div class="read-line"><span></span></div>
-    <p class="read-msg" id="readMsg">先看前手，再看后手……</p>
-    <div class="read-code" id="readCode">卦纸正在压平 / 01</div>
-  </div>
 </div>
 
-<div class="toast" id="toast"></div>
+<!-- 启动加载 -->
+<div class="overlay" id="boot">
+
+  <div class="modal">
+
+    <div class="modaltitle">
+      正在创建总统临时账户
+    </div>
+
+    <div class="modalsub">
+      系统将为你开通一些理论上不该这么快开通的权限。
+    </div>
+
+    <div class="bootlines" id="bootLines">
+
+      <div class="bootline">
+        <span>椭圆办公室门禁</span>
+        <b>等待</b>
+      </div>
+
+      <div class="bootline">
+        <span>总统签字权限</span>
+        <b>等待</b>
+      </div>
+
+      <div class="bootline">
+        <span>新闻发布厅麦克风</span>
+        <b>等待</b>
+      </div>
+
+      <div class="bootline">
+        <span>火鸡赦免权限</span>
+        <b>等待</b>
+      </div>
+
+      <div class="bootline warn">
+        <span>治国教程</span>
+        <b>等待</b>
+      </div>
+
+    </div>
+
+    <div class="boottrack">
+      <div id="bootProgress"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- 分析加载 -->
+<div class="overlay" id="anOverlay">
+
+  <div class="modal" style="text-align:center">
+
+    <div class="radar">
+      <div class="arm"></div>
+      <div style="font-size:21px">★</div>
+    </div>
+
+    <div class="modaltitle">
+      正在整理你的总统第一天
+    </div>
+
+    <div class="modalsub">
+      剪辑室、文具部门和 Gary 都提交了材料。
+    </div>
+
+    <div class="antext" id="anText">
+      正在回放第一次握手……
+    </div>
+
+  </div>
+
+</div>
 
 <script>
-(() => {
-"use strict";
+(()=>{
+'use strict';
 
 const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
 
-function shuffle(arr){
-  const a=[...arr];
-  for(let i=a.length-1;i>0;i--){
-    const j=Math.floor(Math.random()*(i+1));
-    [a[i],a[j]]=[a[j],a[i]];
-  }
-  return a;
-}
-function pick(arr){return arr[Math.floor(Math.random()*arr.length)]}
-function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min}
-function clamp(n,min,max){return Math.max(min,Math.min(max,n))}
-function esc(s){
-  return String(s)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-}
-function makeSeed(){
-  if(window.crypto?.getRandomValues){
-    const a=new Uint32Array(1);
-    crypto.getRandomValues(a);
-    return a[0];
-  }
-  return Date.now()+Math.floor(Math.random()*99999);
-}
-
-const TYPES=["work","money","social","night","delay","mood","phone","food","commute"];
-
-const METHODS=[
-  {
-    name:"门槛起卦",
-    desc:"先看你往哪边偏，再看手里落了什么字。民间说这种卦最会抓“本来没事，后来被人叫住”的小麻烦。",
-    notice:"别选顺眼的。哪一个让你停了一下，就算它先开口。",
-    modules:["word","direction","number","tap","time","line"],
-    intro:["门先开，事后到；前手若急，后手多半有人来叫。","这一路不看吉凶，专看今天哪件小事最容易黏上来。"]
+const state = {
+  scene:1,
+  handshake:null,
+  penCount:0,
+  signature:{
+    length:0,
+    width:0,
+    height:0
   },
-  {
-    name:"灯下摸字",
-    desc:"旧说灯下看字，不看字义，看你先碰哪一个。碰得快，是外事；碰得慢，是心事。",
-    notice:"看三秒，别解释。你越能解释，越不算第一眼。",
-    modules:["word","redpaper","coin","number","line","time"],
-    intro:["灯下字不问好坏，只看先后。先落外字，事从外来；先落内字，事从心起。","这一法最怕你认真，认真以后就只剩审美，没有卦了。"]
+  tele:{
+    option:null,
+    time:5,
+    score:0
   },
-  {
-    name:"鞋底听数",
-    desc:"民间很野的一路：取个数、看个方、再敲几下。数不算吉利，算你今天哪处容易踩空。",
-    notice:"不要选生日、手机号尾数和所谓幸运数字。那些都被你提前训练过。",
-    modules:["number","tap","direction","coin","time","object"],
-    intro:["数落前，方落后，前数带脚，后方带路。两边若拧，就是今天容易多走一步。","这卦不问你顺不顺，只看哪件事最容易让你多费一次劲。"]
+  turkey:{
+    name:null,
+    stampTime:0,
+    score:0
   },
-  {
-    name:"三碰断事",
-    desc:"先碰一个东西，再翻三枚钱，最后留一个时辰。老话叫“物先应，钱后响”。",
-    notice:"第一碰别改。改了以后就是你在挑，不是它在应。",
-    modules:["object","coin","time","word","redpaper","line"],
-    intro:["物应在前，钱响在后，若中间再见偏位，多半是小事反复，不伤大局。","三碰法不看大命，专门收拾“怎么又来一次”的破事。"]
+  press:{
+    time:null,
+    score:0
   },
-  {
-    name:"回头卦",
-    desc:"专看今天什么事最容易让你回头：回消息、回去拿东西、回看聊天、回头补一手。",
-    notice:"今天看到“回”字就别多想，这一路本来就专断反复。",
-    modules:["direction","time","tap","word","object","redpaper"],
-    intro:["前步若直，后步若偏，叫回头；回头不一定坏，但最耗时间。","这卦看的是反复，不看成败。很多烦就是多做那一下。"]
+  late:{
+    response:50,
+    touched:false,
+    score:0
   },
-  {
-    name:"饭前野断",
-    desc:"不算饭，算人在饿的时候最容易把什么判断弄复杂。适合看消费、外卖、脾气和晚上乱想。",
-    notice:"如果你现在正饿着，这一卦理论上会更不稳定。也可能只是更诚实。",
-    modules:["object","number","line","time","word","tap"],
-    intro:["腹空则念浮，念浮则事大。老话没这么说，是我们刚给它补上的。","这一法不看财运，只看你今天会不会因为一点空缺，顺手填进太多东西。"]
-  },
-  {
-    name:"红纸压事",
-    desc:"先在红纸上按个位置，再取一个数。上偏主外，下偏主内，边上主别人，中间主自己。",
-    notice:"按哪里都行，但别瞄准正中间。越想准，越不准。",
-    modules:["redpaper","number","word","coin","direction","time"],
-    intro:["红纸先定落处，数再定轻重。偏边见客，偏中见己，左缓右急。","这一路最适合把一堆说不清的感觉，最后翻译成一句能执行的话。"]
-  },
-  {
-    name:"口袋余数法",
-    desc:"像从口袋里掏出几样没关系的东西硬算：一件物、一个数、一处方向。野，但通常能断得很具体。",
-    notice:"不要追求“像算命”。越普通的东西，民间路数越爱拿来做文章。",
-    modules:["object","number","direction","tap","line","word"],
-    intro:["余数不问整，余物不问贵。留下来的，才最容易把今天的小事带出来。","这法最擅长把玄话说半天，最后告诉你别回那条消息。"]
-  }
-];
-
-const WORD_POOLS=[
-  [
-    ["门","外事",{work:3,social:1},"先碰门，外事先动"],
-    ["火","起念",{money:3,mood:1},"火落前手，最怕临时起意"],
-    ["井","往下",{mood:3,delay:1},"井字入手，心容易往深处走"],
-    ["雨","拖着",{delay:3},"雨不伤人，最会把事情往后推"],
-    ["眼","在意",{social:3,mood:1},"眼主看人，也主多想一句"],
-    ["灯","夜起",{night:3,phone:1},"灯见夜象，越晚越容易不收手"],
-    ["鱼","摸行",{work:1,delay:2},"鱼不逆水，今天硬顶反而费劲"],
-    ["锁","卡住",{delay:3,work:1},"锁主一处卡，往往不是大事"],
-    ["杯","空处",{food:2,money:2},"杯为空器，空了就想填"]
-  ],
-  [
-    ["鞋","走动",{commute:3},"鞋先应，事多在路上"],
-    ["线","牵扯",{social:2,work:1},"线主牵，今天少替别人接头"],
-    ["纸","未定",{delay:2,work:1},"纸上事多，落地事少"],
-    ["钟","催促",{work:2,commute:1},"钟催外事，越赶越容易多一步"],
-    ["伞","预防",{mood:1,commute:2},"伞主先防，容易提前担心"],
-    ["饭","肉身",{food:3},"饭落前手，身体会先替你做决定"],
-    ["屏","吸住",{phone:3,night:1},"屏见黏象，拿起容易放不下"],
-    ["票","付出",{money:3},"票带财口，今天容易为一点方便多付"],
-    ["路","回转",{commute:2,delay:1},"路主反复，最怕走到一半再想起"]
-  ]
-];
-
-const OBJECTS=[
-  ["钥匙","开关之物",{commute:2,work:1},"钥匙先应，今天事情多在开关之间"],
-  ["耳机","隔外声",{social:2,phone:1},"耳机主隔，今天少听一点反而顺"],
-  ["黑笔","落字",{work:2},"笔主定，今天适合少解释多落字"],
-  ["纸巾","收尾",{mood:1,food:1},"纸巾主收，今天小事及时收口"],
-  ["杯子","空满",{food:2,money:1},"杯器一空，人容易想填"],
-  ["充电线","续气",{phone:2,night:1},"线主续，今天最怕什么都再续十分钟"],
-  ["工牌","外身",{work:3},"牌是外身份，事多从工作身份来"],
-  ["帆布袋","多装",{money:1,work:1},"袋主装，今天别什么都往自己身上揽"],
-  ["雨伞","先防",{commute:2,mood:1},"伞主防，容易为了没发生的事先费神"],
-  ["饭盒","实事",{food:3},"饭盒主实，不宜空想太久"],
-  ["手机","杂声",{phone:3,social:1},"手机一应，消息会显得比它本来更重要"],
-  ["门卡","出入",{work:1,commute:2},"门卡主进出，今天边界要清楚"]
-];
-
-const TIME_POOL=[
-  ["09:17",{work:2,commute:1},"辰尾见动，早上容易先来一件插队的小事"],
-  ["10:26",{social:2,work:1},"巳中见客，容易被一句话带走注意力"],
-  ["11:43",{food:2,mood:1},"午前气散，饿的时候判断容易变形"],
-  ["14:13",{delay:3},"午后半沉，最容易把五分钟拖成一小时"],
-  ["15:36",{social:2,mood:1},"申前见眼，容易多看一句、多想一层"],
-  ["16:52",{work:3},"酉气将起，临时任务开始长脚"],
-  ["17:41",{work:4},"下班门薄，最怕有人突然想起你"],
-  ["18:06",{commute:2,work:2},"事已过门仍有尾巴，容易多回一次头"],
-  ["21:14",{money:2,phone:1},"夜起财口，购物欲容易穿成合理需求"],
-  ["22:37",{night:3,phone:1},"灯久心浮，越晚越容易失去结束能力"],
-  ["23:19",{night:4},"子前心动，适合睡觉，不适合做人生决定"],
-  ["00:07",{night:3,mood:2},"过零后旧念容易翻出来"]
-];
-
-const NUMBER_POOL=[3,5,7,8,11,13,16,18,21,24,28,31,34,37,41,47];
-
-const DIRECTIONS=[
-  ["北","n",{night:2,mood:1},"北偏静，事情容易往心里收"],
-  ["东北","ne",{work:1,commute:2},"东北带转，容易多走一步"],
-  ["东","e",{work:2},"东主动，外事先来"],
-  ["东南","se",{money:2,social:1},"东南见欲，临时起念偏多"],
-  ["南","s",{mood:1,money:1},"南带火，越急越容易多做"],
-  ["西南","sw",{social:2,work:1},"西南见客，别人容易带事过来"],
-  ["西","w",{delay:2},"西主收，今天适合及时停手"],
-  ["西北","nw",{commute:2,work:1},"西北见路，出门前最好再看一眼"]
-];
-
-const RESULTS={
-  work:[
-    {
-      gua:["半截门局","客事压身","门外多手"],
-      one:["今天别替别人接活。","今天少说“我顺便弄一下”。","下班前别看起来太有空。"],
-      human:["今天很可能有人拿一点破事来占你的时间。","真正麻烦的不是大任务，是一件本来不属于你的“小事”。"],
-      lines:["“顺便”先别答应。","17点以后少主动暴露空闲。","不是你的事，不要替别人补全。"],
-      tip:["下午三点前，把桌上一个没用的东西扔掉。老说法叫“清手”，现代解释：提醒自己别什么都往身上揽。","有人来一句“很快的”，先问清楚做到什么程度。民间叫“先量门框”，其实就是先确认边界。"],
-      yi:["先问范围","留一句缓冲","按时收尾"],
-      ji:["主动接话","过早收桌面","替别人补需求"],
-      shares:["我今天的卦很简单：17点以后，不要看起来太有空。","今日野卦：别替别人顺手办事，尤其下班前。"],
-      avoid:["顺便","很快","你方便吗"]
-    },
-    {
-      gua:["尾事缠门","小客回头","两头见事"],
-      one:["今天别把三分钟的小事当真的只要三分钟。","今天凡是“很快的”，都先当半小时看。"],
-      human:["你今天容易被低估的小事拖住，不大，但很黏。"],
-      lines:["先问截止时间。","先问做到哪一步。","没有结束条件的事先别接。"],
-      tip:["接到临时事先喝一口水再回。不是为了转运，是为了让“没问题”晚三秒出口。"],
-      yi:["先问清楚","给自己留尾巴","明确结束点"],
-      ji:["秒回可以","替人兜底","默认只要三分钟"],
-      shares:["系统没有，老卦倒有一句：今天“很快的”一般都不快。"],
-      avoid:["很快","帮个忙","简单看下"]
-    }
-  ],
-  money:[
-    {
-      gua:["空杯见财","火走偏口","财口先热"],
-      one:["晚上十点以后别下单。","今天想买的东西，先截图别付款。","今天别为了省钱多买东西。"],
-      human:["你今天未必真缺东西，主要是容易突然觉得自己“应该买点什么”。"],
-      lines:["想买先截图。","十点以后不付款。","凑单不算省钱。"],
-      tip:["第一次想付款时先去喝半杯水，等十分钟。老说法叫“压火”，现代解释：让欲望先过一轮。"],
-      yi:["收藏隔夜","先看已有","只买清单内"],
-      ji:["深夜付款","凑满减","把想要叫刚需"],
-      shares:["今日野卦：想买先截图，晚上十点以后别付款。","我的卦说得很土：今天容易把“想要”说成“需要”。"],
-      avoid:["限时","满减","提升幸福感"]
-    }
-  ],
-  social:[
-    {
-      gua:["眼线回潮","一句生枝","客话多想"],
-      one:["今天别研究别人那个句号。","那条消息晚十分钟再回。","今天少替别人补潜台词。"],
-      human:["别人可能只是说了一句话，你的脑子准备替他写完剩下三页。"],
-      lines:["按字面意思理解。","晚回十分钟不会出事。","别把聊天截图拿去会诊。"],
-      tip:["看到让你不舒服的消息，先把手机扣桌上三分钟。民间叫“断气口”，其实就是让第一反应先过去。"],
-      yi:["晚一点回","按字面看","少解释一次"],
-      ji:["研究句号","猜潜台词","反复看聊天"],
-      shares:["今日野卦：不要研究别人那个句号是什么意思。","今天最大的社交劫不是别人，是我替别人补台词。"],
-      avoid:["在吗","嗯。","你怎么想"]
-    }
-  ],
-  night:[
-    {
-      gua:["晚灯压心","月后失守","子前散念"],
-      one:["23点以后别做重大决定。","今晚别相信“再看五分钟”。","夜里突然想通的人生，明早再审批。"],
-      human:["白天的你还能管住事，23点以后的你比较喜欢给明天添项目。"],
-      lines:["23点后不下单。","不搜旧人动态。","年度计划明早再写。"],
-      tip:["第一次想“再看一个”时就去洗漱。老说法叫“灭灯”，现代解释：给今晚一个明确结束点。"],
-      yi:["提前洗漱","手机离床远点","明早再决定"],
-      ji:["凌晨复盘","再刷五分钟","突然励志"],
-      shares:["今日野卦：23点后的我不具备重大决策资格。","今晚最凶的不是时间，是“再看五分钟”。"],
-      avoid:["再看一个","最后一次","明天开始"]
-    }
-  ],
-  delay:[
-    {
-      gua:["山前不动","雨压半步","先整后拖"],
-      one:["今天别等状态，先做五分钟。","今天不许先整理桌面。","先做一个很丑的开头。"],
-      human:["你今天最容易把“准备开始”做得特别完整，就是不开始。"],
-      lines:["先做五分钟。","第一版允许很丑。","准备工作不算进度。"],
-      tip:["开工前别换音乐、别整理桌面、别找新软件。民间叫“别扫门前灰”，其实就是直接碰正事。"],
-      yi:["先动五分钟","清一个旧待办","允许不完整"],
-      ji:["等状态","做复杂计划","先优化工具"],
-      shares:["今日野卦：不许等状态，先做一个很丑的开头。","我今天的劫叫“开始之前先准备”。"],
-      avoid:["等会儿","先准备","状态"]
-    }
-  ],
-  mood:[
-    {
-      gua:["井里见影","旧话回潮","一事压心"],
-      one:["今天别用一件破事总结整个人生。","那个尴尬别复盘了，别人多半早忘了。","今天坏一件事，只算坏一件。"],
-      human:["今天的小问题容易被你往下想三层，最后变成“我最近是不是整体不行”。"],
-      lines:["就事论事。","坏事只许代表自己。","旧尴尬不准重播。"],
-      tip:["突然开始内耗时起身换个位置，走十步再回来。民间叫“换气位”，现代解释：别让一个姿势把一个念头坐实。"],
-      yi:["换个场景","出去走十分钟","给情绪限时"],
-      ji:["总结人生","回放旧尴尬","替过去辩护"],
-      shares:["今日野卦：一件破事，不许代表整个人生。","系统没有，野卦有：旧尴尬今天禁止重播。"],
-      avoid:["最近","是不是我","早知道"]
-    }
-  ],
-  phone:[
-    {
-      gua:["屏光黏手","红点牵心","灯下续线"],
-      one:["今天第三次无意识打开手机时，就放下。","通知栏今天没有指挥权。","别让推荐流替你安排情绪。"],
-      human:["手机今天很容易从工具变成“我也不知道为什么又打开了”的东西。"],
-      lines:["红点不等于急事。","第三次无意识打开就停。","睡前不进推荐流。"],
-      tip:["把最容易点开的那个 App 从首屏挪走一天。老说法叫“移门”，其实就是多给手指一道门槛。"],
-      yi:["批量回消息","主动搜索","关没用提醒"],
-      ji:["无限下滑","每个红点都点","边睡边刷"],
-      shares:["今日野卦：通知栏今天没有指挥权。","今天最该防的不是谁，是我第三次无意识打开手机。"],
-      avoid:["红点","为你推荐","再刷一下"]
-    }
-  ],
-  food:[
-    {
-      gua:["空腹多门","饭前失断","杯空见欲"],
-      one:["今天点外卖最多看三家。","饿的时候别承担太多选择。","吃完就算，别饭后审判自己。"],
-      human:["你今天容易在饿的时候把一个很小的选择做成公开招标。"],
-      lines:["先定品类。","最多比较三家。","吃完不追加道德评价。"],
-      tip:["点外卖前先喝几口水，然后只留三个候选。民间叫“先压空口”，现代解释：别在最饿的时候无限比较。"],
-      yi:["限定选项","复购安全项","认真吃完"],
-      ji:["无限滑店","饿着比较","饭后反悔"],
-      shares:["今日野卦：点外卖最多看三家，饿的时候不适合做复杂决策。","我今天最容易渡的劫，是看四十分钟最后点昨天那家。"],
-      avoid:["猜你喜欢","更多商家","新品"]
-    }
-  ],
-  commute:[
-    {
-      gua:["鞋底回门","路上反手","门卡见迟"],
-      one:["今天出门前摸一下手机和钥匙。","今天别赌“应该刚好赶得上”。","门关之前再看一眼真正必须带的东西。"],
-      human:["你今天的小麻烦容易发生在“已经出门了才想起来”的那一下。"],
-      lines:["提前五分钟。","关门前摸口袋。","不要边走边回忆。"],
-      tip:["出门前站门口两秒，只查手机、钥匙、真正必须带的那个。民间叫“压门槛”，现代解释：别靠信念检查随身物。"],
-      yi:["提前五分钟","东西放门口","关门前复查"],
-      ji:["卡点出门","相信应该记得","边走边刷手机"],
-      shares:["今日野卦：出门前摸一下手机钥匙，别靠信念。","今天不要赌“应该刚好赶得上”。"],
-      avoid:["来得及","应该带了","下一班"]
-    }
-  ]
+  sound:false
 };
 
-const LUCKY_OBJECTS=["黑笔","纸巾","门卡","半杯水","充电线","钥匙","帆布袋","耳机盒","购物小票","空白便签","杯盖","工牌"];
-const GENERIC_OMEN=[
-  "若今天连续两次听见“顺便”，第三次就别接。",
-  "如果下午突然很想整理桌面，先看看是不是在躲正事。",
-  "若23点后突然觉得人生方向异常清晰，明早再信。",
-  "如果一个商品连续出现三次，不代表宇宙让你买。",
-  "如果打开手机却忘了要干什么，先退回桌面。",
-  "若某人只回一个“嗯”，今天暂不支持深度解读。"
-];
+let ctx = null;
 
+function tone(f=520,d=.06,type='sine',v=.025){
 
-const RIBBON_POOL=[
-  ["门","开门象"],["灯","灯下意"],["火","起意象"],["雨","拖字头"],
-  ["井","藏心象"],["月","晚念头"],["鞋","走动相"],["杯","空口象"],
-  ["锁","卡手象"],["伞","遮身象"],["鱼","滑手象"],["纸","落字相"]
-];
-
-const FIGURE_MAP={
-  work:{glyph:"门",title:["先见门，后见数","门开半寸，事就先来"],text:["多半不是大事，是别人那点小事先挤进来了。","门象偏前，客事就容易抢先开口。"]},
-  money:{glyph:"杯",title:["杯口朝上，火意先动","空杯见火，先想填"],text:["你今天未必真缺，主要容易突然觉得该买点什么。","这类卦不叫破财，叫起念。"]},
-  social:{glyph:"眼",title:["眼先应，话就重了","先见人影，后见心气"],text:["今天容易把一句普通话听出第二层意思。","事不一定大，主要是脑子会替别人补台词。"]},
-  night:{glyph:"月",title:["月落后手，夜里最会说话","晚灯一亮，理智就松"],text:["今天白天没事，晚上反而容易起波澜。","这卦不怕白天，怕深夜那一下突然认真。"]},
-  delay:{glyph:"山",title:["山压前手，起步就慢","先见阻象，后面自然拖"],text:["不是做不了，是开始前容易先绕一圈。","今天的难不在结果，在开头。"]},
-  mood:{glyph:"井",title:["井口偏深，心会往下想","前象一沉，后面就容易放大"],text:["今天要防的不是坏事，是把小事想大。","这卦最怕一件普通事被你顺手概括成人生。"]},
-  phone:{glyph:"屏",title:["屏光先亮，杂念跟着来","小光一闪，心就被拽走"],text:["今天最黏人的东西可能就在手机里。","这类卦不主大祸，只主注意力被不断截走。"]},
-  food:{glyph:"筷",title:["先碰口福，后见犹疑","口欲在前，后手就摇"],text:["今天容易在吃这件事上多想、多比、多后悔。","不是饭有问题，是选择太多。"]},
-  commute:{glyph:"路",title:["路象偏斜，脚下要快半步","一见走动，余手就要收"],text:["今天最好别赌刚刚好。","这一类卦，慢半拍就容易多一段路。"]}
-};
-
-function renderMysticRibbon(){
-  const box=$("#mysticRibbon");
-  if(!box)return;
-  const cards=shuffle(RIBBON_POOL).slice(0,4);
-  box.innerHTML=cards.map(([g,t])=>`<div class="mystic-card"><b>${esc(g)}</b><span>${esc(t)}</span></div>`).join("");
-}
-
-function renderFigure(type){
-  const data=FIGURE_MAP[type]||FIGURE_MAP.work;
-  $("#folkCore").textContent=data.glyph;
-  $("#folkTitle").textContent=pick(data.title);
-  $("#folkFigureText").textContent=pick(data.text);
-}
-
-let method=null;
-let sequence=[];
-let answers={};
-let sealed=false;
-let holdFrame=null;
-let holdStart=0;
-let seed=makeSeed();
-
-const steps=$("#steps");
-
-function emptyPoints(){
-  return Object.fromEntries(TYPES.map(t=>[t,0]));
-}
-
-function getNumberPoints(n){
-  const map=["delay","work","money","social","night","phone","food","mood","commute"];
-  const t1=map[Math.abs(n)%map.length];
-  const t2=map[Math.abs(n*3+2)%map.length];
-  return {[t1]:3,[t2]:1};
-}
-
-function renderChoiceModule(index,title,desc,items,type){
-  const opts=shuffle(items);
-  steps.insertAdjacentHTML("beforeend",`
-    <section class="step" data-index="${index}">
-      <div class="step-head">
-        <span class="step-no">${index+1}</span>
-        <h2>${esc(title)}</h2>
-      </div>
-      <p class="step-desc">${esc(desc)}</p>
-      <div class="choice-grid">
-        ${opts.map((x,i)=>`
-          <button type="button" class="choice" data-i="${i}">
-            <strong>${esc(x[0])}</strong>
-            <small>${esc(x[1])}</small>
-          </button>
-        `).join("")}
-      </div>
-    </section>
-  `);
-  const section=steps.querySelector(`[data-index="${index}"]`);
-  const btns=[...section.querySelectorAll(".choice")];
-  btns.forEach((b,i)=>{
-    b.addEventListener("click",()=>{
-      btns.forEach(x=>x.classList.remove("selected"));
-      b.classList.add("selected");
-      answers[index]={
-        type,
-        points:opts[i][2],
-        raw:opts[i][0],
-        trail:opts[i][3] || `${opts[i][0]}先应`
-      };
-      section.classList.remove("missing");
-      updateProgress();
-    });
-  });
-}
-
-function renderWord(index){
-  const pool=shuffle(pick(WORD_POOLS));
-  steps.insertAdjacentHTML("beforeend",`
-    <section class="step" data-index="${index}">
-      <div class="step-head">
-        <span class="step-no">${index+1}</span>
-        <h2>摸三个字。别挑吉利的。</h2>
-      </div>
-      <p class="step-desc">第一眼觉得“怎么偏偏是它”的，反而更算数。</p>
-      <div class="pick-count">
-        <span>最多三字，不可多拿。</span>
-        <b class="count">0 / 3</b>
-      </div>
-      <div class="word-board">
-        ${pool.map((x,i)=>`
-          <button type="button" class="word-tile" data-i="${i}">
-            <span class="word-char">${esc(x[0])}</span>
-            <span class="word-note">${esc(x[1])}</span>
-          </button>
-        `).join("")}
-      </div>
-    </section>
-  `);
-  const section=steps.querySelector(`[data-index="${index}"]`);
-  const count=section.querySelector(".count");
-  let selected=[];
-  section.querySelectorAll(".word-tile").forEach(btn=>{
-    btn.addEventListener("click",()=>{
-      const i=Number(btn.dataset.i);
-      if(selected.includes(i)){
-        selected=selected.filter(x=>x!==i);
-        btn.classList.remove("selected");
-      }else{
-        if(selected.length>=3){
-          toast("三字够了，再拿就叫贪卦");
-          return;
-        }
-        selected.push(i);
-        btn.classList.add("selected");
-      }
-      count.textContent=`${selected.length} / 3`;
-      if(selected.length===3){
-        const pts={};
-        selected.forEach(si=>{
-          Object.entries(pool[si][2]).forEach(([k,v])=>pts[k]=(pts[k]||0)+v);
-        });
-        answers[index]={
-          type:"word",
-          points:pts,
-          raw:selected.map(i=>pool[i][0]).join("、"),
-          trail:selected.map(i=>pool[i][3]).join("；")
-        };
-        section.classList.remove("missing");
-      }else{
-        delete answers[index];
-      }
-      updateProgress();
-    });
-  });
-}
-
-function renderNumber(index){
-  const nums=shuffle(NUMBER_POOL).slice(0,8);
-  steps.insertAdjacentHTML("beforeend",`
-    <section class="step" data-index="${index}">
-      <div class="step-head">
-        <span class="step-no">${index+1}</span>
-        <h2>${esc(pick([
-          "报一个数。别想生日，也别挑吉利。",
-          "这几个数里，哪个先让你停一下？",
-          "不要算。随手点一个看着有点意思的数。"
-        ]))}</h2>
-      </div>
-      <p class="step-desc">数不论吉凶，只看先后。你一旦开始算，它就不认了。</p>
-      <div class="num-grid">
-        ${nums.map(n=>`<button type="button" class="num-btn" data-n="${n}">${n}</button>`).join("")}
-      </div>
-    </section>
-  `);
-  const section=steps.querySelector(`[data-index="${index}"]`);
-  const btns=[...section.querySelectorAll(".num-btn")];
-  btns.forEach(btn=>{
-    btn.addEventListener("click",()=>{
-      btns.forEach(x=>x.classList.remove("selected"));
-      btn.classList.add("selected");
-      const n=Number(btn.dataset.n);
-      answers[index]={
-        type:"number",
-        points:getNumberPoints(n),
-        raw:String(n),
-        trail:`数取${n}，${n%2===0?"双数落外":"单数落内"}，尾数${n%5===0?"收":"不收"}`
-      };
-      section.classList.remove("missing");
-      updateProgress();
-    });
-  });
-}
-
-function renderTap(index){
-  steps.insertAdjacentHTML("beforeend",`
-    <section class="step" data-index="${index}">
-      <div class="step-head">
-        <span class="step-no">${index+1}</span>
-        <h2>凭感觉敲。觉得够了就停。</h2>
-      </div>
-      <p class="step-desc">三下以后才算开。超过二十下，我们默认你不是在起卦，是在发泄。</p>
-      <div class="tap-wrap">
-        <button type="button" class="tap-wood">
-          <span>
-            <span class="tap-big">叩</span>
-            <span class="tap-small">点一下算一下</span>
-          </span>
-        </button>
-        <div class="tap-count">已敲 0 下</div>
-        <button type="button" class="tap-lock" disabled>就到这里</button>
-      </div>
-    </section>
-  `);
-  const section=steps.querySelector(`[data-index="${index}"]`);
-  const wood=section.querySelector(".tap-wood");
-  const countEl=section.querySelector(".tap-count");
-  const lock=section.querySelector(".tap-lock");
-  let count=0;
-  wood.addEventListener("click",()=>{
-    if(count>=24){toast("够了，桌子都听见了");return}
-    count++;
-    countEl.textContent=`已敲 ${count} 下`;
-    if(count>=3) lock.disabled=false;
-  });
-  lock.addEventListener("click",()=>{
-    if(count<3)return;
-    const p=getNumberPoints(count);
-    answers[index]={
-      type:"tap",
-      points:p,
-      raw:`${count}下`,
-      trail:`手敲${count}下，${count%3===0?"三数成局":"余数未尽"}，${count%2?"末手偏急":"末手偏稳"}`
-    };
-    lock.textContent=`收在 ${count} 下`;
-    lock.disabled=true;
-    wood.disabled=true;
-    section.classList.remove("missing");
-    updateProgress();
-  });
-}
-
-function renderDirection(index){
-  steps.insertAdjacentHTML("beforeend",`
-    <section class="step" data-index="${index}">
-      <div class="step-head">
-        <span class="step-no">${index+1}</span>
-        <h2>八个方向里，哪个今天看着最别扭？</h2>
-      </div>
-      <p class="step-desc">不是问你要去哪。只是看哪个方向先让你不想选。</p>
-      <div class="direction-wheel">
-        <div class="dir-center">位</div>
-        ${DIRECTIONS.map((d,i)=>`
-          <button type="button" class="dir-btn dir-${d[1]}" data-i="${i}">${d[0]}</button>
-        `).join("")}
-      </div>
-    </section>
-  `);
-  const section=steps.querySelector(`[data-index="${index}"]`);
-  const btns=[...section.querySelectorAll(".dir-btn")];
-  btns.forEach(btn=>{
-    btn.addEventListener("click",()=>{
-      btns.forEach(x=>x.classList.remove("selected"));
-      btn.classList.add("selected");
-      const d=DIRECTIONS[Number(btn.dataset.i)];
-      answers[index]={
-        type:"direction",
-        points:d[2],
-        raw:d[0],
-        trail:`方落${d[0]}，${d[3]}`
-      };
-      section.classList.remove("missing");
-      updateProgress();
-    });
-  });
-}
-
-function renderLine(index){
-  const initial=rand(38,62);
-  steps.insertAdjacentHTML("beforeend",`
-    <section class="step" data-index="${index}">
-      <div class="step-head">
-        <span class="step-no">${index+1}</span>
-        <h2>${esc(pick([
-          "把这根命线拨到“今天差不多”的位置。",
-          "别看数字，把线停在你觉得刚好的地方。",
-          "今天想躲一点，还是想顶一点？把线放过去。"
-        ]))}</h2>
-      </div>
-      <p class="step-desc">左边主收，右边主顶。中间最普通，也最容易被低估。</p>
-      <div class="line-read">
-        <strong>${initial}</strong>
-        <span>还没落针</span>
-      </div>
-      <input type="range" min="0" max="100" value="${initial}" aria-label="命线" />
-      <div class="line-labels"><span>收</span><span>平</span><span>顶</span></div>
-    </section>
-  `);
-  const section=steps.querySelector(`[data-index="${index}"]`);
-  const input=section.querySelector("input");
-  const strong=section.querySelector(".line-read strong");
-  const cap=section.querySelector(".line-read span");
-  const visual=()=>{
-    const v=Number(input.value);
-    strong.textContent=v;
-    input.style.setProperty("--fill",`${v}%`);
-    cap.textContent=v<25?"收得太深":v<45?"偏收":v<65?"落在中段":v<82?"偏顶":"顶得有点过";
-  };
-  visual();
-  input.addEventListener("input",()=>{
-    visual();
-    const v=Number(input.value);
-    const points={};
-    if(v<25){points.delay=3;points.mood=2}
-    else if(v<45){points.delay=2;points.social=1}
-    else if(v<65){points.work=1;points.food=1}
-    else if(v<82){points.work=2;points.money=1}
-    else{points.work=3;points.money=2;points.social=1}
-    answers[index]={
-      type:"line",
-      points,
-      raw:String(v),
-      value:v,
-      trail:`命线停在${v}，${v<45?"收气先行":v>70?"外气偏盛":"中位不偏"}`
-    };
-    section.classList.remove("missing");
-    updateProgress();
-  });
-}
-
-function renderCoin(index){
-  steps.insertAdjacentHTML("beforeend",`
-    <section class="step" data-index="${index}">
-      <div class="step-head">
-        <span class="step-no">${index+1}</span>
-        <h2>三枚钱，一枚一枚翻。</h2>
-      </div>
-      <p class="step-desc">别连点。翻一枚，看一眼，再翻下一枚。</p>
-      <div class="coin-wrap">
-        <button type="button" class="coin" data-i="0">钱</button>
-        <button type="button" class="coin" data-i="1">钱</button>
-        <button type="button" class="coin" data-i="2">钱</button>
-      </div>
-      <div class="coin-hint">三枚都翻开，这一手才算完整。</div>
-    </section>
-  `);
-  const section=steps.querySelector(`[data-index="${index}"]`);
-  const coins=[...section.querySelectorAll(".coin")];
-  const faces=[];
-  coins.forEach(btn=>{
-    btn.addEventListener("click",()=>{
-      if(btn.classList.contains("done"))return;
-      const face=Math.random()<.5?"正":"背";
-      faces[Number(btn.dataset.i)]=face;
-      btn.textContent=face;
-      btn.classList.add("flipped","done");
-      if(faces.filter(Boolean).length===3){
-        const heads=faces.filter(x=>x==="正").length;
-        const p=heads===0?{night:2,mood:2}:heads===1?{social:2,delay:1}:heads===2?{work:2,money:1}:{money:2,work:1};
-        answers[index]={
-          type:"coin",
-          points:p,
-          raw:faces.join("、"),
-          trail:`三钱见${faces.join("、")}，${heads>=2?"阳面多，外事容易先起":"阴面多，内事容易多想"}`
-        };
-        section.classList.remove("missing");
-        updateProgress();
-      }
-    });
-  });
-}
-
-function renderObject(index){
-  const items=shuffle(OBJECTS).slice(0,4);
-  renderChoiceModule(
-    index,
-    pick(["桌上这几样东西，先碰哪一个？","四件普通东西里，哪个今天最像有话？","别问为什么，先挑一个你现在最想拿起来的。"]),
-    "东西越普通，越适合野路子做文章。",
-    items,
-    "object"
-  );
-}
-
-function renderTime(index){
-  const opts=shuffle(TIME_POOL).slice(0,4);
-  renderChoiceModule(
-    index,
-    pick(["这四个时间，哪个看着最不对劲？","今天哪个时辰最像会突然多一件事？","不要计算，挑一个最像“怎么偏偏现在”的时间。"]),
-    "只看第一眼。觉得都正常也要挑一个最不正常的。",
-    opts.map(x=>[x[0],x[2],x[1],x[2]]),
-    "time"
-  );
-}
-
-function renderRedPaper(index){
-  steps.insertAdjacentHTML("beforeend",`
-    <section class="step" data-index="${index}">
-      <div class="step-head">
-        <span class="step-no">${index+1}</span>
-        <h2>红纸上随手按一下。</h2>
-      </div>
-      <p class="step-desc">别找中心。你第一下落哪，就认哪。</p>
-      <div class="redpaper" role="button" tabindex="0" aria-label="在红纸上按一个位置"></div>
-    </section>
-  `);
-  const section=steps.querySelector(`[data-index="${index}"]`);
-  const paper=section.querySelector(".redpaper");
-  let locked=false;
-  const choose=(clientX,clientY)=>{
-    if(locked)return;
-    const r=paper.getBoundingClientRect();
-    const x=clamp((clientX-r.left)/r.width,0,1);
-    const y=clamp((clientY-r.top)/r.height,0,1);
-    const dot=document.createElement("span");
-    dot.className="red-dot";
-    dot.style.left=`${x*100}%`;
-    dot.style.top=`${y*100}%`;
-    paper.appendChild(dot);
-    locked=true;
-    let zone,points,trail;
-    if(y<.33){zone="上位";points={work:2,social:1};trail="纸点落上，外事在前"}
-    else if(y>.67){zone="下位";points={night:2,mood:1};trail="纸点落下，心事在后"}
-    else if(x<.33){zone="左偏";points={delay:2,commute:1};trail="左偏主缓，事容易拖一步"}
-    else if(x>.67){zone="右偏";points={money:2,work:1};trail="右偏主急，起念容易快一手"}
-    else{zone="中位";points={mood:1,food:1};trail="中位不偏，反倒怕自己多想"}
-    answers[index]={type:"redpaper",points,raw:zone,trail};
-    section.classList.remove("missing");
-    updateProgress();
-  };
-  paper.addEventListener("pointerdown",e=>choose(e.clientX,e.clientY));
-  paper.addEventListener("keydown",e=>{
-    if((e.key==="Enter"||e.key===" ")&&!locked){
-      const r=paper.getBoundingClientRect();
-      choose(r.left+r.width*.56,r.top+r.height*.44);
-    }
-  });
-}
-
-function renderModule(type,index){
-  if(type==="word")renderWord(index);
-  else if(type==="number")renderNumber(index);
-  else if(type==="tap")renderTap(index);
-  else if(type==="direction")renderDirection(index);
-  else if(type==="line")renderLine(index);
-  else if(type==="coin")renderCoin(index);
-  else if(type==="object")renderObject(index);
-  else if(type==="time")renderTime(index);
-  else if(type==="redpaper")renderRedPaper(index);
-}
-
-function buildSequence(m){
-  const unique=shuffle([...new Set(m.modules)]);
-  if(unique.length>=4)return unique.slice(0,4);
-  const all=["word","number","tap","direction","line","coin","object","time","redpaper"];
-  return shuffle([...new Set([...unique,...all])]).slice(0,4);
-}
-
-function startRound(){
-  answers={};
-  sealed=false;
-  seed=makeSeed();
-  method=pick(METHODS);
-  sequence=buildSequence(method);
-
-  $("#methodName").textContent=method.name;
-  $("#methodDesc").textContent=method.desc;
-  $("#notice").textContent=method.notice;
-  $("#methodCode").textContent=`摊号 / ${String(seed).slice(-6)}`;
-  renderMysticRibbon();
-
-  steps.innerHTML="";
-  sequence.forEach((t,i)=>renderModule(t,i));
-
-  $("#result").classList.remove("show");
-  $("#holdFill").style.width="0%";
-  $("#holdText").textContent="长按收卦 · 松手不算";
-  $("#error").classList.remove("show");
-  updateProgress();
-}
-
-function updateProgress(){
-  const count=Object.keys(answers).length;
-  $("#progressText").textContent=`${count} / ${sequence.length}`;
-  $("#progressBar").style.width=`${count/sequence.length*100}%`;
-}
-
-function validate(){
-  if(Object.keys(answers).length===sequence.length){
-    $("#error").classList.remove("show");
-    return true;
-  }
-  $("#error").textContent="东西还没取全，这卦不能硬断。";
-  $("#error").classList.add("show");
-  for(let i=0;i<sequence.length;i++){
-    if(!answers[i]){
-      const section=steps.querySelector(`[data-index="${i}"]`);
-      section.classList.add("missing");
-      section.scrollIntoView({behavior:"smooth",block:"center"});
-      break;
-    }
-  }
-  return false;
-}
-
-function calculate(){
-  const pts=emptyPoints();
-  Object.values(answers).forEach(a=>{
-    Object.entries(a.points||{}).forEach(([k,v])=>{
-      if(k in pts)pts[k]+=v;
-    });
-  });
-  TYPES.forEach(t=>pts[t]+=Math.random()*.9);
-  const sorted=Object.entries(pts).sort((a,b)=>b[1]-a[1]);
-  const type=sorted[0][0];
-  const top=sorted[0][1], second=sorted[1][1];
-
-  let lineValue=50;
-  const l=Object.values(answers).find(a=>a.type==="line");
-  if(l)lineValue=l.value;
-
-  let score=86-top*4.5+(top-second)*2.5-Math.abs(lineValue-50)*.06+rand(-3,3);
-  score=clamp(Math.round(score),18,92);
-
-  return {type,score,points:pts};
-}
-
-function getTime(type){
-  const timeAns=Object.values(answers).find(a=>a.type==="time");
-  if(timeAns)return timeAns.raw;
-  const map={
-    work:["16:52","17:20","17:41","18:06"],
-    money:["21:14","22:37","23:08","00:12"],
-    social:["10:26","15:36","20:17","22:03"],
-    night:["22:37","23:19","23:47","00:07"],
-    delay:["10:44","14:13","15:02","16:28"],
-    mood:["11:17","14:58","21:31","23:09"],
-    phone:["09:08","13:31","18:46","23:24"],
-    food:["11:43","12:16","18:22","21:08"],
-    commute:["08:43","09:02","17:56","18:17"]
-  };
-  return pick(map[type]);
-}
-
-function rank(score){
-  if(score<30)return "这事今天挺黏";
-  if(score<45)return "有点绕，能躲";
-  if(score<60)return "小事偏多";
-  if(score<75)return "顺着点就行";
-  if(score<86)return "今天还算清";
-  return "难得没什么事";
-}
-
-function buildReasoning(result,item,gua){
-  const trails=Object.values(answers).map(a=>a.trail).filter(Boolean);
-  const first=trails[0]||"前手无明显偏象";
-  const second=trails[1]||"中手不露";
-  const third=trails[2]||"后手略收";
-  const fourth=trails[3]||"末手未尽";
-
-  const bridge=pick([
-    "这四样单看都不算什么，偏偏前后挨在一起，就不是同一个意思。",
-    "老法子最爱看先后，不爱看对错。先后只要一拧，事情就容易多出半步。",
-    "这一卦没有大凶，也没有什么大喜，最明显的是“事不大，手会多”。",
-    "民间断小事，不怕象杂，反而怕象太齐。太齐像人挑的，杂一点才像今天真的会发生。"
-  ]);
-
-  const ending=pick([
-    `所以这里不按“大事”断，只按「${gua}」看。`,
-    `落到今天，就是一个很典型的「${gua}」。`,
-    `前后合起来，最像的不是坏运，是「${gua}」。`
-  ]);
-
-  return `<b>${esc(first)}</b>；${esc(second)}。再往后看，${esc(third)}，${esc(fourth)}。${esc(bridge)}${esc(ending)}`;
-}
-
-function dateInfo(){
-  const d=new Date();
-  const y=d.getFullYear();
-  const m=String(d.getMonth()+1).padStart(2,"0");
-  const day=String(d.getDate()).padStart(2,"0");
-  return {display:`${y}.${m}.${day}`,compact:`${String(y).slice(-2)}${m}${day}`};
-}
-
-function reportId(){
-  const d=dateInfo();
-  return `YG-${d.compact}-${rand(1000,9999)}`;
-}
-
-function renderResult(){
-  const result=calculate();
-  const item=pick(RESULTS[result.type]);
-
-  const gua=pick(item.gua);
-  const one=pick(item.one);
-  const human=pick(item.human);
-  const share=pick(item.shares);
-  const danger=getTime(result.type);
-  const avoid=pick(item.avoid);
-  const lucky=pick(LUCKY_OBJECTS);
-
-  $("#reportMethod").textContent=`${method.name} · 今日一纸断`;
-  $("#oneAnswer").textContent=one;
-  $("#oneTime").textContent=`尤其 ${danger} 前后，少多做那一步。`;
-  $("#score").textContent=result.score;
-  $("#guaName").textContent=gua;
-  renderFigure(result.type);
-  $("#reasoning").innerHTML=buildReasoning(result,item,gua);
-  $("#humanText").textContent=human;
-  $("#threeLines").innerHTML=item.lines.slice(0,3).map((x,i)=>`
-    <div class="keep-line">
-      <span class="keep-num">0${i+1}</span>
-      <span class="keep-text">${esc(x)}</span>
-    </div>
-  `).join("");
-  $("#folkTip").textContent=pick(item.tip);
-  $("#yi").innerHTML=shuffle(item.yi).map(x=>`<span>· ${esc(x)}</span>`).join("");
-  $("#ji").innerHTML=shuffle(item.ji).map(x=>`<span>· ${esc(x)}</span>`).join("");
-  $("#dangerTime").textContent=danger;
-  $("#luckyObject").textContent=lucky;
-  $("#avoidWord").textContent=avoid;
-  $("#shareLine").textContent=share;
-
-  const d=dateInfo();
-  $("#dateText").textContent=`DATE ${d.display}`;
-  $("#reportId").textContent=`NO. ${reportId()}`;
-
-  $("#result").classList.add("show");
-  setTimeout(()=>$("#result").scrollIntoView({behavior:"smooth",block:"start"}),80);
-}
-
-function runReading(){
-  const overlay=$("#overlay");
-  overlay.classList.add("show");
-  document.body.style.overflow="hidden";
-
-  const msgs=shuffle([
-    `${pick(method.intro)}`,
-    "先看前手，再看后手，前后不合的地方才有话。",
-    "正在把数、位、物象和你刚才那点犹豫叠在一起……",
-    "这里有一处“先收后放”，不算凶，只算容易多做一步。",
-    "前象偏外，后象偏内，今天的大事反而不用管。",
-    "正在去掉那些一听就很吉利、但其实没什么用的解释……",
-    "这卦不伤根本，主要伤耐心。",
-    "差不多了。再推就属于故意把话说复杂。"
-  ]).slice(0,5);
-
-  let i=0;
-  $("#readTitle").textContent=pick([
-    "正在把几样没关系的东西硬凑成一卦",
-    "正在看前手和后手到底谁在说话",
-    "正在从一堆小象里挑最黏人的那个",
-    "正在按老路子绕一圈再说人话"
-  ]);
-  $("#readMsg").textContent=msgs[0];
-  $("#readCode").textContent="纸上走第一手 / 01";
-
-  const timer=setInterval(()=>{
-    i=Math.min(i+1,msgs.length-1);
-    $("#readMsg").textContent=msgs[i];
-    $("#readCode").textContent=`纸上走第${["一","二","三","四","五"][i]||"五"}手 / 0${i+1}`;
-  },520);
-
-  setTimeout(()=>{
-    clearInterval(timer);
-    $("#readMsg").textContent="行了，这卦再说下去就过了。最后听人话。";
-    $("#readCode").textContent="收口 / 成卦";
-    setTimeout(()=>{
-      overlay.classList.remove("show");
-      document.body.style.overflow="";
-      renderResult();
-    },300);
-  },2700);
-}
-
-const holdBtn=$("#holdBtn");
-const holdFill=$("#holdFill");
-const holdText=$("#holdText");
-
-function beginHold(){
-  if(sealed)return;
-  if(!validate())return;
-  holdStart=performance.now();
-  holdText.textContent="正在收卦 · 手别松";
-  const duration=1250;
-
-  const frame=(now)=>{
-    const p=Math.min((now-holdStart)/duration,1);
-    holdFill.style.width=`${p*100}%`;
-    if(p>=1){
-      sealed=true;
-      holdText.textContent="卦收住了";
-      cancelAnimationFrame(holdFrame);
-      setTimeout(runReading,120);
-      return;
-    }
-    holdFrame=requestAnimationFrame(frame);
-  };
-  holdFrame=requestAnimationFrame(frame);
-}
-function cancelHold(){
-  if(sealed)return;
-  cancelAnimationFrame(holdFrame);
-  holdFill.style.width="0%";
-  holdText.textContent="长按收卦 · 松手不算";
-}
-
-holdBtn.addEventListener("pointerdown",beginHold);
-holdBtn.addEventListener("pointerup",cancelHold);
-holdBtn.addEventListener("pointerleave",cancelHold);
-holdBtn.addEventListener("pointercancel",cancelHold);
-
-$("#changeMethod").addEventListener("click",()=>{
-  window.scrollTo({top:0,behavior:"smooth"});
-  startRound();
-  toast("换了个野路子，上一卦不认");
-});
-
-$("#resetBtn").addEventListener("click",()=>{
-  window.scrollTo({top:0,behavior:"smooth"});
-  startRound();
-  toast("上一卦作废，再来一手");
-});
-
-$("#copyBtn").addEventListener("click",async()=>{
-  const text=
-`《今日野卦》
-${$("#oneAnswer").textContent}
-${$("#oneTime").textContent}
-卦名：${$("#guaName").textContent}
-${$("#shareLine").textContent}`;
+  if(!state.sound) return;
 
   try{
-    await navigator.clipboard.writeText(text);
-    toast("这句判词已经抄走");
-  }catch(e){
-    const ta=document.createElement("textarea");
-    ta.value=text;
-    ta.style.position="fixed";
-    ta.style.opacity="0";
-    document.body.appendChild(ta);
-    ta.select();
-    try{
-      document.execCommand("copy");
-      toast("这句判词已经抄走");
-    }catch(err){
-      toast("复制失败，长按结果自己抄");
-    }
-    ta.remove();
-  }
-});
 
-function toast(msg){
-  const t=$("#toast");
-  t.textContent=msg;
-  t.classList.add("show");
-  setTimeout(()=>t.classList.remove("show"),1500);
+    ctx =
+      ctx ||
+      new (window.AudioContext || window.webkitAudioContext)();
+
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
+
+    o.type = type;
+    o.frequency.value = f;
+    g.gain.value = v;
+
+    o.connect(g);
+    g.connect(ctx.destination);
+
+    const n = ctx.currentTime;
+
+    g.gain.setValueAtTime(v,n);
+
+    g.gain.exponentialRampToValueAtTime(
+      .001,
+      n + d
+    );
+
+    o.start(n);
+    o.stop(n + d);
+
+  }catch(e){}
 }
 
-startRound();
+$('#soundBtn').onclick = () => {
+
+  state.sound = !state.sound;
+
+  $('#soundBtn').textContent =
+    `声音：${state.sound ? '开' : '关'}`;
+
+  tone(
+    650,
+    .07,
+    'triangle',
+    .03
+  );
+};
+
+function showWHN(n,t){
+
+  $(`#whn${n}t`).textContent =
+    t;
+
+  $(`#whn${n}`)
+    .classList
+    .add('show');
+
+  tone(
+    320,
+    .04,
+    'square',
+    .014
+  );
+}
+
+/* 启动 */
+$('#startBtn').onclick = () => {
+
+  const ov =
+    $('#boot');
+
+  const lines =
+    $$('#bootLines .bootline');
+
+  const p =
+    $('#bootProgress');
+
+  const txt = [
+    '已开通',
+    '已开通',
+    '已开通',
+    '已开通',
+    '文件过大，暂不下载'
+  ];
+
+  ov.classList.add('show');
+
+  let i = 0;
+
+  const step = () => {
+
+    if(i < lines.length){
+
+      lines[i]
+        .classList
+        .add('on');
+
+      lines[i]
+        .querySelector('b')
+        .textContent =
+          txt[i];
+
+      p.style.width =
+        `${(i + 1) * 20}%`;
+
+      tone(
+        i === 4 ? 210 : 620,
+        .04,
+        i === 4 ? 'sawtooth' : 'triangle',
+        .02
+      );
+
+      i++;
+
+      setTimeout(
+        step,
+        250
+      );
+
+    }else{
+
+      setTimeout(
+        () => {
+
+          ov.classList.remove('show');
+
+          $('#hero').style.display =
+            'none';
+
+          $('#stage')
+            .classList
+            .add('show');
+
+          window.scrollTo({
+            top:0,
+            behavior:'smooth'
+          });
+
+        },
+        350
+      );
+    }
+  };
+
+  setTimeout(
+    step,
+    150
+  );
+};
+
+/* 页面切换 */
+function showScene(n){
+
+  state.scene =
+    n;
+
+  $$('.scene')
+    .forEach(
+      x =>
+        x.classList.toggle(
+          'active',
+          +x.dataset.scene === n
+        )
+    );
+
+  const pct =
+    Math.round(
+      n / 6 * 100
+    );
+
+  $('#progress').style.width =
+    `${pct}%`;
+
+  $('#stagePct').textContent =
+    `${pct}%`;
+
+  $('#stageLabel').textContent =
+    `PRESIDENTIAL ONBOARDING · ${String(n).padStart(2,'0')}/06`;
+
+  window.scrollTo({
+    top:
+      $('#stage').offsetTop - 8,
+    behavior:'smooth'
+  });
+
+  if(n === 6){
+    buildComments();
+  }
+}
+
+$$('.back').forEach(
+  b =>
+    b.onclick =
+      () =>
+        showScene(
+          Math.max(
+            1,
+            state.scene - 1
+          )
+        )
+);
+
+for(let i=1;i<=5;i++){
+
+  $(`#next${i}`).onclick =
+    () => showScene(i + 1);
+}
+
+/* ==============================
+   握手
+============================== */
+
+let hsStart = 0;
+let holding = false;
+
+$('#hsBtn').onpointerdown = e => {
+
+  e.preventDefault();
+
+  holding =
+    true;
+
+  hsStart =
+    performance.now();
+
+  $('#hsBtn')
+    .classList
+    .add('holding');
+
+  $('#hsBtn').textContent =
+    '握手进行中……';
+
+  $('#hsArt')
+    .classList
+    .add('shaking');
+
+  $('#hsBtn')
+    .setPointerCapture?.(
+      e.pointerId
+    );
+
+  tone(
+    180,
+    .04,
+    'sine',
+    .018
+  );
+};
+
+function endHS(){
+
+  if(!holding) return;
+
+  holding =
+    false;
+
+  const s =
+    Math.min(
+      8,
+      (
+        performance.now() -
+        hsStart
+      ) / 1000
+    );
+
+  state.handshake =
+    s;
+
+  $('#hsBtn')
+    .classList
+    .remove('holding');
+
+  $('#hsArt')
+    .classList
+    .remove('shaking');
+
+  $('#hsBtn').disabled =
+    true;
+
+  $('#hsBtn').textContent =
+    '握手已完成';
+
+  let title;
+  let copy;
+  let whn;
+
+  if(s < .7){
+
+    title =
+      '这不是外交，这是拿外卖。';
+
+    copy =
+      '对方可能还没来得及确认你是谁。';
+
+    whn =
+      `首次外交握手于 ${s.toFixed(1)} 秒结束，摄影师尚未完成对焦。`;
+
+  }else if(s < 1.5){
+
+    title =
+      '礼貌完成。';
+
+    copy =
+      '唯一的问题是摄影师刚刚对好焦。';
+
+    whn =
+      `总统完成 ${s.toFixed(1)} 秒标准寒暄，双方手部均已安全撤离。`;
+
+  }else if(s <= 2.8){
+
+    title =
+      '很总统。';
+
+    copy =
+      '看起来你们已经认识十年，实际上翻译刚介绍完。';
+
+    whn =
+      `首次外交握手持续 ${s.toFixed(1)} 秒，处于媒体可正常播出区间。`;
+
+  }else if(s <= 4.2){
+
+    title =
+      '诚意略有溢出。';
+
+    copy =
+      '现场摄影师对此非常满意。';
+
+    whn =
+      `外交握手持续 ${s.toFixed(1)} 秒，现场已追加第二轮快门。`;
+
+  }else{
+
+    title =
+      '可以松了。真的可以了。';
+
+    copy =
+      '对方已经开始重新理解两国关系。';
+
+    whn =
+      `首次外交握手关系已于 ${s.toFixed(1)} 秒后正式解除。`;
+  }
+
+  $('#hsStatus').innerHTML =
+    `
+    <strong>${s.toFixed(1)} 秒</strong>
+    <b>${title}</b><br>
+    ${copy}<br>
+    <span style="color:#8b9095">
+      系统换算：约等于参加 ${(s / 7.5).toFixed(1)} 场中国婚礼。
+    </span>
+    `;
+
+  showWHN(
+    1,
+    whn
+  );
+
+  $('#next1').disabled =
+    false;
+
+  tone(
+    720,
+    .06,
+    'triangle',
+    .03
+  );
+}
+
+$('#hsBtn').onpointerup =
+  endHS;
+
+$('#hsBtn').onpointercancel =
+  endHS;
+
+$('#hsBtn').onlostpointercapture =
+  endHS;
+
+/* ==============================
+   签字
+============================== */
+
+function penSvg(a){
+
+  return `
+  <svg viewBox="0 0 28 72">
+    <rect
+      x="9"
+      y="8"
+      width="10"
+      height="48"
+      rx="4"
+      fill="${a ? '#b3945e' : '#0b1f38'}"
+    />
+    <rect
+      x="11"
+      y="3"
+      width="6"
+      height="9"
+      rx="2"
+      fill="#a93432"
+    />
+    <path
+      d="M9 56h10l-5 12Z"
+      fill="#8a6d49"
+    />
+    <path
+      d="M12 58h4l-2 8Z"
+      fill="#222"
+    />
+  </svg>
+  `;
+}
+
+for(let i=1;i<=8;i++){
+
+  const b =
+    document.createElement(
+      'button'
+    );
+
+  b.className =
+    'pen';
+
+  b.innerHTML =
+    `
+    ${penSvg(false)}
+    <small>${i}</small>
+    `;
+
+  b.onclick = () => {
+
+    b.classList.toggle(
+      'active'
+    );
+
+    state.penCount =
+      $$('.pen.active').length;
+
+    $$('.pen')
+      .forEach(
+        (x,j) => {
+
+          x.innerHTML =
+            `
+            ${penSvg(
+              x.classList.contains(
+                'active'
+              )
+            )}
+            <small>${j + 1}</small>
+            `;
+        }
+      );
+
+    updateSig();
+
+    tone(
+      480 +
+      state.penCount *
+      18,
+      .03,
+      'triangle',
+      .015
+    );
+  };
+
+  $('#penRack')
+    .appendChild(b);
+}
+
+const sig =
+  $('#sigSvg');
+
+const path =
+  $('#sigPath');
+
+let drawing =
+  false;
+
+let pts =
+  [];
+
+function sp(e){
+
+  const r =
+    sig.getBoundingClientRect();
+
+  return {
+    x:
+      (
+        e.clientX -
+        r.left
+      ) /
+      r.width *
+      600,
+
+    y:
+      (
+        e.clientY -
+        r.top
+      ) /
+      r.height *
+      220
+  };
+}
+
+sig.onpointerdown = e => {
+
+  if(state.penCount < 1){
+
+    $('#sigResult').textContent =
+      '先选笔。美国总统可以临时上岗，但不能无笔签字。';
+
+    return;
+  }
+
+  e.preventDefault();
+
+  drawing =
+    true;
+
+  pts =
+    [sp(e)];
+
+  sig.setPointerCapture?.(
+    e.pointerId
+  );
+
+  path.setAttribute(
+    'd',
+    `M ${pts[0].x} ${pts[0].y}`
+  );
+};
+
+sig.onpointermove = e => {
+
+  if(!drawing) return;
+
+  const p =
+    sp(e);
+
+  pts.push(p);
+
+  path.setAttribute(
+    'd',
+    pts
+      .map(
+        (q,i) =>
+          `${i ? 'L' : 'M'} ${q.x.toFixed(1)} ${q.y.toFixed(1)}`
+      )
+      .join(' ')
+  );
+};
+
+function endSig(){
+
+  if(!drawing) return;
+
+  drawing =
+    false;
+
+  let len =
+    0;
+
+  let minX =
+    999;
+
+  let minY =
+    999;
+
+  let maxX =
+    0;
+
+  let maxY =
+    0;
+
+  for(let i=1;i<pts.length;i++){
+
+    len +=
+      Math.hypot(
+        pts[i].x -
+        pts[i - 1].x,
+
+        pts[i].y -
+        pts[i - 1].y
+      );
+  }
+
+  pts.forEach(
+    p => {
+
+      minX =
+        Math.min(
+          minX,
+          p.x
+        );
+
+      maxX =
+        Math.max(
+          maxX,
+          p.x
+        );
+
+      minY =
+        Math.min(
+          minY,
+          p.y
+        );
+
+      maxY =
+        Math.max(
+          maxY,
+          p.y
+        );
+    }
+  );
+
+  state.signature = {
+    length:
+      len,
+    width:
+      maxX - minX,
+    height:
+      maxY - minY
+  };
+
+  updateSig(true);
+
+  tone(
+    720,
+    .05,
+    'triangle',
+    .028
+  );
+}
+
+sig.onpointerup =
+  endSig;
+
+sig.onpointercancel =
+  endSig;
+
+function updateSig(done=false){
+
+  const n =
+    state.penCount;
+
+  let t =
+    '';
+
+  if(n === 0){
+
+    t =
+      '当前使用钢笔：0 支。文具部门还没有感受到你的存在。';
+
+  }else if(n === 1){
+
+    t =
+      '1 支。务实型总统，文具部门暂时不知道你已经上任。';
+
+  }else if(n <= 3){
+
+    t =
+      `${n} 支。有仪式，但尚未形成笔的利益相关方。`;
+
+  }else if(n <= 5){
+
+    t =
+      `${n} 支。开始有那个大型签字现场的味了。`;
+
+  }else if(n <= 7){
+
+    t =
+      `${n} 支。文件只有一份，你成功组织了一次文具外交。`;
+
+  }else{
+
+    t =
+      '8 支。一个字，八支笔。系统暂未理解，但现场每个人好像都分到了一点什么。';
+  }
+
+  if(
+    done &&
+    state.signature.length >
+    20
+  ){
+
+    const mm =
+      state.signature.length /
+      8.5;
+
+    $('#sigResult').innerHTML =
+      `
+      <b>${t}</b><br>
+      总签名长度：${mm.toFixed(1)} mm ·
+      平均每支笔实际工作 ${(mm / n).toFixed(1)} mm。
+      `;
+
+    $('#next2').disabled =
+      false;
+
+    showWHN(
+      2,
+      `椭圆办公室文具使用量出现短时波动：本次签字共动用 ${n} 支钢笔。`
+    );
+
+  }else{
+
+    $('#sigResult').textContent =
+      t;
+  }
+}
+
+/* ==============================
+   提词器
+============================== */
+
+const choices = [
+
+  [
+    '我们正在密切关注这一情况。',
+    '什么情况暂时不重要。',
+    10
+  ],
+
+  [
+    '这是一个非常复杂的问题。',
+    '复杂是肯定的，具体哪复杂以后再说。',
+    9
+  ],
+
+  [
+    '首先，我要感谢所有辛勤工作的人。',
+    '不知道感谢谁时，先扩大范围。',
+    8
+  ],
+
+  [
+    '说实话，我的提词器刚才黑了。',
+    '透明度：100%。后台血压：未知。',
+    5
+  ]
+
+];
+
+choices.forEach(
+  c => {
+
+    const b =
+      document.createElement(
+        'button'
+      );
+
+    b.className =
+      'choice';
+
+    b.innerHTML =
+      `
+      <strong>“${c[0]}”</strong>
+      <small>${c[1]}</small>
+      `;
+
+    b.onclick =
+      () =>
+        chooseTele(
+          c,
+          b
+        );
+
+    $('#teleChoices')
+      .appendChild(b);
+  }
+);
+
+let tStart =
+  0;
+
+let timer =
+  null;
+
+let tActive =
+  false;
+
+$('#teleStart').onclick = () => {
+
+  if(tActive) return;
+
+  tActive =
+    true;
+
+  $('#teleStart').disabled =
+    true;
+
+  setTimeout(
+    () => {
+
+      $('#teleGlass')
+        .classList
+        .add('glitch');
+
+      tone(
+        115,
+        .18,
+        'sawtooth',
+        .03
+      );
+
+      setTimeout(
+        () => {
+
+          $('#teleCopy').innerHTML =
+            `
+            各位美国人民，今天……<br>
+            <span style="opacity:.45;font:10px Arial">
+              [ TELEPROMPTER OFFLINE ]
+            </span>
+            `;
+
+          $('#teleChallenge')
+            .classList
+            .remove('hidden');
+
+          tStart =
+            performance.now();
+
+          timer =
+            setInterval(
+              () => {
+
+                const r =
+                  Math.max(
+                    0,
+                    5 -
+                    (
+                      performance.now() -
+                      tStart
+                    ) /
+                    1000
+                  );
+
+                $('#teleTimer').textContent =
+                  r.toFixed(2);
+
+                $('#teleTimer')
+                  .classList
+                  .toggle(
+                    'danger',
+                    r < 1.5
+                  );
+
+                if(r <= 0){
+
+                  clearInterval(
+                    timer
+                  );
+
+                  if(!state.tele.option){
+
+                    state.tele = {
+                      option:
+                        '沉默五秒，然后继续看远方',
+                      time:
+                        5,
+                      score:
+                        2
+                    };
+
+                    $$('.choice')
+                      .forEach(
+                        x =>
+                          x.disabled =
+                            true
+                      );
+
+                    finishTele();
+                  }
+                }
+
+              },
+              40
+            );
+
+        },
+        250
+      );
+
+    },
+    900
+  );
+};
+
+function chooseTele(c,b){
+
+  if(state.tele.option) return;
+
+  clearInterval(
+    timer
+  );
+
+  const t =
+    Math.min(
+      5,
+      (
+        performance.now() -
+        tStart
+      ) /
+      1000
+    );
+
+  const speed =
+    Math.max(
+      0,
+      10 -
+      Math.abs(
+        t - 1.3
+      ) *
+      2.6
+    );
+
+  state.tele = {
+    option:
+      c[0],
+    time:
+      t,
+    score:
+      Math.max(
+        0,
+        Math.min(
+          20,
+          speed +
+          c[2]
+        )
+      )
+  };
+
+  b.classList.add(
+    'selected'
+  );
+
+  $$('.choice')
+    .forEach(
+      x =>
+        x.disabled =
+          true
+    );
+
+  finishTele();
+}
+
+function finishTele(){
+
+  const t =
+    state.tele.time;
+
+  const msg =
+    t < 1
+      ?
+      `总统在 ${t.toFixed(2)} 秒后恢复讲话，系统怀疑这句话你平时就准备着。`
+      :
+      t < 2
+      ?
+      `提词器故障后 ${t.toFixed(2)} 秒恢复人类语言功能，全国观众基本没发现。`
+      :
+      t < 3.5
+      ?
+      `总统出现 ${t.toFixed(2)} 秒具有历史感的停顿，随后恢复直播。`
+      :
+      `全国直播出现 ${t.toFixed(2)} 秒静默，观众开始研究总统刚才到底在看哪里。`;
+
+  showWHN(
+    3,
+    msg
+  );
+
+  $('#next3').disabled =
+    false;
+
+  tone(
+    760,
+    .05,
+    'triangle',
+    .028
+  );
+}
+
+/* ==============================
+   火鸡
+============================== */
+
+function turkeySvg(name){
+
+  const cfg = {
+    Kevin:[
+      '#9b7049',
+      '#654632',
+      '#ad8057',
+      '#234f7d',
+      -6
+    ],
+    Brenda:[
+      '#8d6849',
+      '#5f4433',
+      '#aa7955',
+      '#a93432',
+      0
+    ],
+    Gary:[
+      '#a1764a',
+      '#62412e',
+      '#b18359',
+      '#b3945e',
+      7
+    ]
+  }[name];
+
+  const [
+    body,
+    tail,
+    head,
+    bow,
+    tilt
+  ] = cfg;
+
+  return `
+  <svg viewBox="0 0 150 130">
+    <defs>
+      <filter id="td">
+        <feDropShadow dx="0" dy="4" stdDeviation="3" flood-opacity=".14"/>
+      </filter>
+    </defs>
+
+    <g transform="rotate(${tilt} 78 64)" filter="url(#td)">
+
+      <g fill="${tail}" stroke="#4e3528" stroke-width="1.4">
+        <path d="M27 76C5 64 1 38 22 39
+                 10 17 24 9 41 30
+                 39 8 55 1 63 28
+                 68 4 86 5 86 31
+                 98 10 115 18 105 40
+                 128 27 139 43 119 59
+                 139 62 133 82 109 80Z"/>
+      </g>
+
+      <g fill="none" stroke="#8d6a50" stroke-width="2" opacity=".8">
+        <path d="M28 70 18 46
+                 M44 61 40 32
+                 M63 58 63 27
+                 M83 59 88 31
+                 M102 63 111 42
+                 M118 72 132 62"/>
+      </g>
+
+      <ellipse
+        cx="77"
+        cy="78"
+        rx="39"
+        ry="32"
+        fill="${body}"
+        stroke="#6a4933"
+        stroke-width="1.6"
+      />
+
+      <path
+        d="M48 78c19 8 39 9 59 0
+           M53 89c17 7 34 7 50 0"
+        fill="none"
+        stroke="#b88b62"
+        stroke-width="2"
+        opacity=".75"
+      />
+
+      <circle cx="111" cy="47" r="18" fill="${head}"/>
+      <circle cx="116" cy="42" r="2.4" fill="#0b1f38"/>
+
+      <path
+        d="m126 49 18 5-18 5Z"
+        fill="#dda34a"
+      />
+
+      <path
+        d="M105 60q7 14 12 0"
+        fill="#a93432"
+      />
+
+      <path
+        d="M74 99c10 6 20 6 30 0"
+        fill="none"
+        stroke="#714c34"
+        stroke-width="3"
+        stroke-linecap="round"
+      />
+
+      <path
+        d="M92 63l8 8-8 8-8-8Z"
+        fill="${bow}"
+      />
+
+      <path
+        d="M108 63l-8 8 8 8 8-8Z"
+        fill="${bow}"
+      />
+
+      <path
+        d="M68 107l-3 19M88 107l4 19"
+        stroke="#6a4933"
+        stroke-width="3"
+      />
+
+      <path
+        d="M59 126h13M87 126h13"
+        stroke="#6a4933"
+        stroke-width="3"
+        stroke-linecap="round"
+      />
+
+    </g>
+  </svg>
+  `;
+}
+
+const ts = [
+
+  [
+    'Kevin',
+    '年龄：不便透露 · 性格：松弛 · 彩排期间睡过一次',
+    '“我主要想回家。”'
+  ],
+
+  [
+    'Brenda',
+    '背景审查：通过 · 出勤记录：良好 · 上午不接受媒体',
+    '“该走的流程还是要走。”'
+  ],
+
+  [
+    'Gary',
+    '无重大不良记录 · 彩排期间啄过一次麦克风 · 暂未道歉',
+    '“再给我一次机会。”'
+  ]
+
+];
+
+ts.forEach(
+  t => {
+
+    const b =
+      document.createElement(
+        'button'
+      );
+
+    b.className =
+      'turkey';
+
+    b.dataset.name =
+      t[0];
+
+    b.innerHTML =
+      `
+      ${turkeySvg(t[0])}
+
+      <div>
+        <div class="tname">
+          ${t[0].toUpperCase()}
+        </div>
+
+        <div class="tbio">
+          ${t[1]}
+        </div>
+
+        <div class="tquote">
+          ${t[2]}
+        </div>
+      </div>
+
+      <div class="stampmark">
+        PARDONED
+      </div>
+      `;
+
+    b.onclick =
+      () =>
+        selectTurkey(
+          t[0],
+          b
+        );
+
+    $('#turkeys')
+      .appendChild(b);
+  }
+);
+
+let drag =
+  false;
+
+let sx =
+  0;
+
+let sy =
+  0;
+
+let st =
+  0;
+
+function selectTurkey(n,b){
+
+  if($('.turkey.pardoned')){
+    return;
+  }
+
+  $$('.turkey')
+    .forEach(
+      x =>
+        x.classList.remove(
+          'selected'
+        )
+    );
+
+  b.classList.add(
+    'selected'
+  );
+
+  state.turkey.name =
+    n;
+
+  $('#stampArea')
+    .classList
+    .remove('hidden');
+
+  resetStamp();
+}
+
+function resetStamp(){
+
+  $('#stampBtn').style.transform =
+    'rotate(-10deg) translate(0,0)';
+}
+
+$('#stampBtn').onpointerdown = e => {
+
+  if(!state.turkey.name){
+    return;
+  }
+
+  drag =
+    true;
+
+  sx =
+    e.clientX;
+
+  sy =
+    e.clientY;
+
+  st =
+    performance.now();
+
+  $('#stampBtn')
+    .setPointerCapture?.(
+      e.pointerId
+    );
+};
+
+$('#stampBtn').onpointermove = e => {
+
+  if(!drag) return;
+
+  $('#stampBtn').style.transform =
+    `rotate(-10deg) translate(${e.clientX - sx}px,${e.clientY - sy}px)`;
+};
+
+function drop(){
+
+  if(!drag) return;
+
+  drag =
+    false;
+
+  const sr =
+    $('#stampBtn')
+      .getBoundingClientRect();
+
+  const target =
+    $(
+      `.turkey[data-name="${state.turkey.name}"]`
+    );
+
+  const tr =
+    target.getBoundingClientRect();
+
+  const cx =
+    sr.left +
+    sr.width /
+    2;
+
+  const cy =
+    sr.top +
+    sr.height /
+    2;
+
+  if(
+    cx > tr.left &&
+    cx < tr.right &&
+    cy > tr.top &&
+    cy < tr.bottom
+  ){
+
+    state.turkey.stampTime =
+      (
+        performance.now() -
+        st
+      ) /
+      1000;
+
+    state.turkey.score =
+      Math.max(
+        4,
+        10 -
+        Math.min(
+          5,
+          Math.abs(
+            state.turkey.stampTime -
+            1.2
+          ) *
+          2
+        )
+      );
+
+    target
+      .classList
+      .add('pardoned');
+
+    $('#stampBtn').style.display =
+      'none';
+
+    $$('.turkey')
+      .forEach(
+        x =>
+          x.disabled =
+            true
+      );
+
+    showWHN(
+      4,
+      `${state.turkey.name.toUpperCase()} 现已恢复自由鸡身份。${
+        state.turkey.name === 'Gary'
+          ?
+          ' Gary 对法律程序没有进一步意见。'
+          :
+          ''
+      }`
+    );
+
+    $('#next4').disabled =
+      false;
+
+    tone(
+      130,
+      .09,
+      'square',
+      .04
+    );
+
+  }else{
+
+    resetStamp();
+  }
+}
+
+$('#stampBtn').onpointerup =
+  drop;
+
+$('#stampBtn').onpointercancel =
+  drop;
+
+let gClicks =
+  0;
+
+$('#turkeys').onclick = e => {
+
+  const c =
+    e.target.closest(
+      '.turkey'
+    );
+
+  if(
+    c?.dataset.name ===
+    'Gary'
+  ){
+
+    gClicks++;
+
+    if(
+      gClicks === 5 &&
+      !c.classList.contains(
+        'pardoned'
+      )
+    ){
+
+      const q =
+        c.querySelector(
+          '.tquote'
+        );
+
+      const old =
+        q.textContent;
+
+      q.textContent =
+        '“律师建议我保持沉默。”';
+
+      setTimeout(
+        () =>
+          q.textContent =
+            old,
+        1800
+      );
+    }
+  }
+};
+
+/* ==============================
+   记者会
+============================== */
+
+let pStarted =
+  false;
+
+let pStart =
+  0;
+
+let aDrag =
+  false;
+
+let aPos = {
+  x:34,
+  y:30
+};
+
+let bt =
+  [];
+
+function questions(){
+
+  const h =
+    state.handshake || 0;
+
+  const a =
+    [];
+
+  a.push(
+    h > 4.2
+      ?
+      `总统先生，您第一次握手为什么持续了 ${h.toFixed(1)} 秒？`
+      :
+      h < .7
+      ?
+      '总统先生，您第一次握手是不是没握到？'
+      :
+      `总统先生，您如何评价今天 ${h.toFixed(1)} 秒的首次外交握手？`
+  );
+
+  a.push(
+    state.penCount >= 6
+      ?
+      `一份文件使用 ${state.penCount} 支笔，真的都有必要吗？`
+      :
+      `总统先生，为什么今天只动用了 ${state.penCount} 支签字笔？`
+  );
+
+  a.push(
+    `${state.turkey.name} 现在去哪了？`
+  );
+
+  a.push(
+    state.tele.option?.includes(
+      '提词器'
+    )
+      ?
+      '您为什么在全国直播中主动告诉大家提词器坏了？'
+      :
+      '提词器故障时那段停顿，是事先设计的吗？'
+  );
+
+  a.push(
+    '总统先生，最后一个问题——您现在真的要走了吗？'
+  );
+
+  return a;
+}
+
+$('#pressStart').onclick = () => {
+
+  if(pStarted) return;
+
+  pStarted =
+    true;
+
+  pStart =
+    performance.now();
+
+  $('#pressStart').disabled =
+    true;
+
+  $('#pressStart').textContent =
+    '请把总统拖到右侧出口';
+
+  questions()
+    .forEach(
+      (q,i) =>
+        bt.push(
+          setTimeout(
+            () =>
+              bubble(
+                q,
+                i
+              ),
+            i *
+            600
+          )
+        )
+    );
+};
+
+function bubble(t,i){
+
+  if(state.press.time !== null){
+    return;
+  }
+
+  const b =
+    document.createElement(
+      'div'
+    );
+
+  b.className =
+    'bubble';
+
+  b.textContent =
+    t;
+
+  const pos = [
+    [18,92],
+    [210,120],
+    [86,170],
+    [290,206],
+    [28,236]
+  ][i % 5];
+
+  b.style.left =
+    `${pos[0]}px`;
+
+  b.style.top =
+    `${pos[1]}px`;
+
+  $('#pressBox')
+    .appendChild(b);
+}
+
+$('#avatar').onpointerdown = e => {
+
+  if(
+    !pStarted ||
+    state.press.time !== null
+  ){
+    return;
+  }
+
+  aDrag =
+    true;
+
+  $('#avatar').dataset.sx =
+    e.clientX;
+
+  $('#avatar').dataset.sy =
+    e.clientY;
+
+  $('#avatar').dataset.ox =
+    aPos.x;
+
+  $('#avatar').dataset.oy =
+    aPos.y;
+
+  $('#avatar')
+    .setPointerCapture?.(
+      e.pointerId
+    );
+};
+
+$('#avatar').onpointermove = e => {
+
+  if(!aDrag) return;
+
+  const r =
+    $('#pressBox')
+      .getBoundingClientRect();
+
+  const x =
+    Math.max(
+      4,
+      Math.min(
+        r.width - 58,
+        +$('#avatar').dataset.ox +
+        e.clientX -
+        +$('#avatar').dataset.sx
+      )
+    );
+
+  const y =
+    Math.max(
+      8,
+      Math.min(
+        r.height - 86,
+        +$('#avatar').dataset.oy -
+        (
+          e.clientY -
+          +$('#avatar').dataset.sy
+        )
+      )
+    );
+
+  aPos = {
+    x,
+    y
+  };
+
+  $('#avatar').style.left =
+    `${x}px`;
+
+  $('#avatar').style.bottom =
+    `${y}px`;
+
+  if(
+    x >
+    r.width - 95
+  ){
+    finishPress();
+  }
+};
+
+$('#avatar').onpointerup =
+  () =>
+    aDrag =
+      false;
+
+$('#avatar').onpointercancel =
+  () =>
+    aDrag =
+      false;
+
+function pScore(s){
+
+  const d =
+    s < 1.4
+      ?
+      1.4 - s
+      :
+      s > 2.8
+      ?
+      s - 2.8
+      :
+      0;
+
+  return Math.max(
+    0,
+    20 -
+    d *
+    5
+  );
+}
+
+function finishPress(){
+
+  if(state.press.time !== null){
+    return;
+  }
+
+  aDrag =
+    false;
+
+  bt.forEach(
+    clearTimeout
+  );
+
+  const s =
+    (
+      performance.now() -
+      pStart
+    ) /
+    1000;
+
+  state.press = {
+    time:
+      s,
+    score:
+      pScore(s)
+  };
+
+  $$('.bubble')
+    .forEach(
+      x =>
+        x.remove()
+    );
+
+  let title;
+  let copy;
+
+  if(s < 1.3){
+
+    title =
+      '撤得很快。';
+
+    copy =
+      '第二位记者的问题甚至还没加载完成。';
+
+  }else if(s <= 2.8){
+
+    title =
+      '成熟的记者会撤退意识。';
+
+    copy =
+      '“谢谢大家”的意思确实是谢谢大家。';
+
+  }else if(s <= 4.5){
+
+    title =
+      '你停下来听了两个问题。';
+
+    copy =
+      '这就是事情开始失控的第一步。';
+
+  }else if(s <= 6){
+
+    title =
+      '你真的相信了“最后一个问题”。';
+
+    copy =
+      '经验明显不足。';
+
+  }else{
+
+    title =
+      '记者会已由你个人续费。';
+
+    copy =
+      '现场没有人要求你这么敬业。';
+  }
+
+  $('#pressResult')
+    .classList
+    .remove('hidden');
+
+  $('#pressResult').innerHTML =
+    `
+    <strong>${s.toFixed(2)} 秒</strong>
+    <b>${title}</b><br>
+    ${copy}
+    `;
+
+  showWHN(
+    5,
+    `总统已于 ${s.toFixed(2)} 秒后离开新闻发布厅，记者仍在提问。`
+  );
+
+  $('#next5').disabled =
+    false;
+
+  tone(
+    760,
+    .06,
+    'triangle',
+    .03
+  );
+}
+
+/* ==============================
+   深夜节目
+============================== */
+
+function buildComments(){
+
+  if(
+    $('#comments')
+      .dataset
+      .built
+  ){
+    return;
+  }
+
+  $('#comments')
+    .dataset
+    .built =
+      '1';
+
+  const h =
+    state.handshake || 0;
+
+  const arr = [
+
+    h > 4.2
+      ?
+      '他握手是不是忘了这个动作还有松开？'
+      :
+      h < .7
+      ?
+      '这总统握手像地铁门快关了。'
+      :
+      `握手 ${h.toFixed(1)} 秒，镜头感比我年会强。`,
+
+    state.penCount >= 6
+      ?
+      `一份文件 ${state.penCount} 支笔，我懂了，主要解决就业。`
+      :
+      `只用了 ${state.penCount} 支笔，第一次看到这么节约文具的总统。`,
+
+    state.tele.option?.includes(
+      '提词器'
+    )
+      ?
+      '他提词器坏了以后第一时间告诉了全国人民，沟通效率确实高。'
+      :
+      `提词器坏了之后他说“${state.tele.option}”，这句感觉可以印在总统万能句卡片上。`,
+
+    state.press.time < 1.3
+      ?
+      '记者第二个问题：总统先生—— 总统：已经到门口了。'
+      :
+      '记者会都结束了他还在听，服务意识挺强。'
+  ];
+
+  arr.forEach(
+    (t,i) => {
+
+      const d =
+        document.createElement(
+          'div'
+        );
+
+      d.className =
+        'comment';
+
+      d.innerHTML =
+        `
+        <div class="user">
+          @american_internet_${1927 + i * 13}
+        </div>
+
+        <div class="ctext">
+          ${t}
+        </div>
+        `;
+
+      $('#comments')
+        .appendChild(d);
+    }
+  );
+}
+
+function lateScore(v){
+
+  const d =
+    v < 45
+      ?
+      45 - v
+      :
+      v > 70
+      ?
+      v - 70
+      :
+      0;
+
+  return Math.max(
+    0,
+    20 -
+    d *
+    .6
+  );
+}
+
+$('#responseRange').oninput = () => {
+
+  const v =
+    state.late.response =
+      +$('#responseRange').value;
+
+  state.late.touched =
+    true;
+
+  state.late.score =
+    lateScore(v);
+
+  $('#responseVal').textContent =
+    `${v}%`;
+
+  $('#finish').disabled =
+    false;
+
+  $('#meterComment').textContent =
+    v <= 20
+      ?
+      '你选择让主持人自己笑。很稳，但节目组略有遗憾。'
+      :
+      v <= 45
+      ?
+      '笑了一下，没有追加信息。新闻秘书在后台点头。'
+      :
+      v <= 70
+      ?
+      '最佳电视区间：给了节目一点东西，但没把自己完全交出去。'
+      :
+      v <= 90
+      ?
+      '你开始解释。主持人的眼睛明显亮了。'
+      :
+      '你说：“这个事情其实是这样的——” 节目组：有素材了。';
+
+  showWHN(
+    6,
+    v > 90
+      ?
+      '节目组确认：总统已进入“这个事情其实是这样的”阶段，剪辑盘正在扩容。'
+      :
+      `深夜节目回应程度锁定为 ${v}%，主持人仍希望你再多说一点。`
+  );
+};
+
+/* ==============================
+   评分
+============================== */
+
+function hsScore(s){
+
+  const d =
+    s < 1.5
+      ?
+      1.5 - s
+      :
+      s > 2.8
+      ?
+      s - 2.8
+      :
+      0;
+
+  return Math.max(
+    0,
+    15 -
+    d *
+    4.2
+  );
+}
+
+function sigScore(){
+
+  const p =
+    state.penCount;
+
+  const s =
+    state.signature;
+
+  const pp =
+    Math.max(
+      0,
+      5 -
+      Math.abs(
+        p - 4
+      ) *
+      1.15
+    );
+
+  const c =
+    s.length > 110
+      ?
+      5
+      :
+      s.length /
+      110 *
+      5;
+
+  const w =
+    Math.max(
+      0,
+      2.5 -
+      Math.abs(
+        s.width -
+        280
+      ) /
+      140 *
+      2.5
+    );
+
+  const h =
+    Math.max(
+      0,
+      2.5 -
+      Math.abs(
+        s.height -
+        70
+      ) /
+      80 *
+      2.5
+    );
+
+  return Math.max(
+    0,
+    Math.min(
+      15,
+      pp +
+      c +
+      w +
+      h
+    )
+  );
+}
+
+function calc(){
+
+  const d = {
+
+    handshake:
+      hsScore(
+        state.handshake ||
+        0
+      ),
+
+    signing:
+      sigScore(),
+
+    tele:
+      state.tele.score ||
+      0,
+
+    turkey:
+      state.turkey.score ||
+      5,
+
+    press:
+      state.press.score ||
+      0,
+
+    late:
+      state.late.score ||
+      lateScore(
+        state.late.response
+      )
+  };
+
+  const total =
+    Math.round(
+      Object
+        .values(d)
+        .reduce(
+          (a,b) =>
+            a + b,
+          0
+        )
+    );
+
+  const scaled = {
+
+    '总统脸稳定度':
+      Math.round(
+        (
+          d.handshake /
+          15 *
+          .35 +
+
+          d.tele /
+          20 *
+          .35 +
+
+          d.press /
+          20 *
+          .30
+        ) *
+        100
+      ),
+
+    '临场救场力':
+      Math.round(
+        (
+          d.tele /
+          20 *
+          .65 +
+
+          d.press /
+          20 *
+          .35
+        ) *
+        100
+      ),
+
+    '仪式感理解力':
+      Math.round(
+        (
+          d.signing /
+          15 *
+          .65 +
+
+          d.turkey /
+          10 *
+          .35
+        ) *
+        100
+      ),
+
+    '记者会撤退意识':
+      Math.round(
+        d.press /
+        20 *
+        100
+      ),
+
+    '节目效果':
+      Math.round(
+        (
+          d.late /
+          20 *
+          .55 +
+
+          d.turkey /
+          10 *
+          .20 +
+
+          (
+            100 -
+            Math.abs(
+              (
+                state.handshake ||
+                0
+              ) -
+              2.4
+            ) *
+            18
+          ) /
+          100 *
+          .25
+        ) *
+        100
+      )
+  };
+
+  return {
+    total:
+      Math.min(
+        97,
+        total
+      ),
+    d,
+    scaled
+  };
+}
+
+function level(s){
+
+  return s <= 34
+    ?
+    [
+      '建议先参加白宫参观团',
+      'LEVEL I · 总统工位暂未开放',
+      '系统判定：我目前最适合在白宫门口拍照，并告诉别人我进去过。'
+    ]
+    :
+    s <= 49
+    ?
+    [
+      '总统皮肤加载中',
+      'LEVEL II · 外观接近，系统仍在安装',
+      '我可以短暂表现得像美国总统，前提是提词器别突然黑。'
+    ]
+    :
+    s <= 64
+    ?
+    [
+      '椭圆办公室试用期',
+      'LEVEL III · 能坐进去，建议少安排直播',
+      '经检测，我能当美国总统，但最好不要让记者说“最后一个问题”。'
+    ]
+    :
+    s <= 79
+    ?
+    [
+      '白宫正常营业型总统',
+      'LEVEL IV · 基本能完成一天',
+      '系统判定：我基本能当美国总统，主要问题是记者问完以后我真的会听。'
+    ]
+    :
+    s <= 89
+    ?
+    [
+      '美国电视友好型总统',
+      'LEVEL V · 白宫需要你，电视台也需要你',
+      '治理能力还没测，电视台已经想续约了。'
+    ]
+    :
+    [
+      '国家级场面控制型选手',
+      'LEVEL VI · 事故看起来像节目安排',
+      '经专业检测，我最大的总统能力，是任何事故最后看起来都像节目安排。'
+    ];
+}
+
+function persona(data){
+
+  const a = [
+
+    [
+      '国际握手边界管理型',
+      Math.max(
+        0,
+        100 -
+        Math.abs(
+          (
+            state.handshake ||
+            0
+          ) -
+          2.2
+        ) *
+        28
+      )
+    ],
+
+    [
+      '提词器独立生存型',
+      data.d.tele /
+      20 *
+      100
+    ],
+
+    [
+      '大型仪式公务型',
+      data.d.signing /
+      15 *
+      100
+    ],
+
+    [
+      '记者会战术撤退型',
+      data.d.press /
+      20 *
+      100
+    ],
+
+    [
+      '深夜秀素材友好型',
+      data.d.late /
+      20 *
+      100
+    ]
+
+  ].sort(
+    (x,y) =>
+      y[1] -
+      x[1]
+  );
+
+  return (
+    a[0][1] -
+    a[a.length - 1][1]
+  ) < 13
+    ?
+    '白宫稳定营业型'
+    :
+    a[0][0];
+}
+
+function analysis(data){
+
+  const bits =
+    [];
+
+  if(
+    state.press.time >=
+    1.4 &&
+    state.press.time <=
+    2.8
+  ){
+
+    bits.push(
+      '尤其值得肯定的是，你说完“谢谢大家”以后真的离开了记者会，这是系统今天观察到的成熟行为之一。'
+    );
+
+  }else if(
+    state.press.time >
+    4.5
+  ){
+
+    bits.push(
+      '主要风险出现在记者会：你对“最后一个问题”进行了过于字面的理解。'
+    );
+
+  }else{
+
+    bits.push(
+      '你的记者会撤退速度很快，现场第二个问题甚至没有获得完整的人生。'
+    );
+  }
+
+  bits.push(
+    state.penCount >= 6
+      ?
+      `${state.penCount} 支钢笔共同完成了一个名字，说明你已经初步理解大型公开仪式的视觉语言。`
+      :
+      state.penCount <= 2
+      ?
+      `签字环节只用了 ${state.penCount} 支笔，文具部门对你保持谨慎乐观。`
+      :
+      `签字环节动用了 ${state.penCount} 支笔，仪式感与现实需求之间暂时维持和平。`
+  );
+
+  if(
+    state.tele.time <
+    2
+  ){
+
+    bits.push(
+      `提词器故障后 ${state.tele.time.toFixed(2)} 秒恢复讲话，电视观众基本没来得及担心。`
+    );
+  }
+
+  bits.push(
+    state.turkey.name ===
+    'Gary'
+      ?
+      '至于 Gary，他很好。'
+      :
+      `至于 ${state.turkey.name}，目前仍然自由。`
+  );
+
+  return (
+    `你的第一天总体${
+      data.total >= 65
+        ?
+        '可正常播出'
+        :
+        '需要少量后期剪辑'
+    }。${bits.join('')}`
+  );
+}
+
+function advice(){
+
+  const t =
+    [];
+
+  const h =
+    state.handshake ||
+    0;
+
+  t.push(
+    h < 1.5
+      ?
+      '下次握手可以稍微多给摄影师一点时间。'
+      :
+      h > 2.8
+      ?
+      '保持礼貌，但记住外交关系不靠握手时长续费。'
+      :
+      '保持目前的握手时间。'
+  );
+
+  if(
+    state.penCount >=
+    6
+  ){
+
+    t.push(
+      '签字时可以少带两支笔，文具部门会感谢你。'
+    );
+  }
+
+  t.push(
+    '提词器发生故障时不要回头找工作人员，他们也在看你。'
+  );
+
+  if(
+    state.press.time >
+    2.8
+  ){
+
+    t.push(
+      '如果记者说“最后一个问题”，不要进行字面理解。'
+    );
+  }
+
+  t.push(
+    `${state.turkey.name} 无需再次赦免。`
+  );
+
+  if(
+    state.late.response >
+    90
+  ){
+
+    t.push(
+      '深夜节目里少用“这个事情其实是这样的——”，新闻秘书需要睡觉。'
+    );
+  }
+
+  return t.join(' ');
+}
+
+/* ==============================
+   生成结果
+============================== */
+
+$('#finish').onclick = () => {
+
+  if(!state.late.touched){
+    return;
+  }
+
+  const ov =
+    $('#anOverlay');
+
+  const txt =
+    $('#anText');
+
+  const msgs = [
+    '正在向第一位握手对象确认手部状况……',
+    '正在清点椭圆办公室剩余钢笔……',
+    '正在恢复提词器名誉……',
+    `正在确认 ${state.turkey.name} 是否仍处于自由状态……`,
+    '正在把记者会事故裁成 9:16……',
+    '正在询问深夜节目是否愿意再次邀请你……'
+  ];
+
+  ov.classList.add(
+    'show'
+  );
+
+  let i =
+    0;
+
+  const tm =
+    setInterval(
+      () => {
+
+        i++;
+
+        if(
+          i <
+          msgs.length
+        ){
+
+          txt.textContent =
+            msgs[i];
+        }
+
+      },
+      360
+    );
+
+  setTimeout(
+    () => {
+
+      clearInterval(
+        tm
+      );
+
+      ov.classList.remove(
+        'show'
+      );
+
+      render();
+
+    },
+    2350
+  );
+};
+
+function render(){
+
+  const data =
+    calc();
+
+  const lev =
+    level(
+      data.total
+    );
+
+  const per =
+    persona(
+      data
+    );
+
+  const clips =
+    Math.round(
+      72 +
+      data.scaled['节目效果'] *
+      1.35 +
+      Math.max(
+        0,
+        state.penCount -
+        4
+      ) *
+      8
+    );
+
+  const invite =
+    Math.min(
+      98,
+      Math.round(
+        24 +
+        data.scaled['节目效果'] *
+        .7 +
+        data.scaled['总统脸稳定度'] *
+        .13
+      )
+    );
+
+  const support =
+    Math.max(
+      45,
+      Math.min(
+        94,
+        Math.round(
+          (
+            {
+              Kevin:74,
+              Brenda:84,
+              Gary:69
+            }[
+              state.turkey.name
+            ] ||
+            70
+          ) +
+          (
+            10 -
+            state.turkey.stampTime
+          ) *
+          .7
+        )
+      )
+    );
+
+  $('#stage').style.display =
+    'none';
+
+  $('#result')
+    .classList
+    .add('show');
+
+  $('#rtitle').textContent =
+    lev[0];
+
+  $('#score').textContent =
+    data.total;
+
+  $('#level').textContent =
+    lev[1];
+
+  $('#persona').textContent =
+    per;
+
+  $('#dims').innerHTML =
+    '';
+
+  Object.entries(
+    data.scaled
+  ).forEach(
+    ([n,v]) => {
+
+      $('#dims')
+        .insertAdjacentHTML(
+          'beforeend',
+          `
+          <div class="dim">
+            <div class="dimname">
+              ${n}
+            </div>
+
+            <div class="bar">
+              <div style="width:${Math.max(2,v)}%"></div>
+            </div>
+
+            <div class="dimscore">
+              ${v}
+            </div>
+          </div>
+          `
+        );
+    }
+  );
+
+  $('#analysis').textContent =
+    analysis(
+      data
+    );
+
+  $('#advice').textContent =
+    advice();
+
+  const u = [
+
+    [
+      `${state.handshake.toFixed(1)}s`,
+      '外交握手时长'
+    ],
+
+    [
+      `${state.penCount}支`,
+      '总统签字用笔'
+    ],
+
+    [
+      `${state.tele.time.toFixed(2)}s`,
+      '提词器生存时间'
+    ],
+
+    [
+      `${state.press.time.toFixed(2)}s`,
+      '记者会离场速度'
+    ],
+
+    [
+      clips,
+      '预计一年竖屏切片'
+    ],
+
+    [
+      `${invite}%`,
+      '深夜节目再次邀请概率'
+    ],
+
+    [
+      state.turkey.name,
+      '被赦免火鸡'
+    ],
+
+    [
+      `${support}%`,
+      '火鸡对你的支持率'
+    ]
+  ];
+
+  $('#useless').innerHTML =
+    u
+      .map(
+        x =>
+          `
+          <div class="uitem">
+            <div class="uval">
+              ${x[0]}
+            </div>
+
+            <div class="ulabel">
+              ${x[1]}
+            </div>
+          </div>
+          `
+      )
+      .join('');
+
+  let q =
+    lev[2];
+
+  if(
+    state.penCount ===
+    8
+  ){
+
+    q =
+      '系统说我当总统最大的问题不是能力，是一个名字用了八支笔。';
+
+  }else if(
+    (
+      state.handshake ||
+      0
+    ) >
+    4.2
+  ){
+
+    q =
+      `美国总统适配度 ${data.total}%，最大的外交风险是我不太知道什么时候松手。`;
+
+  }else if(
+    state.turkey.name ===
+    'Gary'
+  ){
+
+    q =
+      '我今天成功当了一次美国总统，并依法释放了 Gary。';
+  }
+
+  $('#quote').textContent =
+    q;
+
+  const d =
+    new Date();
+
+  const ds =
+    `${d.getFullYear()}年${String(d.getMonth()+1).padStart(2,'0')}月${String(d.getDate()).padStart(2,'0')}日`;
+
+  const seed =
+    Math.round(
+      data.total *
+      97 +
+
+      (
+        state.handshake ||
+        0
+      ) *
+      131 +
+
+      state.penCount *
+      53 +
+
+      state.tele.time *
+      71 +
+
+      state.press.time *
+      43 +
+
+      state.late.response *
+      11 +
+
+      state.turkey.name.length *
+      37
+    );
+
+  const id =
+    `POTUS-DAY1-${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}-${String(seed % 100000).padStart(5,'0')}`;
+
+  $('#date').textContent =
+    ds;
+
+  $('#rid').textContent =
+    id;
+
+  window.share =
+    `${q}
+美国总统适配度：${data.total}/100
+${lev[0]} · ${per}
+被赦免火鸡：${state.turkey.name}
+档案编号：${id}`;
+
+  window.scrollTo({
+    top:0,
+    behavior:'smooth'
+  });
+
+  setTimeout(
+    () =>
+      $('#scorefill').style.width =
+        `${data.total}%`,
+    120
+  );
+}
+
+/* 复制结果 */
+$('#copyBtn').onclick = async () => {
+
+  try{
+
+    await navigator.clipboard.writeText(
+      window.share
+    );
+
+    $('#copyStatus').textContent =
+      '已复制。现在可以像泄露国家级无用文件一样发群里。';
+
+  }catch(e){
+
+    $('#copyStatus').textContent =
+      '复制失败，直接截图反而更像正式文件。';
+  }
+
+  setTimeout(
+    () =>
+      $('#copyStatus').textContent =
+        '',
+    2400
+  );
+};
+
+/* 换届 */
+$('#restart').onclick =
+  () =>
+    location.reload();
+
 })();
 </script>
-<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"7939e04a4baf43c8b86a560f74aac60e"}' crossorigin="anonymous"></script>
-<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"1c1c7799c54e46349cc23295b5e08299"}' crossorigin="anonymous"></script>
+
 </body>
 </html>
