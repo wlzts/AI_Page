@@ -1323,6 +1323,247 @@ footer small{font-size:10px}
   line-height:1.7;
 }
 
+
+
+/* ===== 具体问事版 / editorial inquiry sheet ===== */
+.ask-sheet{
+  position:relative;
+  margin:16px 0 0;
+  padding:22px 18px 19px;
+  border:1px solid var(--line-strong);
+  background:
+    linear-gradient(rgba(247,237,217,.76),rgba(247,237,217,.76)),
+    repeating-linear-gradient(0deg,transparent 0,transparent 27px,rgba(33,28,23,.027) 28px),
+    var(--paper-3);
+  box-shadow:0 12px 34px rgba(49,38,27,.08);
+}
+.ask-sheet::before{
+  content:"";
+  position:absolute;
+  left:0;top:0;bottom:0;
+  width:4px;
+  background:var(--red);
+}
+.ask-kicker{
+  color:var(--red);
+  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.16em;
+}
+.ask-heading-row{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:14px;
+  margin-top:10px;
+}
+.ask-heading-row h2{
+  margin:0;
+  font-size:28px;
+  line-height:1.12;
+  letter-spacing:-.045em;
+}
+.ask-heading-row p{
+  max-width:560px;
+  margin:9px 0 0;
+  color:#6d6253;
+  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
+  font-size:13px;
+  line-height:1.7;
+}
+.ask-stamp{
+  flex:0 0 auto;
+  width:54px;height:54px;
+  display:grid;
+  place-items:center;
+  border:2px solid rgba(167,48,32,.62);
+  color:var(--red);
+  font-size:15px;
+  font-weight:900;
+  transform:rotate(7deg);
+}
+.question-label,.ask-type-label{
+  display:block;
+  margin-top:19px;
+  color:#5e5447;
+  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
+  font-size:12px;
+  font-weight:800;
+}
+.question-input-wrap{
+  position:relative;
+  margin-top:8px;
+}
+#questionInput{
+  display:block;
+  width:100%;
+  min-height:94px;
+  resize:vertical;
+  padding:15px 14px 28px;
+  border:1px solid rgba(33,28,23,.28);
+  border-radius:0;
+  outline:none;
+  color:var(--ink);
+  background:rgba(255,250,239,.6);
+  font-family:"Songti SC","STSong","PingFang SC",serif;
+  font-size:17px;
+  line-height:1.65;
+  transition:.18s ease;
+}
+#questionInput::placeholder{color:#a29683}
+#questionInput:focus{
+  border-color:var(--red);
+  box-shadow:inset 3px 0 0 var(--red);
+}
+.question-count{
+  position:absolute;
+  right:10px;
+  bottom:8px;
+  color:#9c907c;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:10px;
+}
+.ask-type-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+  margin-top:8px;
+}
+.ask-type{
+  min-height:70px;
+  padding:11px 12px;
+  border:1px solid var(--line);
+  background:rgba(255,250,239,.44);
+  text-align:left;
+  cursor:pointer;
+  transition:.15s ease;
+}
+.ask-type:hover{border-color:var(--ink);transform:translateY(-1px)}
+.ask-type:active{transform:scale(.985)}
+.ask-type.selected{
+  color:#fff6e9;
+  border-color:var(--ink);
+  background:var(--ink);
+  box-shadow:inset 3px 0 0 var(--red);
+}
+.ask-type b{
+  display:block;
+  font-size:15px;
+}
+.ask-type span{
+  display:block;
+  margin-top:5px;
+  color:#817461;
+  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
+  font-size:11px;
+  line-height:1.35;
+}
+.ask-type.selected span{color:#cbbfae}
+.example-strip{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:6px;
+  margin-top:14px;
+  color:#877a66;
+  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
+  font-size:11px;
+}
+.example-chip{
+  padding:7px 9px;
+  border:1px dashed rgba(33,28,23,.24);
+  border-radius:999px;
+  color:#675b4c;
+  background:transparent;
+  cursor:pointer;
+  font-size:11px;
+}
+.example-chip:hover{border-color:var(--red);color:var(--red)}
+.ask-warning{
+  margin-top:14px;
+  padding-top:11px;
+  border-top:1px solid rgba(33,28,23,.12);
+  color:#90836f;
+  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
+  font-size:10px;
+  line-height:1.55;
+}
+.ask-error{
+  min-height:18px;
+  margin-top:5px;
+  color:var(--red);
+  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
+  font-size:11px;
+  font-weight:700;
+}
+.ask-sheet.missing{animation:shake .3s ease;border-color:var(--red)}
+
+.asked-question-card{
+  position:relative;
+  margin:18px 0 3px;
+  padding:15px 16px 15px 18px;
+  border-left:3px solid var(--red);
+  background:rgba(167,48,32,.055);
+}
+.asked-overline{
+  color:#8b806f;
+  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.14em;
+}
+.asked-question{
+  margin-top:7px;
+  color:var(--ink);
+  font-size:21px;
+  line-height:1.5;
+  font-weight:900;
+}
+.asked-mode{
+  display:inline-block;
+  margin-top:8px;
+  padding:4px 8px;
+  border:1px solid rgba(167,48,32,.28);
+  color:var(--red-dark);
+  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
+  font-size:10px;
+  font-weight:800;
+}
+.fallback-note{
+  margin-top:10px;
+  padding:12px 13px;
+  border:1px dashed rgba(33,28,23,.22);
+  background:rgba(255,250,239,.34);
+}
+.fallback-label{
+  color:var(--red);
+  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.08em;
+}
+.fallback-note p{
+  margin:6px 0 0;
+  color:#655b4d;
+  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
+  font-size:13px;
+  line-height:1.7;
+}
+
+@media(min-width:700px){
+  .ask-sheet{padding:28px 28px 24px;margin-top:20px}
+  .ask-heading-row h2{font-size:34px}
+  .ask-heading-row p{font-size:14px}
+  #questionInput{min-height:104px;font-size:19px;padding:17px 16px 30px}
+  .ask-type-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  .ask-type{min-height:78px;padding:13px 14px}
+  .ask-type b{font-size:16px}
+  .ask-type span{font-size:12px}
+  .asked-question{font-size:25px}
+  .fallback-note p{font-size:14px}
+}
+
 @media(min-width:700px){
   .hero-copy{font-size:16px}
   .notice{font-size:14px}
@@ -1815,9 +2056,9 @@ footer small{font-size:9px}
   <section class="hero magazine-hero">
     <div class="hero-editorial-copy">
       <div class="eyebrow">FOLK DIVINATION FOR SMALL THINGS</div>
-      <h1>今天哪件小事，<br>最好别硬来。</h1>
+      <h1>有件小事，<br>问完再决定。</h1>
       <p class="hero-copy">
-        前面的推法故意说得玄一点。你只管凭第一感觉走完这卦，最后给你的，是一句今天真能拿去用的人话。
+        先把今天真正拿不准的那一件事写下来。后面的摸字、听数、看方位都会围着这件事绕，最后只回你一个能执行的答案。
       </p>
 
       <div class="method-slip magazine-method">
@@ -1831,7 +2072,7 @@ footer small{font-size:9px}
       </div>
 
       <div class="hero-caption-row">
-        <span>不问生辰</span><i></i><span>只断今天</span><i></i><span>大事不管</span>
+        <span>只问一件</span><i></i><span>只断小事</span><i></i><span>今天有效</span>
       </div>
     </div>
 
@@ -1877,6 +2118,44 @@ footer small{font-size:9px}
     </figure>
   </section>
 
+  <section class="ask-sheet" id="askSheet">
+    <div class="ask-kicker">00 / BEFORE THE ORACLE</div>
+    <div class="ask-heading-row">
+      <div>
+        <h2>先把那件事说清楚。</h2>
+        <p>只问一件，越具体越好。别问一生，别问宇宙，问今天能不能做、要不要去、现在该不该回。</p>
+      </div>
+      <span class="ask-stamp">问事</span>
+    </div>
+
+    <label class="question-label" for="questionInput">你今天拿不准的是——</label>
+    <div class="question-input-wrap">
+      <textarea id="questionInput" maxlength="80" rows="3" placeholder="例如：今晚要不要去这个饭局？"></textarea>
+      <div class="question-count"><span id="questionCount">0</span> / 80</div>
+    </div>
+
+    <div class="ask-type-label">这件事属于哪一路？</div>
+    <div class="ask-type-grid" id="askTypeGrid">
+      <button type="button" class="ask-type" data-mode="go"><b>去留</b><span>去不去 / 做不做</span></button>
+      <button type="button" class="ask-type" data-mode="timing"><b>时机</b><span>现在 / 晚点 / 明天</span></button>
+      <button type="button" class="ask-type" data-mode="people"><b>人事</b><span>回不回 / 主不主动</span></button>
+      <button type="button" class="ask-type" data-mode="money"><b>钱物</b><span>买不买 / 值不值</span></button>
+      <button type="button" class="ask-type" data-mode="work"><b>工作</b><span>提不提 / 接不接</span></button>
+      <button type="button" class="ask-type" data-mode="misc"><b>杂事</b><span>不好归类，直接断</span></button>
+    </div>
+
+    <div class="example-strip">
+      <span>不会问？随便点一个：</span>
+      <button type="button" class="example-chip" data-example="今晚要不要去这个饭局？" data-mode="go">饭局去不去</button>
+      <button type="button" class="example-chip" data-example="这条消息现在要不要回？" data-mode="people">消息回不回</button>
+      <button type="button" class="example-chip" data-example="这个东西今天要不要买？" data-mode="money">今天买不买</button>
+      <button type="button" class="example-chip" data-example="今天适不适合跟老板提这件事？" data-mode="work">要不要跟老板提</button>
+    </div>
+
+    <div class="ask-warning" id="askWarning">这摊只断日常低风险小事。医疗、投资、法律、安全类决定请看可靠信息，不拿野卦作依据。</div>
+    <div class="ask-error" id="askError"></div>
+  </section>
+
   <div class="notice" id="notice">
     先看，后点。不要选吉利的，选第一眼让你停了一下的。
   </div>
@@ -1906,9 +2185,15 @@ footer small{font-size:9px}
         <div class="report-head">
           <div>
             <div class="report-overline" id="reportMethod">今日野卦 · 一纸断</div>
-            <h2>这卦最后就一句人话</h2>
+            <h2>这卦只回你这件事</h2>
           </div>
           <div class="red-seal">今日<br>有效</div>
+        </div>
+
+        <div class="asked-question-card">
+          <div class="asked-overline">YOU ASKED / 你问的是</div>
+          <div class="asked-question" id="resultQuestion">今晚要不要去这个饭局？</div>
+          <div class="asked-mode" id="resultQuestionMode">问去留</div>
         </div>
 
         <div class="report-illustration magazine-plate">
@@ -1934,13 +2219,13 @@ footer small{font-size:9px}
         </div>
 
         <div class="one-line">
-          <div class="one-label">今日一断</div>
+          <div class="one-label">这一问 · 一断</div>
           <div class="one-answer" id="oneAnswer">今天别替别人接活。</div>
           <div class="one-time" id="oneTime">尤其 17:20 以后。</div>
 
           <div class="meta-row">
             <div>
-              <div class="score-caption">躲开这事的把握</div>
+              <div class="score-caption">这一断的倾向</div>
               <div class="score"><span id="score">67</span><small>%</small></div>
             </div>
 
@@ -1958,6 +2243,11 @@ footer small{font-size:9px}
           <div class="human-translation">
             <div class="human-label">说人话</div>
             <div class="human-text" id="humanText">今天很可能有人拿一点破事来占你的时间。</div>
+          </div>
+
+          <div class="fallback-note">
+            <div class="fallback-label">如果你非要反着卦做</div>
+            <p id="fallbackText">也不是不行，给自己留个退出口。</p>
           </div>
         </div>
 
@@ -2020,13 +2310,13 @@ footer small{font-size:9px}
 
     <div class="result-actions">
       <button type="button" class="action-btn copy-btn" id="copyBtn">复制这句判词</button>
-      <button type="button" class="action-btn reset-btn" id="resetBtn">再起一卦</button>
+      <button type="button" class="action-btn reset-btn" id="resetBtn">再问一件</button>
     </div>
   </section>
 
   <footer>
     每天用 AI 做一个好像有用，又好像没什么用的网页。
-    <small>纯娱乐。大事看事实，小事偶尔听听野路子。</small>
+    <small>纯娱乐。大事看事实，小事拿不准时，偶尔听听野路子。</small>
   </footer>
 </main>
 
@@ -2083,6 +2373,115 @@ function makeSeed(){
 }
 
 const TYPES=["work","money","social","night","delay","mood","phone","food","commute"];
+
+const ASK_MODES={
+  go:{label:"问去留",bias:{social:2,commute:2,mood:1}},
+  timing:{label:"问时机",bias:{delay:3,mood:1,work:1}},
+  people:{label:"问人事",bias:{social:5,phone:1}},
+  money:{label:"问钱物",bias:{money:6}},
+  work:{label:"问工作",bias:{work:6,delay:1}},
+  misc:{label:"问杂事",bias:{mood:1,delay:1}}
+};
+
+const HIGH_RISK_RE=/(股票|基金|期货|加密|币价|投资|理财|贷款|借贷|疾病|症状|药物|用药|手术|怀孕|法律|诉讼|官司|报警|合同纠纷|自杀|自残|伤害自己)/i;
+
+let askState={text:"",mode:null};
+
+function selectAskMode(mode){
+  askState.mode=mode;
+  document.querySelectorAll(".ask-type").forEach(btn=>{
+    btn.classList.toggle("selected",btn.dataset.mode===mode);
+  });
+  $("#askSheet")?.classList.remove("missing");
+  $("#askError").textContent="";
+}
+
+function validateQuestion(){
+  const raw=$("#questionInput").value.trim();
+  askState.text=raw;
+  if(!raw){
+    $("#askError").textContent="先把那件事写下来。不然这卦没地方落。";
+    $("#askSheet").classList.add("missing");
+    $("#askSheet").scrollIntoView({behavior:"smooth",block:"center"});
+    return false;
+  }
+  if(raw.length>80){
+    $("#askError").textContent="一件事就够了，别把整个人生塞进八十个字。";
+    return false;
+  }
+  if(HIGH_RISK_RE.test(raw)){
+    $("#askError").textContent="这摊只断日常小事。医疗、投资、法律、安全类决定别拿野卦作依据。";
+    $("#askSheet").classList.add("missing");
+    $("#askSheet").scrollIntoView({behavior:"smooth",block:"center"});
+    return false;
+  }
+  if(!askState.mode){
+    $("#askError").textContent="再点一下这是问去留、时机、人事、钱物还是工作。";
+    $("#askSheet").classList.add("missing");
+    $("#askSheet").scrollIntoView({behavior:"smooth",block:"center"});
+    return false;
+  }
+  $("#askSheet").classList.remove("missing");
+  $("#askError").textContent="";
+  return true;
+}
+
+function getDecision(mode,score,danger){
+  const high=score>=72, mid=score>=54, low=score>=38;
+  const cooldown=rand(12,24);
+  const replyDelay=rand(8,22);
+  const map={
+    go: high
+      ? {answer:"可以去。",time:`但别把行程排满，${danger} 前后给自己留个退路。`,human:"这件事本身没那么拧，去可以，重点是别为了已经去了就硬撑到底。",fallback:"真不想去也可以临时收口；已经去的话，提前给自己定一个离场时间。"}
+      : mid
+      ? {answer:"可以去，但别待太久。",time:`把 ${danger} 当成一个收口点。`,human:"这卦不是劝你彻底不去，而是提醒你别把一次普通露面升级成整晚任务。",fallback:"非去不可就晚一点到、早一点走，别接第二场。"}
+      : low
+      ? {answer:"不太建议去。",time:"如果你现在已经有点不想去，这个感觉可以信一次。",human:"去未必出事，但消耗很可能大于收获。今天没必要为了人情把自己硬塞进去。",fallback:"一定要去就只完成最低限度社交，吃到第一轮就撤。"}
+      : {answer:"今天先别去。",time:"这卦更像“去了也会想走”。",human:"这件事今天的阻力偏多，硬去大概率只是给自己增加一段来回。",fallback:"非去不可就缩短停留时间，不临时加项目，也别答应下一摊。"},
+
+    timing: high
+      ? {answer:"现在可以做。",time:"不用再等一个更完美的时机。",human:"这件事目前阻力不高，继续等反而容易把普通决定拖成心理负担。",fallback:"如果还想等等，给自己一个明确截止点，别无限延后。"}
+      : mid
+      ? {answer:"可以做，但晚一点更顺。",time:`避开 ${danger} 前后那段乱气。`,human:"不是不能做，是现在容易多想一步。稍微错开时间，你会更容易按原计划收尾。",fallback:"现在必须做的话，先只做最小动作，不一次性把事情做满。"}
+      : low
+      ? {answer:"先等等。",time:`至少过了 ${danger} 再看一眼。`,human:"你现在的判断里混着一点急。缓一轮之后，真正需要做的部分会更清楚。",fallback:"不能等的话，先做可撤回的部分，别一次把话说死。"}
+      : {answer:"今天别急着定。",time:"能留到明天的，先留到明天。",human:"这卦最重的是“急着收口”。今天硬定容易只是为了结束纠结，而不是真想清楚。",fallback:"必须今天拍板，就选那个损失更容易撤回的方案。"},
+
+    people: high
+      ? {answer:"可以主动。",time:`但别在 ${danger} 前后一口气说太多。`,human:"这件人事有来往的象，主动并不吃亏。重点是轻一点，不要把一次联系变成一场说明会。",fallback:`想更稳一点，就先发一句短的，${replyDelay} 分钟后再决定要不要继续。`}
+      : mid
+      ? {answer:"可以回，但少说一点。",time:`晚 ${replyDelay} 分钟再回也不迟。`,human:"今天适合保持联系，不适合一次解释太满。让对话留一点空，反而更顺。",fallback:"非要马上回，就只回答对方真正问的那一句。"}
+      : low
+      ? {answer:"先别主动。",time:`等 ${replyDelay} 分钟，让第一反应过去。`,human:"这卦里你这边的心气比对方那边更响。现在主动容易把普通消息带上额外情绪。",fallback:"真想联系，就发最轻的一句，不问关系、不问态度、不追着解释。"}
+      : {answer:"今天先别追。",time:"留一点没说完，比把话说尽更合适。",human:"这件事今天不适合靠更多消息解决。越想马上确认，越容易让自己反复看对方反应。",fallback:"必须沟通就只处理事实，不处理“你到底怎么想”。"},
+
+    money: high
+      ? {answer:"可以买。",time:`但先确认它不是为了凑单，最好在 ${danger} 前把预算想清楚。`,human:"这卦里想要和实际用途没有明显打架。可以买，但别顺势再加第二件。",fallback:"还不放心就先删掉购物车里的附带品，只留你真正来问的这个。"}
+      : mid
+      ? {answer:"可以买，但别现在秒付。",time:`先放 ${cooldown} 小时，过后还想要再买。`,human:"东西未必不值，问题在于你今天的起念稍微偏急。给欲望一轮自然降温会更准。",fallback:"非买不可就只买这一件，不凑单、不升级配置、不顺便囤。"}
+      : low
+      ? {answer:"今天先别买。",time:`截图留着，${cooldown} 小时后再看。`,human:"你现在想买它是真的，但“今天就得拥有”这部分比较可疑。",fallback:"真急用就买最基础版本，别把一次购买顺手升级成改善人生工程。"}
+      : {answer:"别买。",time:"至少睡一觉再说。",human:"这卦更像拿东西填一个临时空缺。东西可能没问题，时机不太对。",fallback:"如果必须买，只处理真正的使用需求，不碰任何“提升幸福感”的附加理由。"},
+
+    work: high
+      ? {answer:"可以提。",time:`尽量别卡在 ${danger} 前后，先把要点说短。`,human:"这件工作上的事目前可以往前走。你只需要把范围说清，不用先替所有人想完后续。",fallback:"如果现场气氛不对，就先抛事实和需求，别当场逼出最终答案。"}
+      : mid
+      ? {answer:"可以提，但先留余地。",time:"别用“必须今天定”的语气。",human:"事情能谈，只是今天不适合把边界说死。先让对方知道，再看反馈。",fallback:"非要今天定，就把“决定”拆成“先确认下一步”。"}
+      : low
+      ? {answer:"今天先别硬提。",time:`避开 ${danger} 前后，换个更干净的窗口。`,human:"不是这件事不该提，而是今天容易在表达时顺手多承担一层。",fallback:"必须说的话，先写成三句话：现状、你需要什么、你不负责什么。"}
+      : {answer:"先别接，也先别承诺。",time:"今天适合问清楚，不适合先扛下来。",human:"这卦最怕你为了推进事情先把责任拿到自己手里。",fallback:"非接不可就先问截止时间、完成标准和谁负责最后确认。"},
+
+    misc: high
+      ? {answer:"可以做。",time:"但做到够用就停。",human:"这件小事今天总体不拧，别再为了求一个完美答案把它复杂化。",fallback:"如果途中开始反复纠结，就回到最初那个最简单的版本。"}
+      : mid
+      ? {answer:"能做，但别加码。",time:`${danger} 前后尤其别临时改变主意。`,human:"事情本身可以推进，真正的风险是做到一半突然给自己加条件。",fallback:"反着做也行，只保留可撤回空间。"}
+      : low
+      ? {answer:"先缓一下。",time:"等第一阵想法过去，再看还需不需要。",human:"这件事今天更像“现在很想解决”，不一定是“现在必须解决”。",fallback:"必须做就先做最小、最容易撤回的一步。"}
+      : {answer:"今天先算了。",time:"不做这一步，不会损失太多。",human:"这一问的卦气偏散，硬推进更容易制造额外步骤。",fallback:"真要做，只做最低配版本，别追求一次到位。"}
+  };
+  return map[mode]||map.misc;
+}
+
 
 const METHODS=[
   {
@@ -2394,6 +2793,29 @@ let holdStart=0;
 let seed=makeSeed();
 
 const steps=$("#steps");
+
+const questionInput=$("#questionInput");
+questionInput.addEventListener("input",()=>{
+  askState.text=questionInput.value.slice(0,80);
+  $("#questionCount").textContent=questionInput.value.length;
+  $("#askSheet").classList.remove("missing");
+  $("#askError").textContent="";
+});
+
+document.querySelectorAll(".ask-type").forEach(btn=>{
+  btn.addEventListener("click",()=>selectAskMode(btn.dataset.mode));
+});
+
+document.querySelectorAll(".example-chip").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    questionInput.value=btn.dataset.example;
+    askState.text=btn.dataset.example;
+    $("#questionCount").textContent=questionInput.value.length;
+    selectAskMode(btn.dataset.mode);
+    questionInput.focus();
+  });
+});
+
 
 function emptyPoints(){
   return Object.fromEntries(TYPES.map(t=>[t,0]));
@@ -2826,6 +3248,11 @@ function startRound(){
   $("#notice").textContent=method.notice;
   $("#methodCode").textContent=`摊号 / ${String(seed).slice(-6)}`;
   renderMysticRibbon();
+  if(askState.text && questionInput.value!==askState.text){
+    questionInput.value=askState.text;
+    $("#questionCount").textContent=askState.text.length;
+  }
+  if(askState.mode)selectAskMode(askState.mode);
 
   steps.innerHTML="";
   sequence.forEach((t,i)=>renderModule(t,i));
@@ -2844,6 +3271,7 @@ function updateProgress(){
 }
 
 function validate(){
+  if(!validateQuestion())return false;
   if(Object.keys(answers).length===sequence.length){
     $("#error").classList.remove("show");
     return true;
@@ -2868,10 +3296,15 @@ function calculate(){
       if(k in pts)pts[k]+=v;
     });
   });
+  // 问法只决定“往哪一路解释”，不直接把吉凶算重。
+  const rawPts={...pts};
+  const askBias=ASK_MODES[askState.mode]?.bias||{};
+  Object.entries(askBias).forEach(([k,v])=>{ if(k in pts)pts[k]+=v; });
   TYPES.forEach(t=>pts[t]+=Math.random()*.9);
   const sorted=Object.entries(pts).sort((a,b)=>b[1]-a[1]);
   const type=sorted[0][0];
-  const top=sorted[0][1], second=sorted[1][1];
+  const rawSorted=Object.entries(rawPts).sort((a,b)=>b[1]-a[1]);
+  const top=rawSorted[0][1], second=rawSorted[1][1];
 
   let lineValue=50;
   const l=Object.values(answers).find(a=>a.type==="line");
@@ -2929,7 +3362,15 @@ function buildReasoning(result,item,gua){
     `前后合起来，最像的不是坏运，是「${gua}」。`
   ]);
 
-  return `<b>${esc(first)}</b>；${esc(second)}。再往后看，${esc(third)}，${esc(fourth)}。${esc(bridge)}${esc(ending)}`;
+  const askIntro={
+    go:"你问的是去留，去留卦先看门动不动，再看后手有没有回头。",
+    timing:"你问的是时机，时机卦不先论好坏，先看前后有没有抢气。",
+    people:"你问的是人事，人事卦先看谁在前、谁在后，最忌一边声音太大。",
+    money:"你问的是钱物，钱物卦不先看贵不贵，先看是实用在前还是起念在前。",
+    work:"你问的是工作，工作卦先看责任往哪边落，再看末手有没有多出一步。",
+    misc:"你问的是一件杂事，这种卦最看先后和犹豫，不太看字面吉凶。"
+  }[askState.mode]||"这是一件小事，先看先后，不先讲吉凶。";
+  return `${esc(askIntro)}<br><br><b>${esc(first)}</b>；${esc(second)}。再往后看，${esc(third)}，${esc(fourth)}。${esc(bridge)}${esc(ending)}<br><br>落到你问的「${esc(askState.text)}」，重点不在大吉大凶，而在今天这一步到底值不值得现在走。`;
 }
 
 function dateInfo(){
@@ -2956,15 +3397,19 @@ function renderResult(){
   const danger=getTime(result.type);
   const avoid=pick(item.avoid);
   const lucky=pick(LUCKY_OBJECTS);
+  const decision=getDecision(askState.mode,result.score,danger);
 
-  $("#reportMethod").textContent=`${method.name} · 今日一纸断`;
-  $("#oneAnswer").textContent=one;
-  $("#oneTime").textContent=`尤其 ${danger} 前后，少多做那一步。`;
+  $("#reportMethod").textContent=`${method.name} · 问事一纸断`;
+  $("#resultQuestion").textContent=askState.text;
+  $("#resultQuestionMode").textContent=ASK_MODES[askState.mode]?.label||"问杂事";
+  $("#oneAnswer").textContent=decision.answer;
+  $("#oneTime").textContent=decision.time;
   $("#score").textContent=result.score;
   $("#guaName").textContent=gua;
   renderFigure(result.type);
   $("#reasoning").innerHTML=buildReasoning(result,item,gua);
-  $("#humanText").textContent=human;
+  $("#humanText").textContent=`${decision.human} ${human}`;
+  $("#fallbackText").textContent=decision.fallback;
   $("#threeLines").innerHTML=item.lines.slice(0,3).map((x,i)=>`
     <div class="keep-line">
       <span class="keep-num">0${i+1}</span>
@@ -2977,7 +3422,7 @@ function renderResult(){
   $("#dangerTime").textContent=danger;
   $("#luckyObject").textContent=lucky;
   $("#avoidWord").textContent=avoid;
-  $("#shareLine").textContent=share;
+  $("#shareLine").textContent=`我问：「${askState.text}」野卦回我：${decision.answer} ${share}`;
 
   const d=dateInfo();
   $("#dateText").textContent=`DATE ${d.display}`;
@@ -2993,6 +3438,7 @@ function runReading(){
   document.body.style.overflow="hidden";
 
   const msgs=shuffle([
+    `先把你问的「${askState.text}」压在卦底，不先看结论。`,
     `${pick(method.intro)}`,
     "先看前手，再看后手，前后不合的地方才有话。",
     "正在把数、位、物象和你刚才那点犹豫叠在一起……",
@@ -3071,19 +3517,25 @@ holdBtn.addEventListener("pointercancel",cancelHold);
 $("#changeMethod").addEventListener("click",()=>{
   window.scrollTo({top:0,behavior:"smooth"});
   startRound();
-  toast("换了个野路子，上一卦不认");
+  toast("只换路数，你问的事还留着");
 });
 
 $("#resetBtn").addEventListener("click",()=>{
+  askState={text:"",mode:null};
+  questionInput.value="";
+  $("#questionCount").textContent="0";
+  document.querySelectorAll(".ask-type").forEach(x=>x.classList.remove("selected"));
   window.scrollTo({top:0,behavior:"smooth"});
   startRound();
-  toast("上一卦作废，再来一手");
+  setTimeout(()=>$("#askSheet").scrollIntoView({behavior:"smooth",block:"start"}),220);
+  toast("上一问收掉了，换件小事再问");
 });
 
 $("#copyBtn").addEventListener("click",async()=>{
   const text=
-`《今日野卦》
-${$("#oneAnswer").textContent}
+`《今日野卦 · 问事一断》
+我问：${askState.text}
+野卦回：${$("#oneAnswer").textContent}
 ${$("#oneTime").textContent}
 卦名：${$("#guaName").textContent}
 ${$("#shareLine").textContent}`;
